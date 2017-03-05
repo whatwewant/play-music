@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-06T00:20:52+08:00
+* @Last modified time: 2017-03-06T00:58:22+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -48,7 +48,7 @@ const getStyles = (state) => {
       // width: '100%',
       // height: 200,
 
-      mask: {
+      realMask: {
         display: state.showList ? 'block' : 'none',
         position: 'fixed',
         left: 0,
@@ -56,6 +56,17 @@ const getStyles = (state) => {
         width: '100%',
         height: '100%',
         zIndex: 10,
+      },
+
+      mask: {
+        // display: state.showList ? 'block' : 'none',
+        position: 'fixed',
+        left: 0,
+        bottom: 0,
+        width: '100%',
+        height: '100%',
+        pointerEvents: 'none',
+        // zIndex: -1,
         // backgroundColor: 'rgba(204, 204, 204, .87)',
       },
 
@@ -423,10 +434,10 @@ export default class Audio extends PureComponent {
     return (
       <div style={styles.root}>
         <div style={styles.playlist}>
+          <div style={styles.playlist.realMask} onClick={this.onTogglePlaylist} />
           <div
             style={styles.playlist.mask}
             className={`${classStyles.playlistMask} ${this.state.showList ? classStyles.playlistMaskActive : ''}`}
-            onClick={this.onTogglePlaylist}
           />
           <div
             style={styles.playlist.main}
