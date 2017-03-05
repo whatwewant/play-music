@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-05T22:43:43+08:00
+* @Last modified time: 2017-03-06T00:20:52+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -253,15 +253,16 @@ export default class Audio extends PureComponent {
     onCollect: PropTypes.func,
 
     /**
-     * [onClear description]
+     * [onError description]
      * @type {[type]}
      */
-    onClear: PropTypes.func,
+    onError: PropTypes.func,
   };
 
   static defaultProps = {
     id: -1,
     playlist: [],
+    onError: () => {},
   };
 
   /* eslint-enable */
@@ -365,8 +366,8 @@ export default class Audio extends PureComponent {
     }
   }
 
-  onError = () => {
-    // console.log(msg);
+  onError = (event) => {
+    this.props.onError(event);
   }
 
   onTogglePlaylist = () => {
