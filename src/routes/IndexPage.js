@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-05T22:38:53+08:00
+* @Last modified time: 2017-03-06T01:41:35+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,7 +11,9 @@
 import React from 'react';
 import { connect } from 'dva';
 import styles from './IndexPage.css';
+
 import Audio from '../components/Audio';
+import Playlist from '../components/Playlist';
 
 class IndexPage extends React.PureComponent {
 
@@ -40,6 +42,7 @@ class IndexPage extends React.PureComponent {
   render() {
     return (
       <div className={styles.normal}>
+        <Playlist />
         <Audio playlist={this.state.data} />
       </div>
     );
