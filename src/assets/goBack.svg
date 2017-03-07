@@ -1,0 +1,13 @@
+<!--
+@Author: eason
+@Date:   2017-03-07T15:19:49+08:00
+@Email:  uniquecolesmith@gmail.com
+@Last modified by:   eason
+@Last modified time: 2017-03-07T15:56:28+08:00
+@License: MIT
+@Copyright: Eason(uniquecolesmith@gmail.com)
+-->
+
+<svg width="8px" height="12px" viewBox="8 6 8 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <polygon id="Shape" stroke="none" fill="#fff" fill-rule="evenodd" points="15.41 7.41 14 6 8 12 14 18 15.41 16.59 10.83 12"></polygon>
+</svg>

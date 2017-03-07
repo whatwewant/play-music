@@ -1,6 +1,16 @@
+/**
+* @Author: eason
+* @Date:   2016-12-15T11:32:27+08:00
+* @Email:  uniquecolesmith@gmail.com
+* @Last modified by:   eason
+* @Last modified time: 2017-03-07T00:59:21+08:00
+* @License: MIT
+* @Copyright: Eason(uniquecolesmith@gmail.com)
+*/
 
 .normal {
-  font-family: Georgia, sans-serif;
+  font-family: Roboto,Lato,sans-serif;
+  font-weight: 400;
   margin-top: 3em;
   text-align: center;
 }

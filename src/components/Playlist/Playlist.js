@@ -3,24 +3,29 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-06T02:30:28+08:00
+* @Last modified time: 2017-03-07T16:19:09+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
-/* eslint-disable */
-import React, { PropTypes, PureComponent } from 'react';
+import React, { PureComponent } from 'react';
 
 import Banner from '../../assets/banner.jpg';
-import BannerClear from '../../assets/banner.jpg';
+import IconPlay from '../../assets/player_play.png';
 
-const getStyles = () => {
+import IconGoback from '../../assets/goBack.svg';
+import IconSearch from '../../assets/search.svg';
+
+const getStyles = (props) => {
   return {
     root: {
-      position: 'absolute',
+      position: 'fixed',
       top: 0,
       left: 0,
       width: '100%',
       height: '100%',
+      overflowY: 'auto',
+      marginBottom: 56,
+      ...props.style,
     },
 
     header: {
@@ -31,22 +36,36 @@ const getStyles = () => {
       width: '100%',
       height: 56,
       lineHeight: '56px',
-      zIndex: 1000,
-      padding: '0 12px',
+      zIndex: 10,
+      // padding: '0 12px',
       color: '#fff',
+      display: 'flex',
 
       back: {
-        float: 'left',
+        width: 56,
+        height: 56,
+        lineHeight: '56px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+
+        img: {
+          width: 20,
+          height: 20,
+        },
       },
 
       name: {
-        float: 'left',
+        flex: 1,
+        textAlign: 'left',
         fontSize: 20,
         fontWeight: 400,
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+        whiteSpace: 'nowrap',
       },
 
       search: {
-        float: 'right',
       },
     },
 
@@ -83,12 +102,14 @@ const getStyles = () => {
           top: 0,
           left: 0,
           width: '100%',
-          zIndex: 10,
+          zIndex: 3,
           backgroundColor: 'rgba(0, 0, 0, .35)',
-          padding: '2px 4px',
+          padding: '0px 4px',
           textAlign: 'right',
           fontSize: 12,
           color: '#fff',
+          height: 18,
+          lineHeight: '18px',
 
           icon: {},
 
@@ -98,29 +119,173 @@ const getStyles = () => {
 
       playlistInfo: {
         flex: 1,
+        height: 140,
+        display: 'flex',
+        flexFlow: 'column wrap',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        padding: '14px 14px',
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 400,
+
+        title: {
+          flex: 1,
+          textAlign: 'left',
+        },
+
+        author: {
+          flex: 1,
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          alignItems: 'center',
+
+          avatar: {
+            width: 30,
+            height: 30,
+            borderRadius: 15,
+            marginRight: 8,
+          },
+
+          name: {
+
+          },
+        },
       },
     },
 
     listarea: {
+      backgroundColor: '#fff',
 
-      actions: {},
+      actions: {
+        width: '100%',
+        height: 56,
+        lineHeight: '56px',
+        textAlign: 'left',
+        borderBottom: '1px solid #ccc',
 
-      list: {},
+        playall: {
+          display: 'flex',
+
+          icon: {
+            width: 56,
+            height: 56,
+            backgroundImage: `url(${IconPlay})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center right',
+            backgroundRepeat: 'no-repeat',
+            filter: 'gray(40px)',
+          },
+
+          title: {
+            fontSize: 16,
+            fontWeight: 700,
+          },
+
+          count: {
+            fontSize: 14,
+            fontWeight: 400,
+            color: '#8F9190',
+          },
+        },
+
+        select: {
+
+        },
+      },
+
+      list: {
+
+        item: {
+          width: '100%',
+          height: 56,
+          display: 'flex',
+
+          sequence: {
+            width: 56,
+            height: 56,
+            lineHeight: '56px',
+            fontSize: 24,
+            fontWeight: 300,
+          },
+
+          info_action: {
+            flex: 1,
+            textAlign: 'left',
+            display: 'flex',
+            borderBottom: '1px solid #ccc',
+
+            info: {
+              flex: 1,
+              display: 'flex',
+              flexFlow: 'column wrap',
+              justifyContent: 'center',
+
+              name: {
+                fontSize: 16,
+                fontWeight: 700,
+              },
+
+              author: {
+                fontSize: 14,
+                fontWeight: 300,
+                color: 'rgba(0,0,0,.54)',
+
+                name: {},
+
+                separator: {},
+
+                album: {},
+              },
+            },
+
+            action: {
+              width: 56,
+              height: 56,
+              lineHeight: '56px',
+            },
+          },
+        },
+      },
     },
   };
 };
 
 export default class Playlist extends PureComponent {
 
+  componentDidMount() {
+    this.scrollbar.on = function on(event, fn) {
+      this.addEventListener(event, fn, false);
+      return this;
+    };
+
+    this
+      .scrollbar
+      .on('scroll', (event) => {
+        this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
+
+        if (event.target.scrollTop >= 140) {
+          this.titleBar.innerText = '【日系】你的温柔，是我不可替代的宝物';
+        } else {
+          this.titleBar.innerText = '歌单';
+        }
+      });
+  }
+
   render() {
-    const styles = getStyles();
+    const styles = getStyles(this.props);
 
     return (
-      <div style={styles.root}>
-        <div style={styles.header}>
-          <div style={styles.header.back} />
-          <div style={styles.header.name}>歌单</div>
-          <div style={styles.header.search} />
+      <div ref={(ref) => { this.scrollbar = ref; }} style={styles.root}>
+        <div ref={ref => (this.headerBar = ref)} style={styles.header}>
+          <div style={styles.header.back}>
+            <img role="presentation" style={styles.header.back.img} src={IconGoback} />
+          </div>
+          <div ref={ref => (this.titleBar = ref)} style={styles.header.name}>歌单</div>
+          <div style={styles.header.back}>
+            <img role="presentation" style={styles.header.back.img} src={IconSearch} />
+          </div>
         </div>
         <div style={styles.banner}>
           <div style={styles.banner.mask} />
@@ -131,14 +296,186 @@ export default class Playlist extends PureComponent {
             </div>
             <img style={styles.banner.container} role="presentation" src="http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300" />
           </div>
-          <div style={styles.banner.playlistInfo}></div>
+          <div style={styles.banner.playlistInfo}>
+            <div style={styles.banner.playlistInfo.title}>【日系】你的温柔，是我不可替代的宝物</div>
+            <div style={styles.banner.playlistInfo.author}>
+              <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src="http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50" />
+              <span style={styles.banner.playlistInfo.author.name}>过气少女小枣糕</span>
+            </div>
+          </div>
         </div>
         <div style={styles.listarea}>
           <div style={styles.listarea.actions}>
-
+            <div style={styles.listarea.actions.playall}>
+              <div style={styles.listarea.actions.playall.icon} />
+              <span style={styles.listarea.actions.playall.title}>播放全部</span>
+              <span style={styles.listarea.actions.playall.count}>(共100首)</span>
+            </div>
+            <div style={styles.listarea.actions.select} />
           </div>
           <ul style={styles.listarea.list}>
-
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>1</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
+            <li style={styles.listarea.list.item}>
+              <div style={styles.listarea.list.item.sequence}>2</div>
+              <div style={styles.listarea.list.item.info_action}>
+                <div style={styles.listarea.list.item.info_action.info}>
+                  <div style={styles.listarea.list.item.info_action.info.name}>遇见</div>
+                  <div style={styles.listarea.list.item.info_action.info.author}>
+                    <span style={styles.listarea.list.item.info_action.info.author.name}>孙燕姿</span>
+                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                      -
+                    </span>
+                    <span style={styles.listarea.list.item.info_action.info.author.album}>
+                      经典全纪录
+                    </span>
+                  </div>
+                </div>
+                <div style={styles.listarea.list.item.info_action.action} />
+              </div>
+            </li>
           </ul>
         </div>
       </div>

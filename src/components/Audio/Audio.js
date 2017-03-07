@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-06T00:58:22+08:00
+* @Last modified time: 2017-03-07T13:39:24+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -36,6 +36,8 @@ const getStyles = (state) => {
       width: '100%',
       height: 54,
       padding: 4,
+      zIndex: 10000,
+      backgroundColor: 'rgba(255, 255, 255, 1)',
 
       display: 'flex',
       justifyContent: 'space-between',
