@@ -3,13 +3,13 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T16:19:09+08:00
+* @Last modified time: 2017-03-07T17:36:34+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 import React, { PureComponent } from 'react';
 
-import Banner from '../../assets/banner.jpg';
+// import Banner from '../../assets/banner.jpg';
 import IconPlay from '../../assets/player_play.png';
 
 import IconGoback from '../../assets/goBack.svg';
@@ -83,7 +83,7 @@ const getStyles = (props) => {
         left: 0,
         width: '100%',
         height: '100%',
-        backgroundImage: `url(${Banner})`,
+        backgroundImage: `url(${props.banner})`,
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'bottom right',
@@ -164,8 +164,10 @@ const getStyles = (props) => {
         lineHeight: '56px',
         textAlign: 'left',
         borderBottom: '1px solid #ccc',
+        display: 'flex',
 
         playall: {
+          flex: 1,
           display: 'flex',
 
           icon: {
@@ -191,7 +193,8 @@ const getStyles = (props) => {
         },
 
         select: {
-
+          width: 56,
+          height: 56,
         },
       },
 
@@ -228,7 +231,7 @@ const getStyles = (props) => {
               },
 
               author: {
-                fontSize: 14,
+                fontSize: 12,
                 fontWeight: 300,
                 color: 'rgba(0,0,0,.54)',
 
@@ -254,6 +257,24 @@ const getStyles = (props) => {
 
 export default class Playlist extends PureComponent {
 
+  static defaultProps = {
+    title: '【日系】你的温柔，是我不可替代的宝物',
+    banner: 'http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300',
+    count: 23432,
+    author: '过气少女小枣糕',
+    avatar: 'http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50',
+    playlist: [
+      { id: 1, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 3, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 2, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 5, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 8, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 9, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 18, name: '十年', author: '陈奕迅', album: '黑白灰' },
+      { id: 82, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    ],
+  };
+
   componentDidMount() {
     this.scrollbar.on = function on(event, fn) {
       this.addEventListener(event, fn, false);
@@ -266,7 +287,7 @@ export default class Playlist extends PureComponent {
         this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
 
         if (event.target.scrollTop >= 140) {
-          this.titleBar.innerText = '【日系】你的温柔，是我不可替代的宝物';
+          this.titleBar.innerText = this.props.title;
         } else {
           this.titleBar.innerText = '歌单';
         }
@@ -274,6 +295,7 @@ export default class Playlist extends PureComponent {
   }
 
   render() {
+    const { title, banner, count, author, avatar, playlist } = this.props;
     const styles = getStyles(this.props);
 
     return (
@@ -292,15 +314,15 @@ export default class Playlist extends PureComponent {
           <div style={styles.banner.container}>
             <div style={styles.banner.container.listenInfo}>
               <i style={styles.banner.container.listenInfo.icon} />
-              <span style={styles.banner.container.listenInfo.count}>20423</span>
+              <span style={styles.banner.container.listenInfo.count}>{count}</span>
             </div>
-            <img style={styles.banner.container} role="presentation" src="http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300" />
+            <img style={styles.banner.container} role="presentation" src={banner} />
           </div>
           <div style={styles.banner.playlistInfo}>
-            <div style={styles.banner.playlistInfo.title}>【日系】你的温柔，是我不可替代的宝物</div>
+            <div style={styles.banner.playlistInfo.title}>{ title }</div>
             <div style={styles.banner.playlistInfo.author}>
-              <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src="http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50" />
-              <span style={styles.banner.playlistInfo.author.name}>过气少女小枣糕</span>
+              <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src={avatar} />
+              <span style={styles.banner.playlistInfo.author.name}>{author}</span>
             </div>
           </div>
         </div>
@@ -314,168 +336,30 @@ export default class Playlist extends PureComponent {
             <div style={styles.listarea.actions.select} />
           </div>
           <ul style={styles.listarea.list}>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
+            {
+              playlist.map(({ id, name, author: sauthor, album }, index) => (
+                <li key={id} style={styles.listarea.list.item}>
+                  <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
+                  <div style={styles.listarea.list.item.info_action}>
+                    <div style={styles.listarea.list.item.info_action.info}>
+                      <div style={styles.listarea.list.item.info_action.info.name}>{ name }</div>
+                      <div style={styles.listarea.list.item.info_action.info.author}>
+                        <span style={styles.listarea.list.item.info_action.info.author.name}>
+                          { sauthor }
+                        </span>
+                        <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                          -
+                        </span>
+                        <span style={styles.listarea.list.item.info_action.info.author.album}>
+                          { album }
+                        </span>
+                      </div>
+                    </div>
+                    <div style={styles.listarea.list.item.info_action.action} />
                   </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>1</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>十年</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>陈奕迅</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>黑白灰</span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
-            <li style={styles.listarea.list.item}>
-              <div style={styles.listarea.list.item.sequence}>2</div>
-              <div style={styles.listarea.list.item.info_action}>
-                <div style={styles.listarea.list.item.info_action.info}>
-                  <div style={styles.listarea.list.item.info_action.info.name}>遇见</div>
-                  <div style={styles.listarea.list.item.info_action.info.author}>
-                    <span style={styles.listarea.list.item.info_action.info.author.name}>孙燕姿</span>
-                    <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                      -
-                    </span>
-                    <span style={styles.listarea.list.item.info_action.info.author.album}>
-                      经典全纪录
-                    </span>
-                  </div>
-                </div>
-                <div style={styles.listarea.list.item.info_action.action} />
-              </div>
-            </li>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
