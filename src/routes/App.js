@@ -3,19 +3,18 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-06T01:41:35+08:00
+* @Last modified time: 2017-03-07T21:18:49+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React from 'react';
 import { connect } from 'dva';
-import styles from './IndexPage.css';
+import styles from './App.css';
 
 import Audio from '../components/Audio';
-import Playlist from '../components/Playlist';
 
-class IndexPage extends React.PureComponent {
+class App extends React.PureComponent {
 
   state = {
     data: [{
@@ -25,6 +24,12 @@ class IndexPage extends React.PureComponent {
       singer: '孙燕姿',
       audio: 'http://m8.music.126.net/20170305224734/1e5c719573f1ced7b256f9bc5d08eedf/ymusic/c2da/30a8/0939/bf43dcd6355c271b7df9df4536d5fec1.mp3',
     }],
+    title: '',
+    banner: '',
+    count: '',
+    author: '',
+    avatar: '',
+    playlist: [],
   };
 
   componentDidMount() {
@@ -42,14 +47,14 @@ class IndexPage extends React.PureComponent {
   render() {
     return (
       <div className={styles.normal}>
-        <Playlist />
+        { this.props.children }
         <Audio playlist={this.state.data} />
       </div>
     );
   }
 }
 
-IndexPage.propTypes = {
+App.propTypes = {
 };
 
-export default connect()(IndexPage);
+export default connect()(App);

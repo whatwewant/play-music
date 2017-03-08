@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T17:36:34+08:00
+* @Last modified time: 2017-03-07T22:54:34+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -14,6 +14,8 @@ import IconPlay from '../../assets/player_play.png';
 
 import IconGoback from '../../assets/goBack.svg';
 import IconSearch from '../../assets/search.svg';
+
+import styleClasses from './Playlist.less';
 
 const getStyles = (props) => {
   return {
@@ -206,11 +208,13 @@ const getStyles = (props) => {
           display: 'flex',
 
           sequence: {
+            flexShrink: 0,
             width: 56,
             height: 56,
             lineHeight: '56px',
             fontSize: 24,
             fontWeight: 300,
+            textAlign: 'center',
           },
 
           info_action: {
@@ -221,29 +225,40 @@ const getStyles = (props) => {
 
             info: {
               flex: 1,
+              width: 0, // @TODO 解决flex因为字太多而被撑大 https://www.zhihu.com/question/23663144
+              // width: 200, // @TODO
               display: 'flex',
-              flexFlow: 'column wrap',
+              flexFlow: 'column nowrap',
               justifyContent: 'center',
 
               name: {
                 fontSize: 16,
-                fontWeight: 700,
+                fontWeight: 400,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               },
 
               author: {
-                fontSize: 12,
+                fontSize: 10,
                 fontWeight: 300,
                 color: 'rgba(0,0,0,.54)',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
 
                 name: {},
 
-                separator: {},
+                separator: {
+                  margin: '0 4px',
+                },
 
                 album: {},
               },
             },
 
             action: {
+              flexShrink: 0,
               width: 56,
               height: 56,
               lineHeight: '56px',
@@ -299,7 +314,11 @@ export default class Playlist extends PureComponent {
     const styles = getStyles(this.props);
 
     return (
-      <div ref={(ref) => { this.scrollbar = ref; }} style={styles.root}>
+      <div
+        ref={(ref) => { this.scrollbar = ref; }}
+        style={styles.root}
+        className={styleClasses.normal}
+      >
         <div ref={ref => (this.headerBar = ref)} style={styles.header}>
           <div style={styles.header.back}>
             <img role="presentation" style={styles.header.back.img} src={IconGoback} />
@@ -331,7 +350,7 @@ export default class Playlist extends PureComponent {
             <div style={styles.listarea.actions.playall}>
               <div style={styles.listarea.actions.playall.icon} />
               <span style={styles.listarea.actions.playall.title}>播放全部</span>
-              <span style={styles.listarea.actions.playall.count}>(共100首)</span>
+              <span style={styles.listarea.actions.playall.count}>(共{playlist.length}首)</span>
             </div>
             <div style={styles.listarea.actions.select} />
           </div>
