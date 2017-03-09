@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T23:51:03+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-08T10:47:59+08:00
+* @Last modified time: 2017-03-09T10:33:18+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -46,7 +46,7 @@ export default {
   },
   subscriptions: {
     setup({ dispatch }) {
-      dispatch({ type: 'sync', payload: 593620170 });
+      dispatch({ type: 'sync', payload: 601039850 });
     },
   },
 };

@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T20:10:18+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-08T10:41:34+08:00
+* @Last modified time: 2017-03-08T22:38:56+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -30,7 +30,7 @@ export async function fetchList(id = 615180303) {
       name: e.name,
       author: e.ar[0] ? e.ar[0].name : '未知',
       album: e.al.name,
-      albumPicture: e.al.picUrl,
+      banner: e.al.picUrl,
     })),
   };
 }
