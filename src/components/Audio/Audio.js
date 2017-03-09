@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T13:39:24+08:00
+* @Last modified time: 2017-03-09T11:07:21+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -135,9 +135,13 @@ const getStyles = (state) => {
               display: 'flex',
               alignItems: 'center',
               cursor: 'pointer',
+              width: 0,
 
               name: {
                 fontSize: 16,
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               },
 
               separator: {
@@ -145,9 +149,12 @@ const getStyles = (state) => {
                 margin: '0 4px',
               },
 
-              singer: {
+              author: {
                 fontSize: 14,
                 color: '#8a8a8a',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               },
             },
 
@@ -205,7 +212,7 @@ const getStyles = (state) => {
           color: '#000',
         },
 
-        singer: {
+        author: {
           fontSize: 14,
           color: '#8a8a8a',
         },
@@ -255,7 +262,7 @@ export default class Audio extends PureComponent {
       id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
       banner: PropTypes.string,
       name: PropTypes.string,
-      singer: PropTypes.string,
+      author: PropTypes.string,
       audio: PropTypes.string.isRequired,
     })),
 
@@ -276,6 +283,7 @@ export default class Audio extends PureComponent {
     id: -1,
     playlist: [],
     onError: () => {},
+    onResolve: (src, cb) => cb(src),
   };
 
   /* eslint-enable */
@@ -307,6 +315,15 @@ export default class Audio extends PureComponent {
       };
     }
 
+    // @TODO Proxy play
+    this.audio.replay = this.audio.play;
+    this.audio.play = () => {
+      this.props.onResolve(this.state.id, (src) => {
+        this.audio.src = src;
+        this.audio.replay();
+      });
+    };
+
     this
       .audio
       .on('timeupdate', this.onTimeUpdate)
@@ -316,7 +333,13 @@ export default class Audio extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ playlist: [...this.state.playlist, ...nextProps.playlist] });
+    const ids = this.state.playlist.map(e => e.id);
+    this.setState({
+      playlist: [
+        ...this.state.playlist,
+        ...nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1),
+      ],
+    });
   }
 
   onPlayOrPause = () => {
@@ -422,7 +445,7 @@ export default class Audio extends PureComponent {
   render() {
     const styles = getStyles(this.state);
     const {
-      // banner, name, singer, audio,
+      // banner, name, author, audio,
       onCollect,
     } = this.props;
     const {
@@ -430,7 +453,7 @@ export default class Audio extends PureComponent {
     } = this.state;
 
     const {
-      banner, name, singer, audio,
+      banner, name, author, audio,
     } = playlist.filter(({ id }) => this.state.id === id).pop() || {};
 
     return (
@@ -483,7 +506,7 @@ export default class Audio extends PureComponent {
                       <div style={styles.playlist.main.list.item.info.icon} />
                       <div style={styles.playlist.main.list.item.info.name}>{e.name}</div>
                       <span style={styles.playlist.main.list.item.info.separator}>-</span>
-                      <div style={styles.playlist.main.list.item.info.singer}>{e.singer}</div>
+                      <div style={styles.playlist.main.list.item.info.author}>{e.author}</div>
                     </div>
                     <div style={styles.playlist.main.list.item.actions}>
                       <div
@@ -508,7 +531,7 @@ export default class Audio extends PureComponent {
           />
           <div style={styles.info.text}>
             <div style={styles.info.text.name}>{name}</div>
-            <div style={styles.info.text.singer}>{singer}</div>
+            <div style={styles.info.text.author}>{author}</div>
           </div>
         </div>
         <div style={styles.btns}>
