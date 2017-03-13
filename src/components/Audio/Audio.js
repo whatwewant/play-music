@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-09T11:07:21+08:00
+* @Last modified time: 2017-03-09T20:08:45+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -15,6 +15,7 @@ import IconPlay from '../../assets/player_play.png';
 import IconPause from '../../assets/player_pause.png';
 import IconNext from '../../assets/player_next.png';
 import IconRemove from '../../assets/player_remove.png';
+import IconClear from '../../assets/clear.svg';
 
 // import IconTypeSeq from '../../assets/player_type_seq.png';
 
@@ -114,13 +115,24 @@ const getStyles = (state) => {
               // borderRight: '1px solid #CCCECD',
             },
 
-            clear: {},
+            clear: {
+              display: 'flex',
+
+              icon: {
+                display: 'flex',
+                alignItems: 'center',
+              },
+
+              name: {
+                marginLeft: 4,
+              },
+            },
           },
         },
 
         list: {
           marginTop: 64,
-          height: '100%',
+          height: 'calc(100% - 64px)',
           overflowX: 'hidden',
           overflowY: 'auto',
 
@@ -150,7 +162,7 @@ const getStyles = (state) => {
               },
 
               author: {
-                fontSize: 14,
+                fontSize: 12,
                 color: '#8a8a8a',
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
@@ -263,7 +275,7 @@ export default class Audio extends PureComponent {
       banner: PropTypes.string,
       name: PropTypes.string,
       author: PropTypes.string,
-      audio: PropTypes.string.isRequired,
+      // audio: PropTypes.string.isRequired,
     })),
 
     /**
@@ -310,17 +322,27 @@ export default class Audio extends PureComponent {
   componentDidMount() {
     if (this.audio.on === undefined) {
       this.audio.on = function on(event, handler) {
-        this.addEventListener(event, handler);
+        this.addEventListener(event, handler, false);
         return this;
       };
     }
 
     // @TODO Proxy play
-    this.audio.replay = this.audio.play;
+    // this.audio.replay = this.audio.play;
+    const play = this.audio.play.bind(this.audio);
+    //
     this.audio.play = () => {
+      play().catch((err) => {
+        console.log(err);
+        this.audio.replay();
+      });
+    };
+    //
+
+    this.audio.replay = this.audio.playnext = () => {
       this.props.onResolve(this.state.id, (src) => {
         this.audio.src = src;
-        this.audio.replay();
+        play();
       });
     };
 
@@ -360,7 +382,7 @@ export default class Audio extends PureComponent {
     const id = this.state.playlist[nextId].id;
     this.audio.pause();
     this.setState({ id, nextId, playing: true }, () => {
-      this.audio.play();
+      this.audio.playnext();
     });
   }
 
@@ -403,6 +425,10 @@ export default class Audio extends PureComponent {
   }
 
   onError = (event) => {
+    // @TODO replay when 403 src="@TODO"
+    if (this.state.playing) {
+      this.audio.replay();
+    }
     this.props.onError(event);
   }
 
@@ -427,16 +453,17 @@ export default class Audio extends PureComponent {
     this.audio.pause();
     const nextId = this.state.playlist.map(e => e.id).indexOf(id);
     this.setState({ id, nextId, playing: true }, () => {
-      this.audio.play();
+      this.audio.playnext();
     });
   }
 
   onRemoveOne = (id) => {
     this.setState({
       playlist: this.state.playlist.filter(e => e.id !== id),
-      playing: this.state.playlist.length > 1, // when playlist length <= 1, then stop play
+      // when playlist length <= 1, then stop play
+      playing: this.state.playlist.length > 1 && this.state.id !== id,
     }, () => {
-      if (!this.state.playing) {
+      if (!this.state.playing || this.state.id === id) {
         this.audio.pause();
       }
     });
@@ -490,7 +517,9 @@ export default class Audio extends PureComponent {
                   style={styles.playlist.main.header.actions.clear}
                   onClick={this.onClear}
                 >
-                  <div style={styles.playlist.main.header.actions.clear.icon} />
+                  <div style={styles.playlist.main.header.actions.clear.icon}>
+                    <img role="presentation" src={IconClear} />
+                  </div>
                   <div style={styles.playlist.main.header.actions.clear.name}>清空</div>
                 </div>
               </div>
@@ -498,7 +527,15 @@ export default class Audio extends PureComponent {
             <ul style={styles.playlist.main.list}>
               {
                 playlist.map(e => (
-                  <li key={e.id} style={styles.playlist.main.list.item}>
+                  <li
+                    key={e.id}
+                    style={
+                      Object.assign(
+                        e.id === this.state.id ? { color: 'rgb(206, 61, 62)' } : {},
+                        styles.playlist.main.list.item,
+                      )
+                    }
+                  >
                     <div
                       style={styles.playlist.main.list.item.info}
                       onClick={() => this.onPlayOne(e.id)}
@@ -542,7 +579,7 @@ export default class Audio extends PureComponent {
         <audio
           style={{ display: 'none' }}
           ref={ref => (this.audio = ref)}
-          src={audio}
+          src={audio || '@TODO'}
           loop={this.state.loopType === 1/* 单曲循环 */}
         />
       </div>
