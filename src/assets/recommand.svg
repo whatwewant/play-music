@@ -1,0 +1,15 @@
+<!--
+@Author: eason
+@Date:   2017-03-15T13:58:09+08:00
+@Email:  uniquecolesmith@gmail.com
+@Last modified by:   eason
+@Last modified time: 2017-03-15T14:35:10+08:00
+@License: MIT
+@Copyright: Eason(uniquecolesmith@gmail.com)
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="26" height="21">
+  <g fill="none" fill-rule="evenodd" stroke="#BE0B0B">
+    <path d="M6 0v3.889M20 0v3.889M7.5 8.8645l4 5.247 7.8515-7.3004"/>
+    <path d="M1 2.0435h24v17.7778H1z"/>
+  </g>
+</svg>

@@ -3,12 +3,12 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-14T10:16:21+08:00
+* @Last modified time: 2017-03-25T00:22:24+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
-import React, { PureComponent, PropTypes } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 
@@ -25,7 +25,7 @@ const getStyles = (props) => {
       left: 0,
       width: '100%',
       height: '100%',
-      overflowY: 'auto',
+      // overflowY: 'auto',
       marginBottom: 56,
       ...props.style,
     },
@@ -36,17 +36,21 @@ const getStyles = (props) => {
       backgroundColor: '#ce3d3e',
       display: 'flex',
       justifyContent: 'space-between',
-      padding: '0 8px',
+      padding: 0,
 
       logo: {
-        height: '100%',
+        // height: '100%',
         width: 150,
+        padding: '4px 0',
       },
 
       search: {
         // height: '100%',
         cursor: 'pointer',
-        padding: '0 12px',
+        padding: '18px 18px',
+        // marginRight: -10,
+        width: 56,
+        height: 56,
       },
     },
 
@@ -83,7 +87,30 @@ const getStyles = (props) => {
     },
 
     page: {
+      padding: '6px 2px 6px 6px',
+      height: 'calc(100% - 48px)',
+      overflowY: 'auto',
 
+      // header: {
+      //   // fontSize: 14,
+      //   // display: 'flex',
+      //   // justifyContent: 'space-between',
+      //   // alignItems: 'center',
+      //   // paddingRight: 4,
+      //   // paddingBottom: 4,
+      //
+      //   title: {
+      //     // display: 'flex',
+      //     // justifyContent: 'space-between',
+      //     // alignItems: 'center',
+      //
+      //     icon: {
+      //       // marginRight: 4,
+      //     },
+      //   },
+      //
+      //   more: {},
+      // },
     },
   };
 };
@@ -94,9 +121,24 @@ class HomeApp extends PureComponent {
     index: 0,
   };
 
+  componentDidMount() {
+    const dispatch = this.props.dispatch;
+    this.scrollContainer.addEventListener('scroll', function () {
+      // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
+      // @TODO too many next
+      if (this.scrollTop + this.clientHeight > this.scrollHeight - 20) {
+        dispatch({ type: 'playlist/sync/next' });
+      }
+    }, false);
+  }
+
   onActive = (index) => {
     this.setState({ index });
   };
+
+  // handleLoadPlaylist = (data) => {
+  //   this.props.dispatch({ type: 'playlist/sync/one', payload: data.id });
+  // };
 
   render() {
     const styles = getStyles(this.props);
@@ -113,7 +155,7 @@ class HomeApp extends PureComponent {
           <Link key={3} onClick={() => this.onActive(3)} to="/hot" style={styles.navs.nav} className={styleClasses.nav} activeClassName={styleClasses.navActive} onlyActiveOnIndex>热门歌手</Link>
           <span style={{ ...styles.navs.navBar, transform: `translate3d(${100 * this.state.index}%, 0, 0)` }} className={styleClasses.navBar} />
         </ul>
-        <div style={styles.page}>
+        <div ref={ref => (this.scrollContainer = ref)} style={styles.page}>
           {this.props.children}
         </div>
       </div>

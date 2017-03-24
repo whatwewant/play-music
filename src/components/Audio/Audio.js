@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-09T20:08:45+08:00
+* @Last modified time: 2017-03-24T22:37:54+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -218,14 +218,23 @@ const getStyles = (state) => {
       text: {
         marginLeft: 4,
         textAlign: 'left',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        // alignItems: 'center',
 
         name: {
-          fontSize: 16,
+          fontSize: 14,
           color: '#000',
+          display: '-webkit-box',
+          WebkitLineClamp: '1',
+          WebkitBoxOrient: 'vertical',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         },
 
         author: {
-          fontSize: 14,
+          fontSize: 10,
           color: '#8a8a8a',
         },
       },
@@ -289,10 +298,16 @@ export default class Audio extends PureComponent {
      * @type {[type]}
      */
     onError: PropTypes.func,
+
+    /**
+     * [onClear description]
+     * @type {[type]}
+     */
+    onClear: PropTypes.func,
   };
 
   static defaultProps = {
-    id: -1,
+    // id: -1,
     playlist: [],
     onError: () => {},
     onResolve: (src, cb) => cb(src),
@@ -307,7 +322,8 @@ export default class Audio extends PureComponent {
       playing: false,
       currentTime: 0,
       duration: 1,
-      id: props.id !== -1 ? props.id : props.playlist[0].id,
+      // id: props.id !== -1 ? props.id : props.playlist[0].id,
+      id: props.id ? props.id : props.playlist.length > 0 ? props.playlist[0].id : null,
       nextId: props.id !== -1 ? props.playlist.map(e => e.id).indexOf(props.id) : 0,
       playlist: props.playlist,
 
@@ -340,6 +356,7 @@ export default class Audio extends PureComponent {
     //
 
     this.audio.replay = this.audio.playnext = () => {
+      if (!this.state.id) return false;
       this.props.onResolve(this.state.id, (src) => {
         this.audio.src = src;
         play();
@@ -356,11 +373,19 @@ export default class Audio extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const ids = this.state.playlist.map(e => e.id);
+    const playlist = [
+      ...this.state.playlist,
+      ...nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1),
+    ];
+
     this.setState({
-      playlist: [
-        ...this.state.playlist,
-        ...nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1),
-      ],
+      id: nextProps.id ? nextProps.id :
+        !this.state.id && playlist.length > 0 ? playlist[0].id : this.state.id,
+      playlist,
+    }, () => {
+      if (playlist.length > 0) {
+        this.onPlayOne(this.state.id);
+      }
     });
   }
 
@@ -443,7 +468,8 @@ export default class Audio extends PureComponent {
   }
 
   onClear = () => {
-    this.setState({ playlist: [], playing: false }, () => {
+    this.setState({ playlist: [], playing: false, showList: !this.state.showList }, () => {
+      this.props.onClear();
       this.audio.pause();
     });
   }
@@ -484,7 +510,7 @@ export default class Audio extends PureComponent {
     } = playlist.filter(({ id }) => this.state.id === id).pop() || {};
 
     return (
-      <div style={styles.root}>
+      <div style={{ ...styles.root, ...this.props.style }}>
         <div style={styles.playlist}>
           <div style={styles.playlist.realMask} onClick={this.onTogglePlaylist} />
           <div

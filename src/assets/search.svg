@@ -1,13 +1,3 @@
-<!--
-@Author: eason
-@Date:   2017-03-07T16:17:36+08:00
-@Email:  uniquecolesmith@gmail.com
-@Last modified by:   eason
-@Last modified time: 2017-03-07T16:21:11+08:00
-@License: MIT
-@Copyright: Eason(uniquecolesmith@gmail.com)
--->
-
-<svg width="18px" height="18px" viewBox="3 3 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <path d="M15.5,14 L14.71,14 L14.43,13.73 C15.41,12.59 16,11.11 16,9.5 C16,5.91 13.09,3 9.5,3 C5.91,3 3,5.91 3,9.5 C3,13.09 5.91,16 9.5,16 C11.11,16 12.59,15.41 13.73,14.43 L14,14.71 L14,15.5 L19,20.49 L20.49,19 L15.5,14 L15.5,14 Z M9.5,14 C7.01,14 5,11.99 5,9.5 C5,7.01 7.01,5 9.5,5 C11.99,5 14,7.01 14,9.5 C14,11.99 11.99,14 9.5,14 L9.5,14 Z" id="Shape" stroke="none" fill="#FFFFFF" fill-rule="evenodd"></path>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3 3 18 18" width="24" height="24">
+  <path fill="#FFF" fill-rule="evenodd" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
 </svg>

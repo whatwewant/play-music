@@ -3,10 +3,14 @@
 * @Date:   2017-01-05T06:16:19+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T00:55:38+08:00
+* @Last modified time: 2017-03-23T15:40:04+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
+
+html {
+  font-size: 62.5% !important;
+}
 
 html, body, :global(#root) {
   height: 100%;
@@ -17,4 +21,10 @@ html, body, :global(#root) {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+:global(.am-carousel-wrap-dot span) {
+  width: 6px !important;
+  height: 6px !important;
+  margin: 5px 6px !important;
 }

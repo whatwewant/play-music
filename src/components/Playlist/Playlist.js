@@ -3,11 +3,11 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T22:54:34+08:00
+* @Last modified time: 2017-03-24T02:20:30+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
-import React, { PureComponent } from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 
 // import Banner from '../../assets/banner.jpg';
 import IconPlay from '../../assets/player_play.png';
@@ -272,22 +272,32 @@ const getStyles = (props) => {
 
 export default class Playlist extends PureComponent {
 
+  static contextTypes = {
+    router: PropTypes.any,
+  };
+
   static defaultProps = {
-    title: '【日系】你的温柔，是我不可替代的宝物',
-    banner: 'http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300',
-    count: 23432,
-    author: '过气少女小枣糕',
-    avatar: 'http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50',
-    playlist: [
-      { id: 1, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 3, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 2, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 5, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 8, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 9, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 18, name: '十年', author: '陈奕迅', album: '黑白灰' },
-      { id: 82, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    ],
+    onPlayOne: () => {},
+    onPlayAll: () => {},
+  };
+
+  static defaultProps = {
+    // title: '【日系】你的温柔，是我不可替代的宝物',
+    // banner: 'http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300',
+    // count: 23432,
+    // author: '过气少女小枣糕',
+    // avatar: 'http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50',
+    // playlist: [
+    //   { id: 1, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 3, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 2, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 5, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 8, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 9, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 18, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    //   { id: 82, name: '十年', author: '陈奕迅', album: '黑白灰' },
+    // ],
+    playlist: [],
   };
 
   componentDidMount() {
@@ -309,6 +319,10 @@ export default class Playlist extends PureComponent {
       });
   }
 
+  goBack = () => {
+    this.context.router.goBack();
+  };
+
   render() {
     const { title, banner, count, author, avatar, playlist } = this.props;
     const styles = getStyles(this.props);
@@ -320,7 +334,7 @@ export default class Playlist extends PureComponent {
         className={styleClasses.normal}
       >
         <div ref={ref => (this.headerBar = ref)} style={styles.header}>
-          <div style={styles.header.back}>
+          <div style={styles.header.back} onClick={this.goBack}>
             <img role="presentation" style={styles.header.back.img} src={IconGoback} />
           </div>
           <div ref={ref => (this.titleBar = ref)} style={styles.header.name}>歌单</div>
@@ -346,7 +360,10 @@ export default class Playlist extends PureComponent {
           </div>
         </div>
         <div style={styles.listarea}>
-          <div style={styles.listarea.actions}>
+          <div
+            style={styles.listarea.actions}
+            onClick={() => this.props.onPlayAll(playlist)}
+          >
             <div style={styles.listarea.actions.playall}>
               <div style={styles.listarea.actions.playall.icon} />
               <span style={styles.listarea.actions.playall.title}>播放全部</span>
@@ -356,8 +373,14 @@ export default class Playlist extends PureComponent {
           </div>
           <ul style={styles.listarea.list}>
             {
-              playlist.map(({ id, name, author: sauthor, album }, index) => (
-                <li key={id} style={styles.listarea.list.item}>
+              playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
+                <li
+                  key={id}
+                  style={styles.listarea.list.item}
+                  onClick={
+                    () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
+                  }
+                >
                   <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
                   <div style={styles.listarea.list.item.info_action}>
                     <div style={styles.listarea.list.item.info_action.info}>
