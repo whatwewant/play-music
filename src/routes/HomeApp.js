@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T00:22:24+08:00
+* @Last modified time: 2017-03-25T02:05:19+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -16,6 +16,13 @@ import IconLogo from '../assets/logo.png';
 import IconSearch from '../assets/search.svg';
 
 import styleClasses from './HomeApp.css';
+
+const ROUTES = [
+  '/home',
+  '/home/playlist',
+  '/home/rank',
+  '/home/hot',
+];
 
 const getStyles = (props) => {
   return {
@@ -87,8 +94,10 @@ const getStyles = (props) => {
     },
 
     page: {
+      position: 'relative',
       padding: '6px 2px 6px 6px',
-      height: 'calc(100% - 48px)',
+      transition: 'height .2s ease-out',
+      height: props.enableAudio ? 'calc(100% - 160px)' : 'calc(100% - 104px)',
       overflowY: 'auto',
 
       // header: {
@@ -118,18 +127,25 @@ const getStyles = (props) => {
 class HomeApp extends PureComponent {
 
   state = {
-    index: 0,
+    index: ROUTES[0],
   };
 
   componentDidMount() {
-    const dispatch = this.props.dispatch;
-    this.scrollContainer.addEventListener('scroll', function () {
-      // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
-      // @TODO too many next
-      if (this.scrollTop + this.clientHeight > this.scrollHeight - 20) {
-        dispatch({ type: 'playlist/sync/next' });
-      }
-    }, false);
+    // only on playlists page
+    this.scrollContainer.addEventListener('scroll', this.onScroll, false);
+  }
+
+  componentWillUnmount() {
+    this.scrollContainer.removeEventListener('scroll', this.onScroll, false);
+  }
+
+  onScroll = (event) => {
+    // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
+    // @TODO too many next
+    const self = event.target;
+    if (this.props.location.pathname === '/home/playlist' && self.scrollTop + self.clientHeight > self.scrollHeight - 20) {
+      this.props.dispatch({ type: 'playlist/sync/next' });
+    }
   }
 
   onActive = (index) => {
@@ -149,11 +165,55 @@ class HomeApp extends PureComponent {
           <img role="presentation" style={styles.header.search} src={IconSearch} />
         </div>
         <ul style={styles.navs}>
-          <Link key={0} onClick={() => this.onActive(0)} to="/" style={styles.navs.nav} className={styleClasses.nav} activeClassName={styleClasses.navActive} onlyActiveOnIndex>时下流行</Link>
-          <Link key={1} onClick={() => this.onActive(1)} to="/playlist" style={styles.navs.nav} className={styleClasses.nav} activeClassName={styleClasses.navActive} onlyActiveOnIndex>歌单</Link>
-          <Link key={2} onClick={() => this.onActive(2)} to="/rank" style={styles.navs.nav} className={styleClasses.nav} activeClassName={styleClasses.navActive} onlyActiveOnIndex>排行榜</Link>
-          <Link key={3} onClick={() => this.onActive(3)} to="/hot" style={styles.navs.nav} className={styleClasses.nav} activeClassName={styleClasses.navActive} onlyActiveOnIndex>热门歌手</Link>
-          <span style={{ ...styles.navs.navBar, transform: `translate3d(${100 * this.state.index}%, 0, 0)` }} className={styleClasses.navBar} />
+          <Link
+            key={0}
+            onClick={() => this.onActive(ROUTES[0])}
+            to={ROUTES[0]}
+            style={styles.navs.nav}
+            className={styleClasses.nav}
+            activeClassName={styleClasses.navActive}
+            onlyActiveOnIndex
+          >时下流行</Link>
+          <Link
+            key={1}
+            onClick={() => this.onActive(ROUTES[1])}
+            to={ROUTES[1]}
+            style={styles.navs.nav}
+            className={styleClasses.nav}
+            activeClassName={styleClasses.navActive}
+            onlyActiveOnIndex
+          >
+            歌单
+          </Link>
+          <Link
+            key={2}
+            onClick={() => this.onActive(ROUTES[2])}
+            to={ROUTES[2]}
+            style={styles.navs.nav}
+            className={styleClasses.nav}
+            activeClassName={styleClasses.navActive}
+            onlyActiveOnIndex
+          >
+            排行榜
+          </Link>
+          <Link
+            key={3}
+            onClick={() => this.onActive(ROUTES[3])}
+            to={ROUTES[3]}
+            style={styles.navs.nav}
+            className={styleClasses.nav}
+            activeClassName={styleClasses.navActive}
+            onlyActiveOnIndex
+          >
+            热门歌手
+          </Link>
+          <span
+            style={{
+              ...styles.navs.navBar,
+              transform: `translate3d(${100 * ROUTES.indexOf(this.props.location.pathname)}%, 0, 0)`,
+            }}
+            className={styleClasses.navBar}
+          />
         </ul>
         <div ref={ref => (this.scrollContainer = ref)} style={styles.page}>
           {this.props.children}
@@ -163,4 +223,8 @@ class HomeApp extends PureComponent {
   }
 }
 
-export default connect()(HomeApp);
+export default connect(
+  ({ player: { list } }) => ({
+    enableAudio: list.length > 0,
+  }),
+)(HomeApp);

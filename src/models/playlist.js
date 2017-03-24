@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T23:51:03+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T22:02:41+08:00
+* @Last modified time: 2017-03-25T01:29:50+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -86,10 +86,14 @@ export default {
 
       const oData = yield select(state => state.playlist.data);
       const ids = oData.map(e => e.id);
+      const index = ids.indexOf(id);
+
+      if (index !== -1 && oData[index].playlist) {
+        return false;
+      }
 
       yield put({ type: 'sync/start' });
       const data = yield call(services.fetchList, id);
-      const index = ids.indexOf(id);
 
       if (index === -1) {
         yield put({
@@ -117,7 +121,7 @@ export default {
     setup({ dispatch, history }) {
       // dispatch({ type: 'sync', payload: 601039850 });
       history.listen(({ pathname }) => {
-        if (['/', '/playlist'].includes(pathname)) {
+        if (['/home', '/home/playlist'].includes(pathname)) {
           dispatch({ type: 'sync/list' });
         }
       });

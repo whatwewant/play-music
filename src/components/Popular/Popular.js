@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T20:42:47+08:00
+* @Last modified time: 2017-03-25T01:05:55+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -30,7 +30,7 @@ export default class Popular extends PureComponent {
 
   render() {
     return (
-      <div className={styles.normal}>
+      <div className={styles.normal} style={this.props.style}>
         <Carousel
           autoplay={false}
           infinite
@@ -47,7 +47,7 @@ export default class Popular extends PureComponent {
             <img className={styles.icon} role="presentation" src={IconRecommand} />
             <span>推荐歌单</span>
           </div>
-          <Link style={{ color: '#000', textDecoration: 'none' }} to="/playlist">更多</Link>
+          <Link style={{ color: '#000', textDecoration: 'none' }} to="/home/playlist">更多</Link>
         </div>
         <ul className={styles.list}>
           {
