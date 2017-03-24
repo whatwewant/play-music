@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:47:54+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T00:49:10+08:00
+* @Last modified time: 2017-03-25T02:10:28+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -23,10 +23,16 @@ function RouterConfig({ history }) {
           cb(null, require('./routes/App'));
         });
       },
-      getIndexRoute(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, { component: require('./routes/HomeApp') });
-        });
+      // getIndexRoute(nextState, cb) {
+      //   require.ensure([], (require) => {
+      //     cb(null, { component: require('./routes/HomeApp') });
+      //   });
+      // },
+      // @Redirect https://github.com/ReactTraining/react-router/blob/v2.8.1/docs/guides/IndexRoutes.md
+      indexRoute: {
+        onEnter(nextState, replace) {
+          replace('/home');
+        },
       },
       childRoutes: [
         {
