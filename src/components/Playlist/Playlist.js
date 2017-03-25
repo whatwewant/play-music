@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T02:20:30+08:00
+* @Last modified time: 2017-03-25T18:18:59+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -25,7 +25,9 @@ const getStyles = (props) => {
       left: 0,
       width: '100%',
       height: '100%',
+      WebkitOverflowScrolling: 'touch',
       overflowY: 'auto',
+      overflowX: 'hidden',
       marginBottom: 56,
       ...props.style,
     },

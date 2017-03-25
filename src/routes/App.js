@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T00:18:03+08:00
+* @Last modified time: 2017-03-25T13:26:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -29,7 +29,7 @@ class App extends React.PureComponent {
           console.log(src);
           cb(src);
         },
-      );
+      ).catch(e => alert(e.toString()));
   }
 
   render() {

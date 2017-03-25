@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T02:05:19+08:00
+* @Last modified time: 2017-03-25T18:17:35+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -98,7 +98,9 @@ const getStyles = (props) => {
       padding: '6px 2px 6px 6px',
       transition: 'height .2s ease-out',
       height: props.enableAudio ? 'calc(100% - 160px)' : 'calc(100% - 104px)',
+      WebkitOverflowScrolling: 'touch',
       overflowY: 'auto',
+      overflowX: 'hidden',
 
       // header: {
       //   // fontSize: 14,
