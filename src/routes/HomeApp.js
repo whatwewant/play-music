@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T19:10:34+08:00
+* @Last modified time: 2017-03-25T19:14:28+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -103,6 +103,7 @@ const getStyles = (props) => {
       WebkitOverflowScrolling: 'touch',
       overflowY: 'auto',
       overflowX: 'hidden',
+      backgroundColor: '#fff',
 
       // header: {
       //   // fontSize: 14,
