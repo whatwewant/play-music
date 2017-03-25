@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T19:14:28+08:00
+* @Last modified time: 2017-03-25T21:42:31+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -230,8 +230,8 @@ class HomeApp extends PureComponent {
 }
 
 export default connect(
-  ({ playlist: { loading }, player: { list } }) => ({
-    loading,
+  ({ playlist: { loading, data }, player: { list } }) => ({
+    loading: loading && data.length === 0,
     enableAudio: list.length > 0,
   }),
 )(HomeApp);

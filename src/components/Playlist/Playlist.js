@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T18:18:59+08:00
+* @Last modified time: 2017-03-25T22:52:02+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -25,8 +25,8 @@ const getStyles = (props) => {
       left: 0,
       width: '100%',
       height: '100%',
-      WebkitOverflowScrolling: 'touch',
-      overflowY: 'auto',
+      // WebkitOverflowScrolling: 'touch',
+      overflowY: 'hidden',
       overflowX: 'hidden',
       marginBottom: 56,
       ...props.style,
@@ -34,7 +34,7 @@ const getStyles = (props) => {
 
     header: {
       clear: 'fixed',
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       width: '100%',
@@ -71,6 +71,15 @@ const getStyles = (props) => {
 
       search: {
       },
+    },
+
+    wrapper: {
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
     },
 
     banner: {
@@ -331,7 +340,6 @@ export default class Playlist extends PureComponent {
 
     return (
       <div
-        ref={(ref) => { this.scrollbar = ref; }}
         style={styles.root}
         className={styleClasses.normal}
       >
@@ -344,67 +352,69 @@ export default class Playlist extends PureComponent {
             <img role="presentation" style={styles.header.back.img} src={IconSearch} />
           </div>
         </div>
-        <div style={styles.banner}>
-          <div style={styles.banner.mask} />
-          <div style={styles.banner.container}>
-            <div style={styles.banner.container.listenInfo}>
-              <i style={styles.banner.container.listenInfo.icon} />
-              <span style={styles.banner.container.listenInfo.count}>{count}</span>
+        <div style={styles.wrapper} ref={(ref) => { this.scrollbar = ref; }}>
+          <div style={styles.banner}>
+            <div style={styles.banner.mask} />
+            <div style={styles.banner.container}>
+              <div style={styles.banner.container.listenInfo}>
+                <i style={styles.banner.container.listenInfo.icon} />
+                <span style={styles.banner.container.listenInfo.count}>{count}</span>
+              </div>
+              <img style={styles.banner.container} role="presentation" src={banner} />
             </div>
-            <img style={styles.banner.container} role="presentation" src={banner} />
-          </div>
-          <div style={styles.banner.playlistInfo}>
-            <div style={styles.banner.playlistInfo.title}>{ title }</div>
-            <div style={styles.banner.playlistInfo.author}>
-              <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src={avatar} />
-              <span style={styles.banner.playlistInfo.author.name}>{author}</span>
+            <div style={styles.banner.playlistInfo}>
+              <div style={styles.banner.playlistInfo.title}>{ title }</div>
+              <div style={styles.banner.playlistInfo.author}>
+                <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src={avatar} />
+                <span style={styles.banner.playlistInfo.author.name}>{author}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div style={styles.listarea}>
-          <div
-            style={styles.listarea.actions}
-            onClick={() => this.props.onPlayAll(playlist)}
-          >
-            <div style={styles.listarea.actions.playall}>
-              <div style={styles.listarea.actions.playall.icon} />
-              <span style={styles.listarea.actions.playall.title}>播放全部</span>
-              <span style={styles.listarea.actions.playall.count}>(共{playlist.length}首)</span>
+          <div style={styles.listarea}>
+            <div
+              style={styles.listarea.actions}
+              onClick={() => this.props.onPlayAll(playlist)}
+            >
+              <div style={styles.listarea.actions.playall}>
+                <div style={styles.listarea.actions.playall.icon} />
+                <span style={styles.listarea.actions.playall.title}>播放全部</span>
+                <span style={styles.listarea.actions.playall.count}>(共{playlist.length}首)</span>
+              </div>
+              <div style={styles.listarea.actions.select} />
             </div>
-            <div style={styles.listarea.actions.select} />
-          </div>
-          <ul style={styles.listarea.list}>
-            {
-              playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
-                <li
-                  key={id}
-                  style={styles.listarea.list.item}
-                  onClick={
-                    () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
-                  }
-                >
-                  <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
-                  <div style={styles.listarea.list.item.info_action}>
-                    <div style={styles.listarea.list.item.info_action.info}>
-                      <div style={styles.listarea.list.item.info_action.info.name}>{ name }</div>
-                      <div style={styles.listarea.list.item.info_action.info.author}>
-                        <span style={styles.listarea.list.item.info_action.info.author.name}>
-                          { sauthor }
-                        </span>
-                        <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                          -
-                        </span>
-                        <span style={styles.listarea.list.item.info_action.info.author.album}>
-                          { album }
-                        </span>
+            <ul style={styles.listarea.list}>
+              {
+                playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
+                  <li
+                    key={id}
+                    style={styles.listarea.list.item}
+                    onClick={
+                      () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
+                    }
+                  >
+                    <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
+                    <div style={styles.listarea.list.item.info_action}>
+                      <div style={styles.listarea.list.item.info_action.info}>
+                        <div style={styles.listarea.list.item.info_action.info.name}>{ name }</div>
+                        <div style={styles.listarea.list.item.info_action.info.author}>
+                          <span style={styles.listarea.list.item.info_action.info.author.name}>
+                            { sauthor }
+                          </span>
+                          <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                            -
+                          </span>
+                          <span style={styles.listarea.list.item.info_action.info.author.album}>
+                            { album }
+                          </span>
+                        </div>
                       </div>
+                      <div style={styles.listarea.list.item.info_action.action} />
                     </div>
-                    <div style={styles.listarea.list.item.info_action.action} />
-                  </div>
-                </li>
-              ))
-            }
-          </ul>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
       </div>
     );
