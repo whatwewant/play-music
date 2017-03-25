@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T01:52:30+08:00
+* @Last modified time: 2017-03-26T01:24:22+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -357,9 +357,23 @@ export default class Audio extends PureComponent {
 
     this.audio.replay = this.audio.playnext = () => {
       if (!this.state.id) return false;
+
+      // @TODO ios Audio play must be emitted by event, cannot be emitted by callback function
+      //  like onResolve callback, will have NotAllowedError @https://heycam.github.io/webidl/#notallowederror
+      //  Error message:
+      //  The request is not allowed by the user agent or the platform
+      //  in the current context, possibly because the user denied permission.
+      this.audio.play();
+
       this.props.onResolve(this.state.id, (src) => {
         this.audio.src = src;
+        // this.audio.load();
         play();
+        // play().catch(error => alert(error));
+        // const audio = document.querySelector('audio');
+        // audio.src = src;
+        // audio.load();
+        // audio.play(error => alert(error));
       });
     };
 
@@ -611,7 +625,6 @@ export default class Audio extends PureComponent {
         <audio
           style={{ display: 'none' }}
           ref={ref => (this.audio = ref)}
-          src={audio || '@TODO'}
           loop={this.state.loopType === 1/* 单曲循环 */}
         />
       </div>
