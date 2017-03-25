@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T22:37:54+08:00
+* @Last modified time: 2017-03-25T01:52:30+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -373,9 +373,15 @@ export default class Audio extends PureComponent {
 
   componentWillReceiveProps(nextProps) {
     const ids = this.state.playlist.map(e => e.id);
+    const newPlaylist = nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1);
+
+    if (newPlaylist.length === 0) {
+      return false;
+    }
+
     const playlist = [
       ...this.state.playlist,
-      ...nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1),
+      ...newPlaylist,
     ];
 
     this.setState({

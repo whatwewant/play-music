@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T22:06:08+08:00
+* @Last modified time: 2017-03-25T00:52:03+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -33,7 +33,7 @@ export default class Popular extends PureComponent {
             </div>
             */
           }
-          <Link style={{ color: 'rgba(0, 0, 0, 0.78)', textDecoration: 'none' }} to="/playlist">流行</Link>
+          <Link style={{ color: 'rgba(0, 0, 0, 0.78)', textDecoration: 'none' }} to="/home/playlist">流行</Link>
         </div>
         <ul className={styles.list}>
           {
