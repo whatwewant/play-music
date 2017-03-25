@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T18:17:35+08:00
+* @Last modified time: 2017-03-25T19:10:34+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,6 +11,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+
+import Loading from '../components/Loading';
 
 import IconLogo from '../assets/logo.png';
 import IconSearch from '../assets/search.svg';
@@ -218,7 +220,8 @@ class HomeApp extends PureComponent {
           />
         </ul>
         <div ref={ref => (this.scrollContainer = ref)} style={styles.page}>
-          {this.props.children}
+          <Loading show={this.props.loading} />
+          { this.props.children }
         </div>
       </div>
     );
@@ -226,7 +229,8 @@ class HomeApp extends PureComponent {
 }
 
 export default connect(
-  ({ player: { list } }) => ({
+  ({ playlist: { loading }, player: { list } }) => ({
+    loading,
     enableAudio: list.length > 0,
   }),
 )(HomeApp);
