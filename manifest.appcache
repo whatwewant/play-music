@@ -1,0 +1,25 @@
+CACHE MANIFEST
+#ver:3/30/2017, 1:51:05 PM
+#plugin:4.6.2
+
+CACHE:
+./static/search.dfb87616.svg
+./static/banner1.97b726d5.jpg
+./static/banner2.dc8b9cc9.jpg
+./static/banner3.43b74087.jpg
+./static/banner4.c9237589.jpg
+./static/yay.44dd3333.jpg
+./static/clear.385bf914.svg
+./static/goBack.47df0df2.svg
+./static/recommand.f584ed89.svg
+./0.popular.js
+./1.app.js
+./index.js
+./3.home.js
+./4.playlistOne.js
+./5.playlists.js
+./index.css
+./
+
+NETWORK:
+*
