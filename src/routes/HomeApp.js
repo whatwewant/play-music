@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-26T23:55:36+08:00
+* @Last modified time: 2017-03-30T11:54:44+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -164,7 +164,7 @@ class HomeApp extends PureComponent {
 
   render() {
     const styles = getStyles(this.props);
-    console.log(this.props.location);
+    // console.log(this.props.location);
     return (
       <div style={styles.root}>
         <div style={styles.header}>
