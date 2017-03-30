@@ -1,3 +1,266 @@
-var __wpo = {"assets":{"main":["./static/search.dfb87616.svg","./static/banner1.97b726d5.jpg","./static/banner2.dc8b9cc9.jpg","./static/banner3.43b74087.jpg","./static/banner4.c9237589.jpg","./static/yay.44dd3333.jpg","./static/clear.385bf914.svg","./static/goBack.47df0df2.svg","./static/recommand.f584ed89.svg","./0.popular.js","./1.app.js","./index.js","./3.home.js","./4.playlistOne.js","./5.playlists.js","./index.css","./"],"additional":[],"optional":[]},"externals":[],"hashesMap":{"7567294de7a65b100a5dc85bd7d12ad4f6b6c684":"./static/search.dfb87616.svg","3ebfa7965ad7343975d3753fc80b92392dcd56a9":"./static/banner1.97b726d5.jpg","5b20d542ecf5c878b2da82afa5e5689a9b032fb6":"./static/banner2.dc8b9cc9.jpg","c92d148e3b2e3ba0715d32ffdc27d3da9c497430":"./static/banner3.43b74087.jpg","894e82ec6fde0dc65cb2ad42601b9e6839f87ed8":"./static/banner4.c9237589.jpg","7d7ea6c476197a745d852601e143a5a55ad4801b":"./static/yay.44dd3333.jpg","3e1c6a1aef5bb29c18c10caad5519cfdce2dce94":"./static/clear.385bf914.svg","f3980e379e1f08d3d54e0a6a4b6f28f3e94bf945":"./static/goBack.47df0df2.svg","7ef4eb8cde6f87211f072ba53ea2ccf26e3de445":"./static/recommand.f584ed89.svg","2e3e06852745810904db7493ae6881266ee8e6b2":"./0.popular.js","2747d4269a97354809ba63730c0fc078573eb2d2":"./1.app.js","6347a8646513ef04deb883e062bcc67eb4f937de":"./index.js","cac1409bbd9497da6086f8aa1c779e1f948ecb22":"./3.home.js","0daf6214e9578b37555276769a68ae94c40a1520":"./4.playlistOne.js","e7806b62c8a6aa32ab5c9096e1eae5a9bcc93b2b":"./5.playlists.js","cc3dd4d40118b8b4cec691ffb310ddd607e1eb23":"./index.css","53d0aae79caa96a1b30d0a036c4ce42f7fa94b13":"./"},"strategy":"changed","responseStrategy":"cache-first","version":"3/30/2017, 1:51:05 PM","name":"webpack-offline","pluginVersion":"4.6.2","relativePaths":false};
+/**
+ * Copyright 2016 Google Inc. All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+*/
 
-!function(n){function e(r){if(t[r])return t[r].exports;var o=t[r]={exports:{},id:r,loaded:!1};return n[r].call(o.exports,o,o.exports,e),o.loaded=!0,o.exports}var t={};return e.m=n,e.c=t,e.p="./",e(0)}([function(n,e,t){"use strict";function r(n,e){function t(){if(!L.additional.length)return Promise.resolve();var n=void 0;return n="changed"===y?s("additional"):r("additional"),n.catch(function(n){console.error("[SW]:","Cache section `additional` failed to load")})}function r(e){var t=L[e];return caches.open(E).then(function(e){return g(e,t,{bust:n.version,request:n.prefetchRequest})}).then(function(){u("Cached assets: "+e,t)}).catch(function(n){throw console.error(n),n})}function s(e){return l().then(function(t){if(!t)return r(e);var o=t[0],i=t[1],a=t[2],c=a.hashmap,s=a.version;if(!a.hashmap||s===n.version)return r(e);var f=Object.keys(c).map(function(n){return c[n]}),l=i.map(function(n){var e=new URL(n.url);return e.search="",e.toString()}),h=L[e],d=[],v=h.filter(function(n){return l.indexOf(n)===-1||f.indexOf(n)===-1});Object.keys(R).forEach(function(n){var e=R[n];if(h.indexOf(e)!==-1&&v.indexOf(e)===-1&&d.indexOf(e)===-1){var t=c[n];t&&l.indexOf(t)!==-1?d.push([t,e]):v.push(e)}}),u("Changed assets: "+e,v),u("Moved assets: "+e,d);var p=Promise.all(d.map(function(n){return o.match(n[0]).then(function(e){return[n[1],e]})}));return caches.open(E).then(function(e){var t=p.then(function(n){return Promise.all(n.map(function(n){return e.put(n[0],n[1])}))});return Promise.all([t,g(e,v,{bust:n.version,request:n.prefetchRequest})])})})}function f(){return caches.keys().then(function(n){var e=n.map(function(n){if(0===n.indexOf(W)&&0!==n.indexOf(E))return console.log("[SW]:","Delete cache:",n),caches.delete(n)});return Promise.all(e)})}function l(){return caches.keys().then(function(n){for(var e=n.length,t=void 0;e--&&(t=n[e],0!==t.indexOf(W)););if(t){var r=void 0;return caches.open(t).then(function(n){return r=n,n.match(new URL(P,location).toString())}).then(function(n){if(n)return Promise.all([r,r.keys(),n.json()])})}})}function h(){return caches.open(E).then(function(e){var t=new Response(JSON.stringify({version:n.version,hashmap:R}));return e.put(new URL(P,location).toString(),t)})}function d(n,e,t){return o(t,E).then(function(r){if(r)return r;var o=fetch(n.request).then(function(n){return n.ok?(t===e&&!function(){var t=n.clone();caches.open(E).then(function(n){return n.put(e,t)}).then(function(){console.log("[SW]:","Cache asset: "+e)})}(),n):n});return o})}function v(n,e,t){return fetch(n.request).then(function(n){if(n.ok)return n;throw new Error("response is not ok")}).catch(function(){return o(t,E)})}function p(n){return n.catch(function(){}).then(function(n){return n&&n.ok?n:o(_,E)})}function m(){Object.keys(L).forEach(function(n){L[n]=L[n].map(function(n){var e=new URL(n,location);return U.indexOf(n)===-1?e.search="":e.hash="",e.toString()})}),Object.keys(S).forEach(function(n){S[n]=S[n].map(function(n){var e=new URL(n,location);return U.indexOf(n)===-1?e.search="":e.hash="",e.toString()})}),R=Object.keys(R).reduce(function(n,e){var t=new URL(R[e],location);return t.search="",n[e]=t.toString(),n},{}),U=U.map(function(n){var e=new URL(n,location);return e.hash="",e.toString()})}function g(n,e,t){var r=t.allowLoaders!==!1,o=t&&t.bust,a=t.request||{credentials:"omit",mode:"cors"};return Promise.all(e.map(function(n){return o&&(n=i(n,o)),fetch(n,a)})).then(function(o){if(o.some(function(n){return!n.ok}))return Promise.reject(new Error("Wrong response status"));var i=[],a=o.map(function(t,o){return r&&i.push(x(e[o],t)),n.put(e[o],t)});return i.length?!function(){var r=c(t);r.allowLoaders=!1;var o=a;a=Promise.all(i).then(function(t){var i=[].concat.apply([],t);return e.length&&(o=o.concat(g(n,i,r))),Promise.all(o)})}():a=Promise.all(a),a})}function x(n,e){var t=Object.keys(S).map(function(t){var r=S[t];if(r.indexOf(n)!==-1&&w[t])return w[t](e.clone())}).filter(function(n){return!!n});return Promise.all(t).then(function(n){return[].concat.apply([],n)})}function O(n){var e=n.url,t=new URL(e),r=void 0;r="navigate"===n.mode?"navigate":t.origin===location.origin?"same-origin":"cross-origin";for(var o=0;o<k.length;o++){var i=k[o];if(i&&(!i.requestTypes||i.requestTypes.indexOf(r)!==-1)){var a=void 0;if(a="function"==typeof i.match?i.match(t,n):e.replace(i.match,i.to),a&&a!==e)return a}}}var w=e.loaders,k=e.cacheMaps,y=n.strategy,q=n.responseStrategy,L=n.assets,S=n.loaders||{},R=n.hashesMap,U=n.externals,W=n.name,b=n.version,E=W+":"+b,P="__offline_webpack__data";m();var j=[].concat(L.main,L.additional,L.optional),_=n.navigateFallbackURL;self.addEventListener("install",function(n){console.log("[SW]:","Install event");var e=void 0;e="changed"===y?s("main"):r("main"),n.waitUntil(e)}),self.addEventListener("activate",function(n){console.log("[SW]:","Activate event");var e=t();e=e.then(h),e=e.then(f),e=e.then(function(){if(self.clients&&self.clients.claim)return self.clients.claim()}),n.waitUntil(e)}),self.addEventListener("fetch",function(n){var e=n.request.url,t=new URL(e),r=void 0;U.indexOf(e)!==-1?r=e:(t.search="",r=t.toString());var o="GET"===n.request.method,i=j.indexOf(r)!==-1,c=r;if(!i){var u=O(n.request);u&&(c=u,i=!0)}if(!i&&o&&_&&a(n.request))return void n.respondWith(p(fetch(n.request)));if(!i||!o)return void(t.origin!==location.origin&&navigator.userAgent.indexOf("Firefox/44.")!==-1&&n.respondWith(fetch(n.request)));var s=void 0;s="network-first"===q?v(n,r,c):d(n,r,c),_&&a(n.request)&&(s=p(s)),n.respondWith(s)}),self.addEventListener("message",function(n){var e=n.data;if(e)switch(e.action){case"skipWaiting":self.skipWaiting&&self.skipWaiting()}})}function o(n,e){return caches.match(n,{cacheName:e}).catch(function(){})}function i(n,e){var t=n.indexOf("?")!==-1;return n+(t?"&":"?")+"__uncache="+encodeURIComponent(e)}function a(n){return"navigate"===n.mode||n.headers.get("Upgrade-Insecure-Requests")||(n.headers.get("Accept")||"").indexOf("text/html")!==-1}function c(n){return Object.keys(n).reduce(function(e,t){return e[t]=n[t],e},{})}function u(n,e){console.groupCollapsed("[SW]:",n),e.forEach(function(n){console.log("Asset:",n)}),console.groupEnd()}r(__wpo,{loaders:{},cacheMaps:[]}),n.exports=t(1)},function(n,e){}]);
+// DO NOT EDIT THIS GENERATED OUTPUT DIRECTLY!
+// This file should be overwritten as part of your build process.
+// If you need to extend the behavior of the generated service worker, the best approach is to write
+// additional code and include it using the importScripts option:
+//   https://github.com/GoogleChrome/sw-precache#importscripts-arraystring
+//
+// Alternatively, it's possible to make changes to the underlying template file and then use that as the
+// new base for generating output, via the templateFilePath option:
+//   https://github.com/GoogleChrome/sw-precache#templatefilepath-string
+//
+// If you go that route, make sure that whenever you update your sw-precache dependency, you reconcile any
+// changes made to this original template file with your modified copy.
+
+// This generated service worker JavaScript will precache your site's resources.
+// The code needs to be saved in a .js file at the top-level of your site, and registered
+// from your pages in order to be used. See
+// https://github.com/googlechrome/sw-precache/blob/master/demo/app/js/service-worker-registration.js
+// for an example of how you can register this script and handle various service worker events.
+
+/* eslint-env worker, serviceworker */
+/* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
+'use strict';
+
+var precacheConfig = [["./0.popular.js","f58445561670a70cab018f2a32106304"],["./1.app.js","008fec89a14453166c47d978225e0e9d"],["./3.home.js","e2a2996ca3b5830aa300589b935d9e1e"],["./4.playlistOne.js","6ad5fab45139ea4bb8c6ed00f9bb4aa2"],["./5.playlists.js","16eb7982319064e4b8c62c169102f9c6"],["./index.css","2b94065b120a2e3bc816521f124ff3e2"],["./index.html","ccdefb97742ce7675faec0f6334fba1e"],["./index.js","cf21c252f8f8d15ae726039453941b20"],["./static/banner1.97b726d5.jpg","97b726d5ef659a04edf3f0261692282b"],["./static/banner2.dc8b9cc9.jpg","dc8b9cc9d66433d0423dc244e82ddc7d"],["./static/banner3.43b74087.jpg","43b74087d4d7df0b4db0a30a4ce6e029"],["./static/banner4.c9237589.jpg","c923758919b0b8dc865beaea132e5869"],["./static/clear.385bf914.svg","385bf914d452600b7be958966e67b89c"],["./static/goBack.47df0df2.svg","47df0df2bf5f5c6770e3a62840150c78"],["./static/recommand.f584ed89.svg","f584ed89bfb3994a7daad63db7760ab2"],["./static/search.dfb87616.svg","dfb8761641bfcc2af18630cd7701b8fc"],["./static/yay.44dd3333.jpg","44dd3333d0ce70df3163ee28484ec397"]];
+var cacheName = 'sw-precache-v3-sw-precache-webpack-plugin-' + (self.registration ? self.registration.scope : '');
+
+
+var ignoreUrlParametersMatching = [/^utm_/];
+
+
+
+var addDirectoryIndex = function (originalUrl, index) {
+    var url = new URL(originalUrl);
+    if (url.pathname.slice(-1) === '/') {
+      url.pathname += index;
+    }
+    return url.toString();
+  };
+
+var cleanResponse = function (originalResponse) {
+    // If this is not a redirected response, then we don't have to do anything.
+    if (!originalResponse.redirected) {
+      return Promise.resolve(originalResponse);
+    }
+
+    // Firefox 50 and below doesn't support the Response.body stream, so we may
+    // need to read the entire body to memory as a Blob.
+    var bodyPromise = 'body' in originalResponse ?
+      Promise.resolve(originalResponse.body) :
+      originalResponse.blob();
+
+    return bodyPromise.then(function(body) {
+      // new Response() is happy when passed either a stream or a Blob.
+      return new Response(body, {
+        headers: originalResponse.headers,
+        status: originalResponse.status,
+        statusText: originalResponse.statusText
+      });
+    });
+  };
+
+var createCacheKey = function (originalUrl, paramName, paramValue,
+                           dontCacheBustUrlsMatching) {
+    // Create a new URL object to avoid modifying originalUrl.
+    var url = new URL(originalUrl);
+
+    // If dontCacheBustUrlsMatching is not set, or if we don't have a match,
+    // then add in the extra cache-busting URL parameter.
+    if (!dontCacheBustUrlsMatching ||
+        !(url.pathname.match(dontCacheBustUrlsMatching))) {
+      url.search += (url.search ? '&' : '') +
+        encodeURIComponent(paramName) + '=' + encodeURIComponent(paramValue);
+    }
+
+    return url.toString();
+  };
+
+var isPathWhitelisted = function (whitelist, absoluteUrlString) {
+    // If the whitelist is empty, then consider all URLs to be whitelisted.
+    if (whitelist.length === 0) {
+      return true;
+    }
+
+    // Otherwise compare each path regex to the path of the URL passed in.
+    var path = (new URL(absoluteUrlString)).pathname;
+    return whitelist.some(function(whitelistedPathRegex) {
+      return path.match(whitelistedPathRegex);
+    });
+  };
+
+var stripIgnoredUrlParameters = function (originalUrl,
+    ignoreUrlParametersMatching) {
+    var url = new URL(originalUrl);
+
+    url.search = url.search.slice(1) // Exclude initial '?'
+      .split('&') // Split into an array of 'key=value' strings
+      .map(function(kv) {
+        return kv.split('='); // Split each 'key=value' string into a [key, value] array
+      })
+      .filter(function(kv) {
+        return ignoreUrlParametersMatching.every(function(ignoredRegex) {
+          return !ignoredRegex.test(kv[0]); // Return true iff the key doesn't match any of the regexes.
+        });
+      })
+      .map(function(kv) {
+        return kv.join('='); // Join each [key, value] array into a 'key=value' string
+      })
+      .join('&'); // Join the array of 'key=value' strings into a string with '&' in between each
+
+    return url.toString();
+  };
+
+
+var hashParamName = '_sw-precache';
+var urlsToCacheKeys = new Map(
+  precacheConfig.map(function(item) {
+    var relativeUrl = item[0];
+    var hash = item[1];
+    var absoluteUrl = new URL(relativeUrl, self.location);
+    var cacheKey = createCacheKey(absoluteUrl, hashParamName, hash, false);
+    return [absoluteUrl.toString(), cacheKey];
+  })
+);
+
+function setOfCachedUrls(cache) {
+  return cache.keys().then(function(requests) {
+    return requests.map(function(request) {
+      return request.url;
+    });
+  }).then(function(urls) {
+    return new Set(urls);
+  });
+}
+
+self.addEventListener('install', function(event) {
+  event.waitUntil(
+    caches.open(cacheName).then(function(cache) {
+      return setOfCachedUrls(cache).then(function(cachedUrls) {
+        return Promise.all(
+          Array.from(urlsToCacheKeys.values()).map(function(cacheKey) {
+            // If we don't have a key matching url in the cache already, add it.
+            if (!cachedUrls.has(cacheKey)) {
+              var request = new Request(cacheKey, {credentials: 'same-origin'});
+              return fetch(request).then(function(response) {
+                // Bail out of installation unless we get back a 200 OK for
+                // every request.
+                if (!response.ok) {
+                  throw new Error('Request for ' + cacheKey + ' returned a ' +
+                    'response with status ' + response.status);
+                }
+
+                return cleanResponse(response).then(function(responseToCache) {
+                  return cache.put(cacheKey, responseToCache);
+                });
+              });
+            }
+          })
+        );
+      });
+    }).then(function() {
+      
+      // Force the SW to transition from installing -> active state
+      return self.skipWaiting();
+      
+    })
+  );
+});
+
+self.addEventListener('activate', function(event) {
+  var setOfExpectedUrls = new Set(urlsToCacheKeys.values());
+
+  event.waitUntil(
+    caches.open(cacheName).then(function(cache) {
+      return cache.keys().then(function(existingRequests) {
+        return Promise.all(
+          existingRequests.map(function(existingRequest) {
+            if (!setOfExpectedUrls.has(existingRequest.url)) {
+              return cache.delete(existingRequest);
+            }
+          })
+        );
+      });
+    }).then(function() {
+      
+      return self.clients.claim();
+      
+    })
+  );
+});
+
+
+self.addEventListener('fetch', function(event) {
+  if (event.request.method === 'GET') {
+    // Should we call event.respondWith() inside this fetch event handler?
+    // This needs to be determined synchronously, which will give other fetch
+    // handlers a chance to handle the request if need be.
+    var shouldRespond;
+
+    // First, remove all the ignored parameter and see if we have that URL
+    // in our cache. If so, great! shouldRespond will be true.
+    var url = stripIgnoredUrlParameters(event.request.url, ignoreUrlParametersMatching);
+    shouldRespond = urlsToCacheKeys.has(url);
+
+    // If shouldRespond is false, check again, this time with 'index.html'
+    // (or whatever the directoryIndex option is set to) at the end.
+    var directoryIndex = 'index.html';
+    if (!shouldRespond && directoryIndex) {
+      url = addDirectoryIndex(url, directoryIndex);
+      shouldRespond = urlsToCacheKeys.has(url);
+    }
+
+    // If shouldRespond is still false, check to see if this is a navigation
+    // request, and if so, whether the URL matches navigateFallbackWhitelist.
+    var navigateFallback = '';
+    if (!shouldRespond &&
+        navigateFallback &&
+        (event.request.mode === 'navigate') &&
+        isPathWhitelisted([], event.request.url)) {
+      url = new URL(navigateFallback, self.location).toString();
+      shouldRespond = urlsToCacheKeys.has(url);
+    }
+
+    // If shouldRespond was set to true at any point, then call
+    // event.respondWith(), using the appropriate cache key.
+    if (shouldRespond) {
+      event.respondWith(
+        caches.open(cacheName).then(function(cache) {
+          return cache.match(urlsToCacheKeys.get(url)).then(function(response) {
+            if (response) {
+              return response;
+            }
+            throw Error('The cached response that was expected is missing.');
+          });
+        }).catch(function(e) {
+          // Fall back to just fetch()ing the request if some unexpected error
+          // prevented the cached response from being valid.
+          console.warn('Couldn\'t serve response for "%s" from cache: %O', event.request.url, e);
+          return fetch(event.request);
+        })
+      );
+    }
+  }
+});
+
+
+
+
+
+
+
