@@ -3,13 +3,18 @@
 * @Date:   2017-03-26T00:56:38+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-26T01:28:42+08:00
+* @Last modified time: 2017-03-30T11:32:55+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import dva from 'dva';
+
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
+
 import './index.css';
+
+OfflinePluginRuntime.install();
 
 // 1. Initialize
 const app = dva();

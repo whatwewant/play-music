@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T21:42:31+08:00
+* @Last modified time: 2017-03-26T23:55:36+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,18 +11,19 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import Loading from '../components/Loading';
 
 import IconLogo from '../assets/logo.png';
 import IconSearch from '../assets/search.svg';
 
-import styleClasses from './HomeApp.css';
+import styleClasses from './HomeApp.less';
 
 const ROUTES = [
-  '/home',
+  '/home/popular',
   '/home/playlist',
-  '/home/rank',
+  '/home/rage',
   '/home/hot',
 ];
 
@@ -163,6 +164,7 @@ class HomeApp extends PureComponent {
 
   render() {
     const styles = getStyles(this.props);
+    console.log(this.props.location);
     return (
       <div style={styles.root}>
         <div style={styles.header}>
@@ -178,7 +180,7 @@ class HomeApp extends PureComponent {
             className={styleClasses.nav}
             activeClassName={styleClasses.navActive}
             onlyActiveOnIndex
-          >时下流行</Link>
+          >个性推荐</Link>
           <Link
             key={1}
             onClick={() => this.onActive(ROUTES[1])}
@@ -222,7 +224,14 @@ class HomeApp extends PureComponent {
         </ul>
         <div ref={ref => (this.scrollContainer = ref)} style={styles.page}>
           <Loading show={this.props.loading} />
-          { this.props.children }
+          <CSSTransitionGroup
+            component="div"
+            transitionName="page"
+            transitionEnterTimeout={200}
+            transitionLeaveTimeout={200}
+          >
+            { React.cloneElement(this.props.children, { key: this.props.location.pathname }) }
+          </CSSTransitionGroup>
         </div>
       </div>
     );
