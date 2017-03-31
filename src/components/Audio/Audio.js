@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T16:27:30+08:00
+* @Last modified time: 2017-03-31T20:44:45+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -532,8 +532,18 @@ export default class Audio extends PureComponent {
     } = playlist.filter(({ id }) => this.state.id === id).pop() || {};
 
     return (
-      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
-        <div style={{ ...styles.root, ...this.props.style, pointerEvents: 'auto' }}>
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          pointerEvents: 'none',
+          ...this.props.style,
+        }}
+      >
+        <div style={{ ...styles.root, pointerEvents: 'auto' }}>
           <div style={styles.progressBar}>
             <div style={styles.progressBar.progress} />
           </div>
