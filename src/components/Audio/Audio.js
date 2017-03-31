@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T20:44:45+08:00
+* @Last modified time: 2017-03-31T21:44:58+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -534,7 +534,7 @@ export default class Audio extends PureComponent {
     return (
       <div
         style={{
-          position: 'absolute',
+          // position: 'absolute',
           top: 0,
           left: 0,
           width: '100%',
@@ -542,6 +542,7 @@ export default class Audio extends PureComponent {
           pointerEvents: 'none',
           ...this.props.style,
         }}
+        className={classStyles.normal}
       >
         <div style={{ ...styles.root, pointerEvents: 'auto' }}>
           <div style={styles.progressBar}>
