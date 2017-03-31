@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T16:21:14+08:00
+* @Last modified time: 2017-03-31T16:27:30+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -53,6 +53,7 @@ const getStyles = (state) => {
 
       realMask: {
         display: state.showList ? 'block' : 'none',
+        pointerEvents: 'auto',
         position: 'absolute',
         left: 0,
         bottom: 0,
@@ -74,6 +75,7 @@ const getStyles = (state) => {
       },
 
       main: {
+        pointerEvents: 'auto',
         position: 'absolute',
         left: 0,
         bottom: 0,
