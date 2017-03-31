@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T15:14:24+08:00
+* @Last modified time: 2017-03-31T15:35:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -20,7 +20,7 @@ import styleClasses from './Playlist.less';
 const getStyles = (props) => {
   return {
     root: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       width: '100%',

@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-26T01:28:00+08:00
+* @Last modified time: 2017-03-31T16:19:42+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -41,6 +41,7 @@ class App extends React.PureComponent {
             transition: 'transform 0.3s ease-in',
             transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
           }}
+          show={this.props.playlist.length > 0}
           id={this.props.id}
           playlist={this.props.playlist}
           onResolve={this.resolve}

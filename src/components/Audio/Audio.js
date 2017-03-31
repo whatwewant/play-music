@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-26T01:24:22+08:00
+* @Last modified time: 2017-03-31T16:21:14+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -31,7 +31,7 @@ const getStyles = (state) => {
   return {
     root: {
       fontFamily: 'Roboto, Lato, sans-serif',
-      position: 'fixed',
+      position: 'absolute',
       left: 0,
       bottom: 0,
       width: '100%',
@@ -45,7 +45,7 @@ const getStyles = (state) => {
     },
 
     playlist: {
-      position: 'fixed',
+      // position: 'absolute',
       // left: 0,
       // bottom: 0,
       // width: '100%',
@@ -53,7 +53,7 @@ const getStyles = (state) => {
 
       realMask: {
         display: state.showList ? 'block' : 'none',
-        position: 'fixed',
+        position: 'absolute',
         left: 0,
         bottom: 0,
         width: '100%',
@@ -63,7 +63,7 @@ const getStyles = (state) => {
 
       mask: {
         // display: state.showList ? 'block' : 'none',
-        position: 'fixed',
+        position: 'absolute',
         left: 0,
         bottom: 0,
         width: '100%',
@@ -74,7 +74,7 @@ const getStyles = (state) => {
       },
 
       main: {
-        position: 'fixed',
+        position: 'absolute',
         left: 0,
         bottom: 0,
         width: '100%',
@@ -530,103 +530,107 @@ export default class Audio extends PureComponent {
     } = playlist.filter(({ id }) => this.state.id === id).pop() || {};
 
     return (
-      <div style={{ ...styles.root, ...this.props.style }}>
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none' }}>
+        <div style={{ ...styles.root, ...this.props.style, pointerEvents: 'auto' }}>
+          <div style={styles.progressBar}>
+            <div style={styles.progressBar.progress} />
+          </div>
+          <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+            <div style={styles.info}>
+              <img
+                style={styles.info.logo}
+                role="presentation"
+                src={banner}
+              />
+              <div style={styles.info.text}>
+                <div style={styles.info.text.name}>{name}</div>
+                <div style={styles.info.text.author}>{author}</div>
+              </div>
+            </div>
+            <div style={styles.btns}>
+              <div onClick={this.onTogglePlaylist} style={styles.btns.playlist} />
+              <div onClick={this.onPlayOrPause} style={styles.btns.playOrPause} />
+              <div onClick={this.onPlayNext} style={styles.btns.next} />
+            </div>
+          </div>
+          <audio
+            style={{ display: 'none' }}
+            ref={ref => (this.audio = ref)}
+            loop={this.state.loopType === 1/* 单曲循环 */}
+          />
+        </div>
         <div style={styles.playlist}>
           <div style={styles.playlist.realMask} onClick={this.onTogglePlaylist} />
           <div
             style={styles.playlist.mask}
             className={`${classStyles.playlistMask} ${this.state.showList ? classStyles.playlistMaskActive : ''}`}
           />
-          <div
-            style={styles.playlist.main}
-            className={`${classStyles.playlist} ${this.state.showList ? classStyles.playlistActive : ''}`}
-          >
-            <div style={styles.playlist.main.header}>
-              <div style={styles.playlist.main.header.type}>
-                <div style={styles.playlist.main.header.type.icon} />
-                <div
-                  style={styles.playlist.main.header.type.name}
-                  onClick={this.onChangeLoopType}
-                >
-                  {LOOP_TYPES[this.state.loopType]}({this.state.playlist.length})
-                </div>
-              </div>
-              <div style={styles.playlist.main.header.actions}>
-                <div
-                  style={styles.playlist.main.header.actions.collect}
-                  onClick={onCollect}
-                >
-                  <div style={styles.playlist.main.header.actions.collect.icon} />
-                  <div style={styles.playlist.main.header.actions.collect.name}>收藏</div>
-                </div>
-                <div
-                  style={styles.playlist.main.header.actions.clear}
-                  onClick={this.onClear}
-                >
-                  <div style={styles.playlist.main.header.actions.clear.icon}>
-                    <img role="presentation" src={IconClear} />
-                  </div>
-                  <div style={styles.playlist.main.header.actions.clear.name}>清空</div>
-                </div>
+        </div>
+        <div
+          style={styles.playlist.main}
+          className={`${classStyles.playlist} ${this.state.showList ? classStyles.playlistActive : ''}`}
+        >
+          <div style={styles.playlist.main.header}>
+            <div style={styles.playlist.main.header.type}>
+              <div style={styles.playlist.main.header.type.icon} />
+              <div
+                style={styles.playlist.main.header.type.name}
+                onClick={this.onChangeLoopType}
+              >
+                {LOOP_TYPES[this.state.loopType]}({this.state.playlist.length})
               </div>
             </div>
-            <ul style={styles.playlist.main.list}>
-              {
-                playlist.map(e => (
-                  <li
-                    key={e.id}
-                    style={
-                      Object.assign(
-                        e.id === this.state.id ? { color: 'rgb(206, 61, 62)' } : {},
-                        styles.playlist.main.list.item,
-                      )
-                    }
+            <div style={styles.playlist.main.header.actions}>
+              <div
+                style={styles.playlist.main.header.actions.collect}
+                onClick={onCollect}
+              >
+                <div style={styles.playlist.main.header.actions.collect.icon} />
+                <div style={styles.playlist.main.header.actions.collect.name}>收藏</div>
+              </div>
+              <div
+                style={styles.playlist.main.header.actions.clear}
+                onClick={this.onClear}
+              >
+                <div style={styles.playlist.main.header.actions.clear.icon}>
+                  <img role="presentation" src={IconClear} />
+                </div>
+                <div style={styles.playlist.main.header.actions.clear.name}>清空</div>
+              </div>
+            </div>
+          </div>
+          <ul style={styles.playlist.main.list}>
+            {
+              playlist.map(e => (
+                <li
+                  key={e.id}
+                  style={
+                    Object.assign(
+                      e.id === this.state.id ? { color: 'rgb(206, 61, 62)' } : {},
+                      styles.playlist.main.list.item,
+                    )
+                  }
+                >
+                  <div
+                    style={styles.playlist.main.list.item.info}
+                    onClick={() => this.onPlayOne(e.id)}
                   >
+                    <div style={styles.playlist.main.list.item.info.icon} />
+                    <div style={styles.playlist.main.list.item.info.name}>{e.name}</div>
+                    <span style={styles.playlist.main.list.item.info.separator}>-</span>
+                    <div style={styles.playlist.main.list.item.info.author}>{e.author}</div>
+                  </div>
+                  <div style={styles.playlist.main.list.item.actions}>
                     <div
-                      style={styles.playlist.main.list.item.info}
-                      onClick={() => this.onPlayOne(e.id)}
-                    >
-                      <div style={styles.playlist.main.list.item.info.icon} />
-                      <div style={styles.playlist.main.list.item.info.name}>{e.name}</div>
-                      <span style={styles.playlist.main.list.item.info.separator}>-</span>
-                      <div style={styles.playlist.main.list.item.info.author}>{e.author}</div>
-                    </div>
-                    <div style={styles.playlist.main.list.item.actions}>
-                      <div
-                        style={styles.playlist.main.list.item.actions.remove}
-                        onClick={() => this.onRemoveOne(e.id)}
-                      />
-                    </div>
-                  </li>
-                ))
-              }
-            </ul>
-          </div>
+                      style={styles.playlist.main.list.item.actions.remove}
+                      onClick={() => this.onRemoveOne(e.id)}
+                    />
+                  </div>
+                </li>
+              ))
+            }
+          </ul>
         </div>
-        <div style={styles.progressBar}>
-          <div style={styles.progressBar.progress} />
-        </div>
-        <div style={styles.info}>
-          <img
-            style={styles.info.logo}
-            role="presentation"
-            src={banner}
-          />
-          <div style={styles.info.text}>
-            <div style={styles.info.text.name}>{name}</div>
-            <div style={styles.info.text.author}>{author}</div>
-          </div>
-        </div>
-        <div style={styles.btns}>
-          <div onClick={this.onTogglePlaylist} style={styles.btns.playlist} />
-          <div onClick={this.onPlayOrPause} style={styles.btns.playOrPause} />
-          <div onClick={this.onPlayNext} style={styles.btns.next} />
-        </div>
-        <audio
-          style={{ display: 'none' }}
-          ref={ref => (this.audio = ref)}
-          loop={this.state.loopType === 1/* 单曲循环 */}
-        />
       </div>
     );
   }
