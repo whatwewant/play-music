@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T11:32:27+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T15:55:08+08:00
+* @Last modified time: 2017-03-31T19:56:54+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,7 +11,7 @@
 .normal {
   font-family: Roboto,Lato,sans-serif;
   font-weight: 400;
-  margin-top: 3em;
+  /*margin-top: 3em; @why ? */
   text-align: center;
 }
 
