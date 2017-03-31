@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-30T11:54:44+08:00
+* @Last modified time: 2017-03-31T15:14:47+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -30,7 +30,7 @@ const ROUTES = [
 const getStyles = (props) => {
   return {
     root: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       width: '100%',
@@ -74,6 +74,7 @@ const getStyles = (props) => {
       justifyContent: 'space-around',
       backgroundColor: '#fff',
       fontSize: 14,
+      overflow: 'hidden',
 
       nav: {
         flex: 1,

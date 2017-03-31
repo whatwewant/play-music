@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T11:32:27+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-07T00:59:21+08:00
+* @Last modified time: 2017-03-31T15:33:01+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -36,4 +36,19 @@
 
 .list code {
   background: #f7f7f7;
+}
+
+@media (min-width: 450px) {
+  .normal {
+    position: absolute;
+    width: 375px;
+    height: 667px;
+    /*top: 50%;
+    left: 50%;*/
+    /*margin-top: -50%;
+    margin-left: -25%;*/
+    /*top: 50%;
+    margin-top: -50%;*/
+    margin: 0;
+  }
 }
