@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T23:51:03+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T11:21:49+08:00
+* @Last modified time: 2017-04-10T20:51:42+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -122,7 +122,7 @@ export default {
     setup({ dispatch, history }) {
       // dispatch({ type: 'sync', payload: 601039850 });
       history.listen(({ pathname }) => {
-        if (['/home', '/home/playlist'].includes(pathname)) {
+        if (['/home', '/home/popular', '/home/playlist'].includes(pathname)) {
           dispatch({ type: 'sync/list' });
         }
       });
