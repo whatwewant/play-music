@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T23:55:36+08:00
+* @Last modified time: 2017-04-11T00:40:45+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -49,18 +49,20 @@ class App extends React.PureComponent {
           <title>网易云音乐</title>
           <link rel="shortcut icon" href={ICO} />
         </Helmet>
-        { this.props.children }
-        <Audio
-          style={{
-            transition: 'transform 0.3s ease-in',
-            transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
-          }}
-          show={this.props.playlist.length > 0}
-          id={this.props.id}
-          playlist={this.props.playlist}
-          onResolve={this.resolve}
-          onClear={this.handleClear}
-        />
+        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 667, overflow: 'hidden' }}>
+          { this.props.children }
+          <Audio
+            style={{
+              transition: 'transform 0.3s ease-in',
+              transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
+            }}
+            show={this.props.playlist.length > 0}
+            id={this.props.id}
+            playlist={this.props.playlist}
+            onResolve={this.resolve}
+            onClear={this.handleClear}
+          />
+        </div>
       </div>
     );
   }
