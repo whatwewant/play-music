@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T15:30:02+08:00
+* @Last modified time: 2017-04-10T16:21:28+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -567,6 +567,7 @@ export default class Audio extends PureComponent {
             </div>
           </div>
           <audio
+            title={this.state.id && this.state.playlist.filter(({ id }) => (id === this.state.id)).map(({ name: n, author: a }) => (`${n} - ${a}`)).pop()}
             style={{ display: 'none' }}
             ref={ref => (this.audio = ref)}
             loop={this.state.loopType === 1/* 单曲循环 */}
