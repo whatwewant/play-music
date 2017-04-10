@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T20:11:58+08:00
+* @Last modified time: 2017-04-10T23:55:36+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,6 +11,7 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Helmet } from 'react-helmet';
+import QRCode from 'qrcode.react';
 
 import styles from './App.css';
 
@@ -39,6 +40,10 @@ class App extends React.PureComponent {
   render() {
     return (
       <div className={styles.normal}>
+        <div className={styles.qrcode}>
+          <QRCode value="http://moeover.com/play-music" />
+          <div style={{ fontSize: 12, color: 'rgba(0, 0, 0, .38)' }}>扫描二维码，快速预览</div>
+        </div>
         <Helmet>
           <meta charSet="utf-8" />
           <title>网易云音乐</title>

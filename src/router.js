@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:47:54+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T20:38:54+08:00
+* @Last modified time: 2017-04-10T23:56:38+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -29,7 +29,7 @@ function RouterConfig({ history }) {
       // @Redirect https://github.com/ReactTraining/react-router/blob/v2.8.1/docs/guides/IndexRoutes.md
       indexRoute: {
         onEnter(nextState, replace) {
-          replace('/home');
+          replace('/home/popular');
         },
       },
       childRoutes: [
