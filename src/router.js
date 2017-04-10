@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:47:54+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-07T19:46:22+08:00
+* @Last modified time: 2017-04-10T20:38:54+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -65,6 +65,15 @@ function RouterConfig({ history }) {
                 }, 'playlists');
               },
 
+            },
+            {
+              name: 'radio',
+              path: 'radio',
+              getComponent(nextState, cb) {
+                require.ensure([], (require) => {
+                  cb(null, require('./routes/Radio'));
+                }, 'radio');
+              },
             },
             {
               name: 'rage',

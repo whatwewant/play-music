@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T20:03:40+08:00
+* @Last modified time: 2017-04-10T20:34:08+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -23,8 +23,8 @@ import styleClasses from './HomeApp.less';
 const ROUTES = [
   '/home/popular',
   '/home/playlist',
+  '/home/radio',
   '/home/rage',
-  '/home/hot',
 ];
 
 const getStyles = (props) => {
@@ -202,7 +202,7 @@ class HomeApp extends PureComponent {
             activeClassName={styleClasses.navActive}
             onlyActiveOnIndex
           >
-            排行榜
+            主播电台
           </Link>
           <Link
             key={3}
@@ -213,7 +213,7 @@ class HomeApp extends PureComponent {
             activeClassName={styleClasses.navActive}
             onlyActiveOnIndex
           >
-            热门歌手
+            排行榜
           </Link>
           <span
             style={{
