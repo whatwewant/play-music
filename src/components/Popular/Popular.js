@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T19:01:03+08:00
+* @Last modified time: 2017-04-10T19:06:24+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -27,7 +27,7 @@ export default class Popular extends PureComponent {
     return (
       <div className={styles.normal} style={this.props.style}>
         <Carousel
-          autoplay={false}
+          autoplay
           infinite
           style={{ paddingRight: 4 }}
         >
