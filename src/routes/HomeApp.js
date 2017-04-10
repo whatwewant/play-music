@@ -3,12 +3,12 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T20:34:08+08:00
+* @Last modified time: 2017-04-11T01:19:37+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
-import React, { PureComponent } from 'react';
+import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -27,7 +27,7 @@ const ROUTES = [
   '/home/rage',
 ];
 
-const getStyles = (props) => {
+const getStyles = (props, state) => {
   return {
     root: {
       position: 'absolute',
@@ -41,20 +41,40 @@ const getStyles = (props) => {
     },
 
     header: {
+      position: 'relative',
       width: '100%',
       height: 56,
       backgroundColor: '#ce3d3e',
       display: 'flex',
-      justifyContent: 'space-between',
+      // justifyContent: 'space-between',
+      alignItems: 'center',
       padding: 0,
 
       logo: {
         // height: '100%',
-        width: 150,
         padding: '4px 0',
+        transition: 'all .3s ease-in',
+        width: state.searchOn ? 0 : 150,
+      },
+
+      searchInput: {
+        fontSize: 14,
+        height: '65%',
+        borderRadius: '16px',
+        border: 'none',
+        outline: 'none',
+        appearance: 'none',
+        display: 'inline-block',
+        transition: 'all .3s ease-in',
+        marginLeft: 18,
+        padding: state.searchOn ? '8px 8px 8px 18px' : 0,
+        width: state.searchOn ? 'calc(100% - 56px - 18px)' : 0,
       },
 
       search: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
         // height: '100%',
         cursor: 'pointer',
         padding: '18px 18px',
@@ -133,13 +153,23 @@ const getStyles = (props) => {
 
 class HomeApp extends PureComponent {
 
+  static contextTypes = {
+    router: PropTypes.any,
+  };
+
   state = {
     index: ROUTES[0],
+    searchOn: false,
   };
 
   componentDidMount() {
     // only on playlists page
     this.scrollContainer.addEventListener('scroll', this.onScroll, false);
+    this.context.router.listen(() => {
+      if (this.state.searchOn) {
+        this.setState({ searchOn: false });
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -159,18 +189,31 @@ class HomeApp extends PureComponent {
     this.setState({ index });
   };
 
+  onClickSearch = () => {
+    const value = this.searchInput.value;
+    if (this.state.searchOn === true) {
+      if (value === '') {
+        this.setState({ searchOn: false });
+      }
+      // do
+    } else {
+      this.setState({ searchOn: true });
+    }
+  };
+
   // handleLoadPlaylist = (data) => {
   //   this.props.dispatch({ type: 'playlist/sync/one', payload: data.id });
   // };
 
   render() {
-    const styles = getStyles(this.props);
+    const styles = getStyles(this.props, this.state);
     // console.log(this.props.location);
     return (
       <div style={styles.root}>
         <div style={styles.header}>
           <img role="presentation" style={styles.header.logo} src={IconLogo} />
-          <img role="presentation" style={styles.header.search} src={IconSearch} />
+          <input ref={ref => (this.searchInput = ref)} style={styles.header.searchInput} placeholder="输入歌名、歌手、专辑" />
+          <img onClick={this.onClickSearch} role="presentation" style={styles.header.search} src={IconSearch} />
         </div>
         <ul style={styles.navs}>
           <Link
