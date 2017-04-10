@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:4/10/2017, 7:06:54 PM
+#ver:4/10/2017, 8:44:07 PM
 #plugin:4.6.2
 
 CACHE:
@@ -9,16 +9,36 @@ CACHE:
 ./static/banner3.43b74087.jpg
 ./static/banner4.c9237589.jpg
 ./static/yay.44dd3333.jpg
+./static/check-circle-o.49702837.svg
+./static/check-circle.0db2507b.svg
+./static/check.4e29f00a.svg
+./static/cross-circle-o.b3961c08.svg
+./static/cross-circle.949c610b.svg
+./static/cross.461de54c.svg
+./static/down.3531720c.svg
+./static/ellipsis-circle.ed973150.svg
+./static/ellipsis.106e9cfb.svg
+./static/exclamation-circle.8ba5466e.svg
+./static/info-circle.7d8665e0.svg
+./static/koubei-o.2f1c209f.svg
+./static/koubei.dc8b39ae.svg
+./static/left.3e88a859.svg
+./static/loading.5d7db8f3.svg
+./static/question-circle.e23a0713.svg
+./static/right.781794bf.svg
+./static/search.93c48a7f.svg
+./static/up.fbaf2a05.svg
 ./static/clear.385bf914.svg
 ./static/goBack.47df0df2.svg
 ./static/recommand.f584ed89.svg
-./0.popular.js
-./1.app.js
+./0.app.js
+./1.popular.js
 ./index.js
-./3.home.js
-./4.playlistOne.js
-./5.playlists.js
-./6.rage.js
+./3.radio.js
+./4.home.js
+./5.playlistOne.js
+./6.playlists.js
+./7.rage.js
 ./index.css
 ./
 
