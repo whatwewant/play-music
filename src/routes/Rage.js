@@ -3,40 +3,57 @@
 * @Date:   2017-04-07T19:43:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-08T03:07:02+08:00
+* @Last modified time: 2017-04-10T18:14:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React from 'react';
 import { connect } from 'dva';
+import { Link } from 'dva/router';
 
 import styles from './Rage.less';
 
 
-function Rage({ officalList, globalList }) {
+function Rage({ onLoadPlaylist, officalList, globalList }) {
   return (
     <div className={styles.root}>
       <div className={styles.offical}>
         <div className={styles.title}>官方榜</div>
         <ul className={styles.officalList}>
           {
-            officalList.map(({ coverImgUrl, updateFrequency, tracks }) => (
-              <li className={styles.officalListItem}>
-                <div className={styles.officalListItemBanner}>
-                  <img role="presentation" src={coverImgUrl} />
-                  <div className={styles.message}>{updateFrequency}</div>
-                </div>
-                <ul className={styles.officalListItemTop3}>
-                  {
-                    tracks.map(({ first, second }, index) => (
-                      <li className={styles.officalListItemTop3Item}>
-                        {index + 1}. {first} {second ? `- ${second}` : '' }
-                      </li>
-                    ))
-                  }
-                </ul>
-              </li>
+            officalList.map(({
+              id, name, description, playCount, coverImgUrl, updateFrequency, tracks,
+            }) => (
+              <Link
+                key={id || name}
+                style={{ color: '#000', textDecoration: 'none' }}
+                to={`/playlist/${id}`}
+                onClick={() => onLoadPlaylist({
+                  id,
+                  title: description,
+                  banner: coverImgUrl,
+                  count: playCount,
+                  author: name,
+                  avatar: coverImgUrl,
+                })}
+              >
+                <li className={styles.officalListItem}>
+                  <div className={styles.officalListItemBanner}>
+                    <img role="presentation" src={coverImgUrl} />
+                    <div className={styles.message}>{updateFrequency}</div>
+                  </div>
+                  <ul className={styles.officalListItemTop3}>
+                    {
+                      tracks.map(({ first, second }, index) => (
+                        <li key={index} className={styles.officalListItemTop3Item}>
+                          {index + 1}. {first} {second ? `- ${second}` : '' }
+                        </li>
+                      ))
+                    }
+                  </ul>
+                </li>
+              </Link>
             ))
           }
         </ul>
@@ -45,14 +62,31 @@ function Rage({ officalList, globalList }) {
         <div className={styles.title}>全球榜</div>
         <ul className={styles.globalList}>
           {
-            globalList.map(({ coverImgUrl, updateFrequency, name }) => (
-              <li className={styles.globalListItem}>
-                <div className={styles.globalListItemBanner}>
-                  <img role="presentation" src={coverImgUrl} />
-                  <div className={styles.message}>{updateFrequency}</div>
-                </div>
-                <div className={styles.globalListItemName}>{name}</div>
-              </li>
+            globalList.map(({
+              id, name, description, playCount, coverImgUrl, updateFrequency,
+            }) => (
+              <Link
+                key={id || name}
+                style={{ color: '#000', textDecoration: 'none' }}
+                className={styles.globalListItem}
+                to={`/playlist/${id}`}
+                onClick={() => onLoadPlaylist({
+                  id,
+                  title: description,
+                  banner: coverImgUrl,
+                  count: playCount,
+                  author: name,
+                  avatar: coverImgUrl,
+                })}
+              >
+                <li key={id}>
+                  <div className={styles.globalListItemBanner}>
+                    <img role="presentation" src={coverImgUrl} />
+                    <div className={styles.message}>{updateFrequency}</div>
+                  </div>
+                  <div className={styles.globalListItemName}>{name}</div>
+                </li>
+              </Link>
             ))
           }
         </ul>
@@ -84,4 +118,10 @@ const mapStateToProps = ({ rage }) => {
   return rage;
 };
 
-export default connect(mapStateToProps)(Rage);
+const mapDispatchToProps = dispatch => ({
+  onLoadPlaylist(data) {
+    dispatch({ type: 'playlist/sync/one', payload: data.id });
+  },
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Rage);
