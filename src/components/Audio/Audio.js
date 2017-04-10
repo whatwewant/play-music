@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T21:44:58+08:00
+* @Last modified time: 2017-04-10T15:30:02+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -329,8 +329,8 @@ export default class Audio extends PureComponent {
       nextId: props.id !== -1 ? props.playlist.map(e => e.id).indexOf(props.id) : 0,
       playlist: props.playlist,
 
-      // 列表循环 单曲循环 随机播放
-      loopType: 1,
+      // 列表循环0 单曲循环1 随机播放2
+      loopType: 0,
 
       showList: false,
       // showListMask: true,
@@ -451,7 +451,7 @@ export default class Audio extends PureComponent {
         id,
         nextId,
       }, () => {
-        this.audio.play();
+        this.audio.replay();
       });
     } else if (this.state.loopType === 1) {
       this.setState({ playing: false, currentTime: 0 });
@@ -464,7 +464,7 @@ export default class Audio extends PureComponent {
         id,
         nextId,
       }, () => {
-        this.audio.play();
+        this.audio.replay();
       });
     } else {
       console.log(`Invalid loopType: ${this.state.loopType}`);
