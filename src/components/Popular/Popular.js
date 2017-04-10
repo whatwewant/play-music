@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T01:05:55+08:00
+* @Last modified time: 2017-04-10T19:01:03+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -16,11 +16,6 @@ import { Carousel } from 'antd-mobile';
 import styles from './Popular.less';
 
 import IconRecommand from '../../assets/recommand.svg';
-
-import banner1 from '../../assets/banner1.jpg';
-import banner2 from '../../assets/banner2.jpg';
-import banner3 from '../../assets/banner3.jpg';
-import banner4 from '../../assets/banner4.jpg';
 
 export default class Popular extends PureComponent {
 
@@ -36,8 +31,8 @@ export default class Popular extends PureComponent {
           infinite
           style={{ paddingRight: 4 }}
         >
-          {[banner1, banner2, banner3, banner4].map(ii => (
-            <a style={{ display: 'inline-block', width: '100%', height: 172 }} href="#/" key={ii}>
+          {this.props.banners.map(({ banner: ii }, index) => (
+            <a key={index} style={{ display: 'inline-block', width: '100%', height: 172 }} href="#/">
               <img role="presentation" style={{ width: '100%' }} src={ii} />
             </a>
           ))}
