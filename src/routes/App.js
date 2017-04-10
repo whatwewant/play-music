@@ -3,18 +3,22 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-31T21:44:56+08:00
+* @Last modified time: 2017-04-10T20:11:58+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React from 'react';
 import { connect } from 'dva';
+import { Helmet } from 'react-helmet';
+
 import styles from './App.css';
 
 import request from '../utils/request';
 
 import Audio from '../components/Audio';
+
+import ICO from '../assets/music.ico';
 
 class App extends React.PureComponent {
 
@@ -35,6 +39,11 @@ class App extends React.PureComponent {
   render() {
     return (
       <div className={styles.normal}>
+        <Helmet>
+          <meta charSet="utf-8" />
+          <title>网易云音乐</title>
+          <link rel="shortcut icon" href={ICO} />
+        </Helmet>
         { this.props.children }
         <Audio
           style={{
