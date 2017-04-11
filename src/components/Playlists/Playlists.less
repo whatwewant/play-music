@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:55:23+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T20:54:35+08:00
+* @Last modified time: 2017-04-11T13:08:44+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -81,6 +81,37 @@
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
       }
+    }
+  }
+
+  .loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    @keyframes loading {
+      0% {
+        background-position: 0% center;
+      }
+      100% {
+        background-position: 100% center;
+      }
+    }
+
+    .loadingAnimate {
+      display: inline-block;
+      border-bottom: 2px solid #D33A31;
+      width: 20px;
+      height: 20px;
+      background-image: url(../../assets/loading-more.png);
+      background-size: cover;
+      background-position: 0 center;
+      background-repeat: no-repeat;
+      animation: loading 1s linear infinite;
+    }
+
+    .loadingMessage {
+      color: rgba(0, 0, 0, .38);
     }
   }
 }

@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T23:51:03+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T20:51:42+08:00
+* @Last modified time: 2017-04-11T11:24:16+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -59,7 +59,12 @@ export default {
       yield put({ type: 'sync/end' });
     },
     *'sync/next'({ payload }, { select, call, put }) { // eslint-disable-line
-      const { offset: oOffset, limit: oLimit, data: oData } = yield select(state => state.playlist);
+      const {
+        loading, offset: oOffset, limit: oLimit, data: oData,
+      } = yield select(state => state.playlist);
+
+      if (loading === true) return false;
+
       const ids = oData.map(e => e.id);
 
       yield put({ type: 'sync/start' });
