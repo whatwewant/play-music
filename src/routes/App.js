@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-11T11:17:46+08:00
+* @Last modified time: 2017-04-12T09:16:17+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -66,7 +66,8 @@ export default connect((state) => {
     id,
     playlist: list,
   };
-}, () => ({
+}, dispatch => ({
+  dispatch,
   resolve: (id, cb) => {
     request(`http://musicapi.duapp.com/api.php?type=url&id=${id}`)
       .then(data => data.data.data[0].url).then(

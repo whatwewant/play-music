@@ -3,12 +3,14 @@
 * @Date:   2017-03-26T00:56:38+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T21:25:22+08:00
+* @Last modified time: 2017-04-12T09:11:18+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import dva from 'dva';
+import pick from 'lodash.pick';
+import store from 'store';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
@@ -17,7 +19,12 @@ import './index.css';
 OfflinePluginRuntime.install();
 
 // 1. Initialize
-const app = dva();
+const app = dva({
+  initialState: store.get('play-music') || {},
+  onStateChange() {
+    store.set('play-music', pick(app._store.getState(), ['player'])); // eslint-disable-line
+  },
+});
 
 app.model(require('./models/playlist'));
 
