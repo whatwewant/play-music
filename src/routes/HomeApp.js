@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-11T01:19:37+08:00
+* @Last modified time: 2017-04-13T18:40:21+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -68,19 +68,23 @@ const getStyles = (props, state) => {
         transition: 'all .3s ease-in',
         marginLeft: 18,
         padding: state.searchOn ? '8px 8px 8px 18px' : 0,
-        width: state.searchOn ? 'calc(100% - 56px - 18px)' : 0,
+        width: state.searchOn ? 'calc(100% - 36px)' : 0,
+        position: 'absolute',
+        right: state.searchOn ? 18 : 56,
       },
 
       search: {
         position: 'absolute',
         top: 0,
-        right: 0,
+        right: state.searchOn ? 18 : 0,
         // height: '100%',
         cursor: 'pointer',
         padding: '18px 18px',
         // marginRight: -10,
         width: 56,
         height: 56,
+        filter: state.searchOn ? 'invert(.38)' : 'none',
+        transition: 'all .3s ease-in',
       },
     },
 
