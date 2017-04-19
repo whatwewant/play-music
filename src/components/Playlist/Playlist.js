@@ -321,13 +321,15 @@ export default class Playlist extends PureComponent {
     this
       .scrollbar
       .on('scroll', (event) => {
-        this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
+        setTimeout(() => {
+          this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
 
-        if (event.target.scrollTop >= 140) {
-          this.titleBar.innerText = this.props.title;
-        } else {
-          this.titleBar.innerText = '歌单';
-        }
+          if (event.target.scrollTop >= 140) {
+            this.titleBar.innerText = this.props.title;
+          } else {
+            this.titleBar.innerText = '歌单';
+          }
+        }, 100);
       });
   }
 

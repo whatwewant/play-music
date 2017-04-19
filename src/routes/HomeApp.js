@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-13T18:40:21+08:00
+* @Last modified time: 2017-04-19T09:54:28+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -183,10 +183,12 @@ class HomeApp extends PureComponent {
   onScroll = (event) => {
     // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
     // @TODO too many next
-    const self = event.target;
-    if (this.props.location.pathname === '/home/playlist' && self.scrollTop + self.clientHeight > self.scrollHeight - 20) {
-      this.props.dispatch({ type: 'playlist/sync/next' });
-    }
+    setTimeout(() => {
+      const self = event.target;
+      if (this.props.location.pathname === '/home/playlist' && self.scrollTop + self.clientHeight > self.scrollHeight - 20) {
+        this.props.dispatch({ type: 'playlist/sync/next' });
+      }
+    }, 100);
   }
 
   onActive = (index) => {
