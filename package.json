@@ -10,7 +10,9 @@
     "build": "roadhog build",
     "electron": "electron ./main.js",
     "package-copy": "cp ./public/package.json ./dist && cp main.js ./dist",
-    "package": "npm run clean && npm run build && npm run package-copy && electron-packager ./dist music --icon=./src/assets/music.icns --platform=darwin --arch=x64 --out=app",
+    "rebuild": "npm run clean && npm run build && npm run package-copy",
+    "pack": "npm run rebuild && electron-packager ./dist music --icon=./src/assets/music.icns --platform=darwin --arch=x64 --out=app",
+    "dmg": "npm run rebuild && cp -rf build dist && cd dist && cnpm i electron && build",
     "clean": "rm -rf ./dist && rm -rf ./app",
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint"
