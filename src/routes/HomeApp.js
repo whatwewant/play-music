@@ -59,8 +59,8 @@ const getStyles = (props, state) => {
 
       searchInput: {
         fontSize: 14,
-        height: '65%',
-        borderRadius: '16px',
+        height: 36,
+        borderRadius: '18px',
         border: 'none',
         outline: 'none',
         appearance: 'none',
@@ -70,6 +70,7 @@ const getStyles = (props, state) => {
         padding: state.searchOn ? '8px 8px 8px 18px' : 0,
         width: state.searchOn ? 'calc(100% - 36px)' : 0,
         position: 'absolute',
+        top: 10,
         right: state.searchOn ? 18 : 56,
       },
 
