@@ -23,7 +23,12 @@ let mainWindow;
 
 function createWindow() {
   // Create the browser window
-  mainWindow = new BrowserWindow({ width: 375, height: 667 });
+  mainWindow = new BrowserWindow({
+    width: 375,
+    height: 667,
+    resizable: false,
+    maximizable: false,
+  });
 
   // Remove menu bar completely
   mainWindow.setMenu(null);
