@@ -15,7 +15,8 @@
     "dmg": "npm run rebuild && cp -rf build dist && cd dist && cnpm i electron && build",
     "clean": "rm -rf ./dist && rm -rf ./app",
     "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "test": "npm run lint"
   },
   "engines": {
     "install-node": "6.9.2"
