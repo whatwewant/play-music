@@ -10,11 +10,11 @@
 
 import request from '../utils/request';
 
-const prefix = 'https://api.imjad.cn';
-const path = '/cloudmusic/';
+// const prefix = 'https://api.imjad.cn';
+// const path = '/cloudmusic/';
 
 export async function fetchList(id = 615180303) {
-  const url = `${prefix}${path}?type=playlist&id=${id}`;
+  const url = `https://netease-music.herokuapp.com/v1/playlist/detail?id=${id}`;
 
   const { data: { playlist } } = await request(url);
 

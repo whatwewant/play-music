@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T16:21:28+08:00
+* @Last modified time: 2017-04-24T13:46:23+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -137,6 +137,7 @@ const getStyles = (state) => {
           height: 'calc(100% - 64px)',
           overflowX: 'hidden',
           overflowY: 'auto',
+          WebkitOverflowScrolling: 'touch',
 
           item: {
             height: 48,
@@ -343,6 +344,10 @@ export default class Audio extends PureComponent {
         this.addEventListener(event, handler, false);
         return this;
       };
+      this.audio.off = function on(event, handler) {
+        this.removeEventListener(event, handler, false);
+        return this;
+      };
     }
 
     // @TODO Proxy play
@@ -409,6 +414,15 @@ export default class Audio extends PureComponent {
         this.onPlayOne(this.state.id);
       }
     });
+  }
+
+  componentWillUnmount() {
+    this
+      .audio
+      .off('timeupdate', this.onTimeUpdate)
+      .off('canplay', this.onCanPlay)
+      .off('ended', this.onEnd)
+      .off('error', this.onError);
   }
 
   onPlayOrPause = () => {

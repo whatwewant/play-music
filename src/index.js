@@ -24,6 +24,9 @@ const app = dva({
   onStateChange() {
     store.set('play-music', pick(app._store.getState(), ['player'])); // eslint-disable-line
   },
+  onError(err) {
+    console.log(err);
+  },
 });
 
 app.model(require('./models/playlist'));
