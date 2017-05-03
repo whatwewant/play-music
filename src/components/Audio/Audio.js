@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-24T13:46:23+08:00
+* @Last modified time: 2017-05-03T15:28:34+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -223,7 +223,7 @@ const getStyles = (state) => {
         textAlign: 'left',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center',
+        justifyContent: 'space-around',
         // alignItems: 'center',
 
         name: {
@@ -439,12 +439,40 @@ export default class Audio extends PureComponent {
 
   onPlayNext = () => {
     if (this.state.playlist.length <= 1) return false;
-    const nextId = (this.state.nextId + 1) % this.state.playlist.length;
-    const id = this.state.playlist[nextId].id;
-    this.audio.pause();
-    this.setState({ id, nextId, playing: true }, () => {
-      this.audio.playnext();
-    });
+    // const nextId = (this.state.nextId + 1) % this.state.playlist.length;
+    // const id = this.state.playlist[nextId].id;
+    // this.audio.pause();
+    // this.setState({ id, nextId, playing: true }, () => {
+    //   this.audio.playnext();
+    // });
+
+    if (this.state.loopType === 0) {
+      const nextId = (this.state.nextId + 1) % this.state.playlist.length;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
+    } else if (this.state.loopType === 1) {
+      this.setState({ playing: false, currentTime: 0 });
+    } else if (this.state.loopType === 2) {
+      const nextId = parseInt(this.state.playlist.length * Math.random(), 10) + 1;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
+    } else {
+      console.log(`Invalid loopType: ${this.state.loopType}`);
+    }
   }
 
   onTimeUpdate = () => {
@@ -527,6 +555,9 @@ export default class Audio extends PureComponent {
     }, () => {
       if (!this.state.playing || this.state.id === id) {
         this.audio.pause();
+      }
+      if (this.state.playlist === 0) {
+        this.props.onClear();
       }
     });
   }
