@@ -3,7 +3,7 @@
 * @Date:   2017-03-08T10:49:56+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-07T12:44:10+08:00
+* @Last modified time: 2017-05-07T13:17:06+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -48,10 +48,6 @@ export default {
       const list = yield select(state => state.player.list);
       const ids = list.map(e => e.id);
 
-      if (list.length === 0) {
-        yield put({ type: 'sync/one', payload: data[0] });
-      }
-
       const mdata = data.filter(e => ids.indexOf(e.id) === -1);
 
       if (mdata.length === 0) {
@@ -62,6 +58,10 @@ export default {
         type: 'save',
         payload: list.concat(mdata),
       });
+
+      if (list.length === 0) {
+        yield put({ type: 'sync/one', payload: data[0] });
+      }
     },
     *'sync/one'({ payload: { id, name, author, album, banner, audio } }, { call, select, put }) {
       yield put({ type: 'save/id', payload: id });
