@@ -3,16 +3,20 @@
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-06T17:57:40+08:00
+* @Last modified time: 2017-05-07T11:52:12+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'dva';
+import once from 'once';
 
 // import * as playlistService from '../services/playlist';
 import Playlist from '../components/Playlist';
+
+// @TODO Hack: https://www.douban.com/note/527250492/
+const AudioPlayOneIOS = once(() => document.querySelector('audio').play()); // eslint-disable-line
 
 class PlaylistContainer extends PureComponent {
   static contextTypes = {
@@ -78,8 +82,10 @@ export default connect(({ playlist, player }) => {
   dispatch,
   handlePlayAll(data) {
     dispatch({ type: 'player/sync/list', payload: data });
+    AudioPlayOneIOS();
   },
   handlePlayOne({ id, name, author, album, banner, audio }) {
     dispatch({ type: 'player/sync/one', payload: { id, name, author, album, banner, audio } });
+    AudioPlayOneIOS();
   },
 }))(PlaylistContainer);
