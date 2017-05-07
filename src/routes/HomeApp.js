@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-19T09:54:28+08:00
+* @Last modified time: 2017-05-04T08:11:50+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -189,7 +189,7 @@ class HomeApp extends PureComponent {
       if (this.props.location.pathname === '/home/playlist' && self.scrollTop + self.clientHeight > self.scrollHeight - 20) {
         this.props.dispatch({ type: 'playlist/sync/next' });
       }
-    }, 100);
+    }, 1000);
   }
 
   onActive = (index) => {
@@ -281,7 +281,10 @@ class HomeApp extends PureComponent {
             transitionEnterTimeout={200}
             transitionLeaveTimeout={200}
           >
-            { React.cloneElement(this.props.children, { key: this.props.location.pathname }) }
+            { React.cloneElement(this.props.children, {
+              key: this.props.location.pathname,
+              // scrollRef: this.scrollContainer,
+            }) }
           </CSSTransitionGroup>
         </div>
       </div>

@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-07T01:16:04+08:00
+* @Last modified time: 2017-05-03T15:28:34+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -138,7 +138,6 @@ const getStyles = (state) => {
           overflowX: 'hidden',
           overflowY: 'auto',
           WebkitOverflowScrolling: 'touch',
-          paddingBottom: state.showList ? 64 : 0,
 
           item: {
             height: 48,
@@ -288,18 +287,8 @@ export default class Audio extends PureComponent {
       banner: PropTypes.string,
       name: PropTypes.string,
       author: PropTypes.string,
-      audio: PropTypes.string,
+      // audio: PropTypes.string.isRequired,
     })),
-
-    onPlayOne: PropTypes.func,
-
-    onPlayNext: PropTypes.func,
-
-    onPlayExpired: PropTypes.func,
-
-    onRemoveOne: PropTypes.func,
-
-    onChangeLoop: PropTypes.func,
 
     /**
      * [onCollect description]
@@ -336,22 +325,20 @@ export default class Audio extends PureComponent {
       playing: false,
       currentTime: 0,
       duration: 1,
+      // id: props.id !== -1 ? props.id : props.playlist[0].id,
+      id: props.id ? props.id : props.playlist.length > 0 ? props.playlist[0].id : null,
+      nextId: props.id !== -1 ? props.playlist.map(e => e.id).indexOf(props.id) : 0,
+      playlist: props.playlist,
 
       // 列表循环0 单曲循环1 随机播放2
-      // loopType: 0,
+      loopType: 0,
 
       showList: false,
       // showListMask: true,
-
-      // isReload: true,
     };
-
-    this.uiIsReload = true;
   }
 
   componentDidMount() {
-    if (!this.props.song.audio) this.uiIsReload = false;
-
     if (this.audio.on === undefined) {
       this.audio.on = function on(event, handler) {
         this.addEventListener(event, handler, false);
@@ -363,6 +350,40 @@ export default class Audio extends PureComponent {
       };
     }
 
+    // @TODO Proxy play
+    // this.audio.replay = this.audio.play;
+    const play = this.audio.play.bind(this.audio);
+    //
+    this.audio.play = () => {
+      play().catch((err) => {
+        console.log(err);
+        this.audio.replay();
+      });
+    };
+    //
+
+    this.audio.replay = this.audio.playnext = () => {
+      if (!this.state.id) return false;
+
+      // @TODO ios Audio play must be emitted by event, cannot be emitted by callback function
+      //  like onResolve callback, will have NotAllowedError @https://heycam.github.io/webidl/#notallowederror
+      //  Error message:
+      //  The request is not allowed by the user agent or the platform
+      //  in the current context, possibly because the user denied permission.
+      this.audio.play();
+
+      this.props.onResolve(this.state.id, (src) => {
+        this.audio.src = src;
+        // this.audio.load();
+        play();
+        // play().catch(error => alert(error));
+        // const audio = document.querySelector('audio');
+        // audio.src = src;
+        // audio.load();
+        // audio.play(error => alert(error));
+      });
+    };
+
     this
       .audio
       .on('timeupdate', this.onTimeUpdate)
@@ -372,19 +393,27 @@ export default class Audio extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.id !== this.props.id) {
-      this.onPause();
+    const ids = this.state.playlist.map(e => e.id);
+    const newPlaylist = nextProps.playlist.filter(({ id }) => ids.indexOf(id) === -1);
+
+    if (newPlaylist.length === 0) {
+      return false;
     }
 
-    if (nextProps.song.audio && this.props.song !== nextProps.song) {
-      this.onPlay();
-    }
-    // else if (this.state.isReload) {
-    //   // @TODO For Play on IOS
-    //   this.audio.play();
-    // }
+    const playlist = [
+      ...this.state.playlist,
+      ...newPlaylist,
+    ];
 
-    // this.audio.play();
+    this.setState({
+      id: nextProps.id ? nextProps.id :
+        !this.state.id && playlist.length > 0 ? playlist[0].id : this.state.id,
+      playlist,
+    }, () => {
+      if (playlist.length > 0) {
+        this.onPlayOne(this.state.id);
+      }
+    });
   }
 
   componentWillUnmount() {
@@ -396,91 +425,156 @@ export default class Audio extends PureComponent {
       .off('error', this.onError);
   }
 
+  onPlayOrPause = () => {
+    if (!this.state.playing) {
+      this.setState({ playing: true }, () => {
+        this.audio.play();
+      });
+    } else {
+      this.setState({ playing: false }, () => {
+        this.audio.pause();
+      });
+    }
+  }
+
+  onPlayNext = () => {
+    if (this.state.playlist.length <= 1) return false;
+    // const nextId = (this.state.nextId + 1) % this.state.playlist.length;
+    // const id = this.state.playlist[nextId].id;
+    // this.audio.pause();
+    // this.setState({ id, nextId, playing: true }, () => {
+    //   this.audio.playnext();
+    // });
+
+    if (this.state.loopType === 0) {
+      const nextId = (this.state.nextId + 1) % this.state.playlist.length;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
+    } else if (this.state.loopType === 1) {
+      this.setState({ playing: false, currentTime: 0 });
+    } else if (this.state.loopType === 2) {
+      const nextId = parseInt(this.state.playlist.length * Math.random(), 10) + 1;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
+    } else {
+      console.log(`Invalid loopType: ${this.state.loopType}`);
+    }
+  }
+
   onTimeUpdate = () => {
     this.setState({ currentTime: this.audio.currentTime });
   }
 
   onCanPlay = () => {
-    if (this.uiIsReload) {
-      this.setState({ duration: this.audio.duration });
-      return false;
-    }
-
-    this.setState({ playing: true, duration: this.audio.duration });
-    this.audio.play();
+    this.setState({ duration: this.audio.duration });
   }
 
   onEnd = () => {
-    this.onPlayNext();
-  }
-
-  onError = (event) => {
-    this.props.onPlayExpired(this.props.song);
-    this.props.onError(event);
-  }
-
-  onPlayOrPause = () => {
-    if (!this.state.playing) {
-      this.onPlay();
+    if (this.state.loopType === 0) {
+      const nextId = (this.state.nextId + 1) % this.state.playlist.length;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
+    } else if (this.state.loopType === 1) {
+      this.setState({ playing: false, currentTime: 0 });
+    } else if (this.state.loopType === 2) {
+      const nextId = parseInt(this.state.playlist.length * Math.random(), 10) + 1;
+      const id = this.state.playlist[nextId].id;
+      this.setState({
+        playing: true,
+        currentTime: 0,
+        id,
+        nextId,
+      }, () => {
+        this.audio.replay();
+      });
     } else {
-      this.onPause();
+      console.log(`Invalid loopType: ${this.state.loopType}`);
     }
   }
 
-  onPlayNext = () => {
-    this.onPause(() => {
-      this.setState({ duration: 0 });
-      this.props.onPlayNext();
-    });
+  onError = (event) => {
+    // @TODO replay when 403 src="@TODO"
+    if (this.state.playing) {
+      this.audio.replay();
+    }
+    this.props.onError(event);
   }
 
   onTogglePlaylist = () => {
     this.setState({ showList: !this.state.showList });
+    // @TODO uglify
+    // setTimeout(() => this.setState({ showListMask: !this.state.showListMask }), 600);
   }
 
   onChangeLoopType = () => {
-    this.props.onChangeLoop((this.props.loop + 1) % 3);
+    this.setState({ loopType: (this.state.loopType + 1) % LOOP_TYPES.length });
   }
 
   onClear = () => {
-    this.onPause(() => this.setState({ showList: false }));
-    this.props.onClear();
+    this.setState({ playlist: [], playing: false, showList: !this.state.showList }, () => {
+      this.props.onClear();
+      this.audio.pause();
+    });
   }
 
-  onPlay = () => {
-    this.setState({ playing: true }, () => {
-      this.audio.play();
-    });
-  };
-
-  onPause = (cb = () => {}) => {
-    this.audio.pause();
-    this.setState({ playing: false }, cb);
-  };
-
   onPlayOne = (id) => {
-    this.onPause(() => {
-      this.setState({ duration: 0 });
-      this.props.onPlayOne(id);
+    // stop prev
+    this.audio.pause();
+    const nextId = this.state.playlist.map(e => e.id).indexOf(id);
+    this.setState({ id, nextId, playing: true }, () => {
+      this.audio.playnext();
     });
   }
 
   onRemoveOne = (id) => {
-    if (id === this.props.id) {
-      this.onPause();
-    }
-    if (this.props.playlist.length <= 1) {
-      this.setState({ showList: false });
-    }
-    this.props.onRemoveOne(id);
+    this.setState({
+      playlist: this.state.playlist.filter(e => e.id !== id),
+      // when playlist length <= 1, then stop play
+      playing: this.state.playlist.length > 1 && this.state.id !== id,
+    }, () => {
+      if (!this.state.playing || this.state.id === id) {
+        this.audio.pause();
+      }
+      if (this.state.playlist === 0) {
+        this.props.onClear();
+      }
+    });
   }
 
   render() {
     const styles = getStyles(this.state);
-    const { onCollect } = this.props;
+    const {
+      // banner, name, author, audio,
+      onCollect,
+    } = this.props;
+    const {
+      playlist,
+    } = this.state;
+
     const {
       banner, name, author, audio,
-    } = this.props.song;
+    } = playlist.filter(({ id }) => this.state.id === id).pop() || {};
 
     return (
       <div
@@ -518,10 +612,9 @@ export default class Audio extends PureComponent {
             </div>
           </div>
           <audio
-            title={`${name} - ${author}`}
+            title={this.state.id && this.state.playlist.filter(({ id }) => (id === this.state.id)).map(({ name: n, author: a }) => (`${n} - ${a}`)).pop()}
             style={{ display: 'none' }}
             ref={ref => (this.audio = ref)}
-            src={audio}
             loop={this.state.loopType === 1/* 单曲循环 */}
           />
         </div>
@@ -543,7 +636,7 @@ export default class Audio extends PureComponent {
                 style={styles.playlist.main.header.type.name}
                 onClick={this.onChangeLoopType}
               >
-                {LOOP_TYPES[this.props.loop]}({this.props.playlist.length})
+                {LOOP_TYPES[this.state.loopType]}({this.state.playlist.length})
               </div>
             </div>
             <div style={styles.playlist.main.header.actions}>
@@ -567,19 +660,19 @@ export default class Audio extends PureComponent {
           </div>
           <ul style={styles.playlist.main.list}>
             {
-              this.props.playlist.map(e => (
+              playlist.map(e => (
                 <li
                   key={e.id}
                   style={
                     Object.assign(
-                      e.id === this.props.id ? { color: 'rgb(206, 61, 62)' } : {},
+                      e.id === this.state.id ? { color: 'rgb(206, 61, 62)' } : {},
                       styles.playlist.main.list.item,
                     )
                   }
                 >
                   <div
                     style={styles.playlist.main.list.item.info}
-                    onClick={() => this.onPlayOne(e)}
+                    onClick={() => this.onPlayOne(e.id)}
                   >
                     <div style={styles.playlist.main.list.item.info.icon} />
                     <div style={styles.playlist.main.list.item.info.name}>{e.name}</div>

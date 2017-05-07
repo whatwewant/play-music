@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-12T09:16:17+08:00
+* @Last modified time: 2017-05-06T17:28:26+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -48,9 +48,16 @@ class App extends React.PureComponent {
             }}
             show={this.props.playlist.length > 0}
             id={this.props.id}
+            song={this.props.song}
+            banner={this.props.banner}
+            loop={this.props.loop}
             playlist={this.props.playlist}
-            onResolve={this.props.resolve}
+            onPlayOne={this.props.onPlayOne}
+            onPlayNext={this.props.onPlayNext}
+            onPlayExpired={this.props.onPlayExpired}
+            onRemoveOne={this.props.onRemoveOne}
             onClear={this.handleClear}
+            onChangeLoop={this.props.onChangeLoop}
           />
         </div>
       </div>
@@ -58,23 +65,38 @@ class App extends React.PureComponent {
   }
 }
 
-export default connect((state) => {
-  const {
-    player: { id, list },
-  } = state;
+const mapStateToProps = ({ player }) => {
+  const { id, loop, list } = player;
+
+  const song = list.filter(e => e.id === id).pop() || {};
+
   return {
     id,
+    song,
+    loop,
     playlist: list,
   };
-}, dispatch => ({
-  dispatch,
-  resolve: (id, cb) => {
-    request(`http://musicapi.duapp.com/api.php?type=url&id=${id}`)
-      .then(data => data.data.data[0].url).then(
-        (src) => {
-          console.log(src);
-          cb(src);
-        },
-      ).catch(e => alert(e.toString())); // eslint-disable-line
-  },
-}))(App);
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch,
+    resolve: (id, cb) => {
+      request(`http://musicapi.duapp.com/api.php?type=url&id=${id}`)
+        .then(data => data.data.data[0].url).then(
+          (src) => {
+            console.log(src);
+            cb(src);
+          },
+        ).catch(e => alert(e.toString())); // eslint-disable-line
+    },
+    onPlayOne: ({ id, name, author, album, banner, audio }) => dispatch({ type: 'player/sync/one', payload: { id, name, author, album, banner, audio } }),
+    onPlayNext: () => dispatch({ type: 'player/sync/nextOne' }),
+    onPlayExpired: song => dispatch({ type: 'player/sync/expiredOne', payload: song }),
+    onClear: () => dispatch({ type: 'player/clear' }),
+    onRemoveOne: id => dispatch({ type: 'player/remove/one', payload: id }),
+    onChangeLoop: loop => dispatch({ type: 'player/change/loop', payload: loop }),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

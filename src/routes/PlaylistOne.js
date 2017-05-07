@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T01:48:42+08:00
+* @Last modified time: 2017-05-06T17:57:40+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -40,14 +40,6 @@ class PlaylistContainer extends PureComponent {
     }
   }
 
-  handlePlayAll = (data) => {
-    this.props.dispatch({ type: 'player/sync/list', payload: data });
-  };
-
-  handlePlayOne = (data) => {
-    this.props.dispatch({ type: 'player/sync/one', payload: data });
-  };
-
   render() {
     return (
       <div>
@@ -56,27 +48,38 @@ class PlaylistContainer extends PureComponent {
             transition: 'height 0.2s ease-out',
             height: this.props.enableAudio > 0 ? 'calc(100% - 56px)' : '100%',
           }}
+          loading={this.props.loading}
+          sid={this.props.sid}
           title={this.props.album.title}
           banner={this.props.album.banner}
           count={this.props.album.count}
           author={this.props.album.author}
           avatar={this.props.album.avatar}
           playlist={this.props.album.playlist}
-          onPlayOne={this.handlePlayOne}
-          onPlayAll={this.handlePlayAll}
+          onPlayOne={this.props.handlePlayOne}
+          onPlayAll={this.props.handlePlayAll}
         />
       </div>
     );
   }
 }
 
-export default connect((state) => {
-  const {
-    playlist: { pid, data },
-    player: { list },
-  } = state;
+export default connect(({ playlist, player }) => {
+  const { loading, pid, data } = playlist;
+  const { id, list } = player;
+
   return {
+    loading,
+    sid: id,
     album: data.filter(e => e.id === pid).pop() || {},
     enableAudio: list.length > 0,
   };
-})(PlaylistContainer);
+}, dispatch => ({
+  dispatch,
+  handlePlayAll(data) {
+    dispatch({ type: 'player/sync/list', payload: data });
+  },
+  handlePlayOne({ id, name, author, album, banner, audio }) {
+    dispatch({ type: 'player/sync/one', payload: { id, name, author, album, banner, audio } });
+  },
+}))(PlaylistContainer);

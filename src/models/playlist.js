@@ -3,11 +3,12 @@
 * @Date:   2017-03-07T23:51:03+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-11T11:24:16+08:00
+* @Last modified time: 2017-05-07T00:24:36+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
+import once from 'once';
 import * as services from '../services/playlist';
 
 export default {
@@ -15,6 +16,9 @@ export default {
   state: {
     loading: false,
     message: '',
+
+    scrollTop: 0,
+
     offset: 0,
     limit: 10,
     total: 0,
@@ -36,6 +40,9 @@ export default {
     },
     'sync/end'(state, { payload }) {
       return { ...state, loading: false, message: payload };
+    },
+    'save/scrollTop'(state, { payload }) {
+      return { ...state, scrollTop: payload };
     },
   },
   effects: {
@@ -125,10 +132,11 @@ export default {
   },
   subscriptions: {
     setup({ dispatch, history }) {
+      const first = once(() => dispatch({ type: 'sync/list' }));
       // dispatch({ type: 'sync', payload: 601039850 });
       history.listen(({ pathname }) => {
         if (['/home', '/home/popular', '/home/playlist'].includes(pathname)) {
-          dispatch({ type: 'sync/list' });
+          first();
         }
       });
     },

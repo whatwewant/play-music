@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T21:42:32+08:00
+* @Last modified time: 2017-05-07T00:32:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -30,6 +30,14 @@ const getStyles = (props) => {
       overflowX: 'hidden',
       marginBottom: 56,
       ...props.style,
+    },
+
+    loading: {
+      display: props.loading && props.playlist.length === 0 ? 'block' : 'none',
+      fontSize: 14,
+      padding: '8px 0',
+      textAlign: 'center',
+      color: 'rgba(0, 0, 0, 0.58)',
     },
 
     header: {
@@ -80,6 +88,9 @@ const getStyles = (props) => {
       position: 'absolute',
       width: '100%',
       height: '100%',
+      // display: 'flex',
+      // flexDirection: 'column',
+      backgroundColor: 'rgba(255, 255, 255, 0.18)',
     },
 
     banner: {
@@ -170,6 +181,7 @@ const getStyles = (props) => {
 
     listarea: {
       backgroundColor: '#fff',
+      // flex: 1,
 
       actions: {
         width: '100%',
@@ -294,21 +306,6 @@ export default class Playlist extends PureComponent {
   };
 
   static defaultProps = {
-    // title: '【日系】你的温柔，是我不可替代的宝物',
-    // banner: 'http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300',
-    // count: 23432,
-    // author: '过气少女小枣糕',
-    // avatar: 'http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50',
-    // playlist: [
-    //   { id: 1, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 3, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 2, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 5, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 8, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 9, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 18, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 82, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    // ],
     playlist: [],
   };
 
@@ -338,7 +335,7 @@ export default class Playlist extends PureComponent {
   };
 
   render() {
-    const { title, banner, count, author, avatar, playlist } = this.props;
+    const { sid, title, banner, count, author, avatar, playlist } = this.props;
     const styles = getStyles(this.props);
 
     return (
@@ -385,12 +382,13 @@ export default class Playlist extends PureComponent {
               </div>
               <div style={styles.listarea.actions.select} />
             </div>
+            <div style={styles.loading}>加载中...</div>
             <ul style={styles.listarea.list}>
               {
                 playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
                   <li
                     key={id}
-                    style={styles.listarea.list.item}
+                    style={Object.assign({}, styles.listarea.list.item, sid === id ? { color: 'rgb(206, 61, 62)' } : {})}
                     onClick={
                       () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
                     }
