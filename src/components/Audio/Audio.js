@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-07T01:16:04+08:00
+* @Last modified time: 2017-05-07T19:00:25+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -402,11 +402,11 @@ export default class Audio extends PureComponent {
 
   onCanPlay = () => {
     if (this.uiIsReload) {
-      this.setState({ duration: this.audio.duration });
+      this.setState({ duration: this.audio.duration, currentTime: 0 });
       return false;
     }
 
-    this.setState({ playing: true, duration: this.audio.duration });
+    this.setState({ playing: true, duration: this.audio.duration, currentTime: 0 });
     this.audio.play();
   }
 
@@ -458,10 +458,14 @@ export default class Audio extends PureComponent {
     this.setState({ playing: false }, cb);
   };
 
-  onPlayOne = (id) => {
+  onPlayOne = (song) => {
+    if (this.props.id === song.id) {
+      return this.onPlay();
+    }
+
     this.onPause(() => {
       this.setState({ duration: 0 });
-      this.props.onPlayOne(id);
+      this.props.onPlayOne(song);
     });
   }
 
@@ -472,7 +476,7 @@ export default class Audio extends PureComponent {
     if (this.props.playlist.length <= 1) {
       this.setState({ showList: false });
     }
-    this.props.onRemoveOne(id);
+    this.props.onRemoveOne(id, this.props.id === id);
   }
 
   render() {

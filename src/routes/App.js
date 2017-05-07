@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-06T17:28:26+08:00
+* @Last modified time: 2017-05-07T19:02:35+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -94,7 +94,10 @@ const mapDispatchToProps = (dispatch) => {
     onPlayNext: () => dispatch({ type: 'player/sync/nextOne' }),
     onPlayExpired: song => dispatch({ type: 'player/sync/expiredOne', payload: song }),
     onClear: () => dispatch({ type: 'player/clear' }),
-    onRemoveOne: id => dispatch({ type: 'player/remove/one', payload: id }),
+    onRemoveOne: (id, isPlayingId) => {
+      dispatch({ type: 'player/remove/one', payload: id });
+      if (isPlayingId) dispatch({ type: 'player/sync/nextOne' });
+    },
     onChangeLoop: loop => dispatch({ type: 'player/change/loop', payload: loop }),
   };
 };
