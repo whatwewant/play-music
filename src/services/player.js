@@ -11,7 +11,7 @@
 import request from '../utils/request';
 
 export async function fetchOne(id) {
-  const url = `http://musicapi.duapp.com/api.php?type=url&id=${id}`;
+  const url = `https://musicapi.duapp.com/api.php?type=url&id=${id}`;
   const data = await request(url);
   const src = data.data.data[0].url;
   return src;
