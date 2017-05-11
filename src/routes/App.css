@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T11:32:27+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-11T00:00:47+08:00
+* @Last modified time: 2017-05-11T19:50:27+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -47,6 +47,8 @@
     display: block;
     position: relative;
     left: 300px;
+    /*width: 128px;*/
+    /*box-shadow: 4px 4px 8px rgba(0, 0, 0, .28);*/
   }
 
   *::-webkit-scrollbar {
@@ -65,5 +67,6 @@
     margin-top: -50%;*/
     margin: 0;
     /*overflow: hidden;*/
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, .28);
   }
 }
