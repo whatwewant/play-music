@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:5/2/2017, 9:50:51 AM
+#ver:5/12/2017, 1:06:59 AM
 #plugin:4.7.0
 
 CACHE:
@@ -36,12 +36,12 @@ CACHE:
 ./index.js
 ./3.radio.js
 ./4.home.js
-./5.playlistOne.js
-./6.playlists.js
+./5.playlists.js
+./6.playlistOne.js
 ./7.rage.js
 ./index.css
-./package.json
 ./
+./package.json
 
 NETWORK:
 *
