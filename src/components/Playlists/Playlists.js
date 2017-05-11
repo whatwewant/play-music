@@ -3,13 +3,15 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-11T13:16:59+08:00
+* @Last modified time: 2017-05-11T20:37:16+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PureComponent } from 'react';
 import { Link } from 'dva/router';
+
+import LazyImage from '../LazyImage';
 
 import styles from './Playlists.less';
 
@@ -30,7 +32,7 @@ export default class Popular extends PureComponent {
             this.props.data.map(e => (
               <li key={e.id} className={styles.item}>
                 <Link style={{ color: '#000', textDecoration: 'none' }} to={`/playlist/${e.id}`} onClick={() => this.props.onLoadPlaylist(e)}>
-                  <img role="presentation" src={e.banner} />
+                  <LazyImage role="presentation" src={e.banner} />
                   <div className={styles.listens}>{e.count}</div>
                   <div className={styles.desc}>{e.title}</div>
                 </Link>

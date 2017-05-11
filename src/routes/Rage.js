@@ -3,7 +3,7 @@
 * @Date:   2017-04-07T19:43:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T18:14:15+08:00
+* @Last modified time: 2017-05-11T20:28:26+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,6 +11,8 @@
 import React from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
+
+import LazyImage from '../components/LazyImage';
 
 import styles from './Rage.less';
 
@@ -40,7 +42,7 @@ function Rage({ onLoadPlaylist, officalList, globalList }) {
               >
                 <li className={styles.officalListItem}>
                   <div className={styles.officalListItemBanner}>
-                    <img role="presentation" src={coverImgUrl} />
+                    <LazyImage role="presentation" src={coverImgUrl} />
                     <div className={styles.message}>{updateFrequency}</div>
                   </div>
                   <ul className={styles.officalListItemTop3}>
@@ -81,7 +83,7 @@ function Rage({ onLoadPlaylist, officalList, globalList }) {
               >
                 <li key={id}>
                   <div className={styles.globalListItemBanner}>
-                    <img role="presentation" src={coverImgUrl} />
+                    <LazyImage role="presentation" src={coverImgUrl} />
                     <div className={styles.message}>{updateFrequency}</div>
                   </div>
                   <div className={styles.globalListItemName}>{name}</div>

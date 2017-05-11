@@ -3,7 +3,7 @@
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-04-10T19:06:24+08:00
+* @Last modified time: 2017-05-11T21:26:11+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -12,6 +12,8 @@ import React, { PureComponent } from 'react';
 import { Link } from 'dva/router';
 
 import { Carousel } from 'antd-mobile';
+
+import LazyImage from '../LazyImage';
 
 import styles from './Popular.less';
 
@@ -32,8 +34,8 @@ export default class Popular extends PureComponent {
           style={{ paddingRight: 4 }}
         >
           {this.props.banners.map(({ banner: ii }, index) => (
-            <a key={index} style={{ display: 'inline-block', width: '100%', height: 172 }} href="#/">
-              <img role="presentation" style={{ width: '100%' }} src={ii} />
+            <a key={index} style={{ display: 'inline-block', width: '100%', height: 141 }} href="#/">
+              <img role="presentation" style={{ width: '100%', height: '100%' }} src={ii} />
             </a>
           ))}
         </Carousel>
@@ -49,7 +51,7 @@ export default class Popular extends PureComponent {
             this.props.data.map(e => (
               <li key={e.id} className={styles.item}>
                 <Link style={{ color: '#000', textDecoration: 'none' }} to={`/playlist/${e.id}`} onClick={() => this.props.onLoadPlaylist(e)}>
-                  <img role="presentation" src={e.banner} />
+                  <LazyImage role="presentation" src={e.banner} />
                   <div className={styles.listens}>{e.count}</div>
                   <div className={styles.desc}>{e.title}</div>
                 </Link>
