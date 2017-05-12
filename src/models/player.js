@@ -3,7 +3,7 @@
 * @Date:   2017-03-08T10:49:56+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-07T13:17:06+08:00
+* @Last modified time: 2017-05-12T14:11:25+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -96,7 +96,9 @@ export default {
       if (loop === 0) {
         nextIndex = (index + 1) % list.length;
       } else if (loop === 1) {
-        nextIndex = index;
+        // @TODO when it is single loop, play next action will follow list loop
+        // nextIndex = index;
+        nextIndex = (index + 1) % list.length;
       } else if (loop === 2) {
         nextIndex = (parseInt(list.length * Math.random(), 10) + 1) % list.length;
       }

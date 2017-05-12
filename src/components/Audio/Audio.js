@@ -3,7 +3,7 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-07T19:00:25+08:00
+* @Last modified time: 2017-05-12T14:12:06+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -428,6 +428,11 @@ export default class Audio extends PureComponent {
   }
 
   onPlayNext = () => {
+    // // @TODO
+    // if (this.props.loop === 1) {
+    //   return false;
+    // }
+
     this.onPause(() => {
       this.setState({ duration: 0 });
       this.props.onPlayNext();
