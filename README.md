@@ -3,7 +3,7 @@
 @Date:   2017-05-02T10:11:02+08:00
 @Email:  uniquecolesmith@gmail.com
 @Last modified by:   eason
-@Last modified time: 2017-05-02T17:38:34+08:00
+@Last modified time: 2017-05-14T00:44:28+08:00
 @License: MIT
 @Copyright: Eason(uniquecolesmith@gmail.com)
 -->
@@ -13,19 +13,17 @@
 Simple mobile netease music powered by React + [Dva](https://github.com/dvajs/dva) + [Roadhog](https://github.com/sorrycc/roadhog)
 
 ### Demo
-* [Demo](moeover.com/play-music/)![]()
+* [Demo](moeover.com/play-music/)
 * ![QR](http://moeover.com/images/music-app/qr.jpg)
 
 ### Overview
 
-<div style="width: 100%; display: flex; flex-wrap: wrap;">
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/1.home.jpg" />
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/2.playlist.jpg" />
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/3.rank.jpg" />
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.1.jpg" />
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.2.jpg" />
-  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.3.jpg" />
-</div>
+  <image width="320px" src="http://moeover.com/images/music-app/1.home.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/2.playlist.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/3.rank.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.1.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.2.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.3.jpg" />
 
 ### Knowledgemap
 - [Dva](https://github.com/dvajs/dva):
