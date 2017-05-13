@@ -3,19 +3,20 @@
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-25T00:22:35+08:00
+* @Last modified time: 2017-05-07T11:52:12+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PropTypes, PureComponent } from 'react';
 import { connect } from 'dva';
+import once from 'once';
 
 // import * as playlistService from '../services/playlist';
 import Playlist from '../components/Playlist';
-import Audio from '../components/Audio';
 
-import request from '../utils/request';
+// @TODO Hack: https://www.douban.com/note/527250492/
+const AudioPlayOneIOS = once(() => document.querySelector('audio').play()); // eslint-disable-line
 
 class PlaylistContainer extends PureComponent {
   static contextTypes = {
@@ -43,68 +44,48 @@ class PlaylistContainer extends PureComponent {
     }
   }
 
-  handlePlayAll = (data) => {
-    this.props.dispatch({ type: 'player/sync/list', payload: data });
-  };
-
-  handlePlayOne = (data) => {
-    this.props.dispatch({ type: 'player/sync/one', payload: data });
-  };
-
-  handleClear = () => {
-    this.props.dispatch({ type: 'player/clear' });
-  }
-
-  resolve = (id, cb) => {
-    request(`http://musicapi.duapp.com/api.php?type=url&id=${id}`)
-      .then(data => data.data.data[0].url).then(
-        (src) => {
-          console.log(src);
-          cb(src);
-        },
-      );
-  }
-
   render() {
     return (
       <div>
         <Playlist
           style={{
             transition: 'height 0.2s ease-out',
-            height: this.props.playlist.length > 0 ? 'calc(100% - 56px)' : '100%',
+            height: this.props.enableAudio > 0 ? 'calc(100% - 56px)' : '100%',
           }}
+          loading={this.props.loading}
+          sid={this.props.sid}
           title={this.props.album.title}
           banner={this.props.album.banner}
           count={this.props.album.count}
           author={this.props.album.author}
           avatar={this.props.album.avatar}
           playlist={this.props.album.playlist}
-          onPlayOne={this.handlePlayOne}
-          onPlayAll={this.handlePlayAll}
-        />
-        <Audio
-          style={{
-            transition: 'transform 0.3s ease-in',
-            transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
-          }}
-          id={this.props.id}
-          playlist={this.props.playlist}
-          onResolve={this.resolve}
-          onClear={this.handleClear}
+          onPlayOne={this.props.handlePlayOne}
+          onPlayAll={this.props.handlePlayAll}
         />
       </div>
     );
   }
 }
 
-export default connect((state) => {
-  const {
-    playlist: { pid, data },
-    player: { id, list },
-  } = state;
+export default connect(({ playlist, player }) => {
+  const { loading, pid, data } = playlist;
+  const { id, list } = player;
+
   return {
-    id,
+    loading,
+    sid: id,
     album: data.filter(e => e.id === pid).pop() || {},
-    playlist: list,
+    enableAudio: list.length > 0,
   };
-})(PlaylistContainer);
+}, dispatch => ({
+  dispatch,
+  handlePlayAll(data) {
+    dispatch({ type: 'player/sync/list', payload: data });
+    AudioPlayOneIOS();
+  },
+  handlePlayOne({ id, name, author, album, banner, audio }) {
+    dispatch({ type: 'player/sync/one', payload: { id, name, author, album, banner, audio } });
+    AudioPlayOneIOS();
+  },
+}))(PlaylistContainer);

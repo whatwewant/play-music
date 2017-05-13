@@ -3,7 +3,7 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T02:20:30+08:00
+* @Last modified time: 2017-05-07T00:32:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -20,19 +20,29 @@ import styleClasses from './Playlist.less';
 const getStyles = (props) => {
   return {
     root: {
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       width: '100%',
       height: '100%',
-      overflowY: 'auto',
+      // WebkitOverflowScrolling: 'touch',
+      overflowY: 'hidden',
+      overflowX: 'hidden',
       marginBottom: 56,
       ...props.style,
     },
 
+    loading: {
+      display: props.loading && props.playlist.length === 0 ? 'block' : 'none',
+      fontSize: 14,
+      padding: '8px 0',
+      textAlign: 'center',
+      color: 'rgba(0, 0, 0, 0.58)',
+    },
+
     header: {
       clear: 'fixed',
-      position: 'fixed',
+      position: 'absolute',
       top: 0,
       left: 0,
       width: '100%',
@@ -69,6 +79,18 @@ const getStyles = (props) => {
 
       search: {
       },
+    },
+
+    wrapper: {
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      WebkitOverflowScrolling: 'touch',
+      position: 'absolute',
+      width: '100%',
+      height: '100%',
+      // display: 'flex',
+      // flexDirection: 'column',
+      backgroundColor: 'rgba(255, 255, 255, 0.18)',
     },
 
     banner: {
@@ -159,6 +181,7 @@ const getStyles = (props) => {
 
     listarea: {
       backgroundColor: '#fff',
+      // flex: 1,
 
       actions: {
         width: '100%',
@@ -246,6 +269,7 @@ const getStyles = (props) => {
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
+                marginTop: 2,
 
                 name: {},
 
@@ -282,21 +306,6 @@ export default class Playlist extends PureComponent {
   };
 
   static defaultProps = {
-    // title: '【日系】你的温柔，是我不可替代的宝物',
-    // banner: 'http://p4.music.126.net/HuCmHgP3zG8azl-Emm9BUg==/109951162861694134.jpg?param=300y300',
-    // count: 23432,
-    // author: '过气少女小枣糕',
-    // avatar: 'http://p3.music.126.net/uO4qbZT6e4dTV2wufj6b_A==/109951162861655489.jpg?param=50y50',
-    // playlist: [
-    //   { id: 1, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 3, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 2, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 5, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 8, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 9, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 18, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    //   { id: 82, name: '十年', author: '陈奕迅', album: '黑白灰' },
-    // ],
     playlist: [],
   };
 
@@ -309,13 +318,15 @@ export default class Playlist extends PureComponent {
     this
       .scrollbar
       .on('scroll', (event) => {
-        this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
+        setTimeout(() => {
+          this.headerBar.style.backgroundColor = `rgba(206, 61, 62, ${event.target.scrollTop / 140})`;
 
-        if (event.target.scrollTop >= 140) {
-          this.titleBar.innerText = this.props.title;
-        } else {
-          this.titleBar.innerText = '歌单';
-        }
+          if (event.target.scrollTop >= 140) {
+            this.titleBar.innerText = this.props.title;
+          } else {
+            this.titleBar.innerText = '歌单';
+          }
+        }, 100);
       });
   }
 
@@ -324,12 +335,11 @@ export default class Playlist extends PureComponent {
   };
 
   render() {
-    const { title, banner, count, author, avatar, playlist } = this.props;
+    const { sid, title, banner, count, author, avatar, playlist } = this.props;
     const styles = getStyles(this.props);
 
     return (
       <div
-        ref={(ref) => { this.scrollbar = ref; }}
         style={styles.root}
         className={styleClasses.normal}
       >
@@ -342,67 +352,70 @@ export default class Playlist extends PureComponent {
             <img role="presentation" style={styles.header.back.img} src={IconSearch} />
           </div>
         </div>
-        <div style={styles.banner}>
-          <div style={styles.banner.mask} />
-          <div style={styles.banner.container}>
-            <div style={styles.banner.container.listenInfo}>
-              <i style={styles.banner.container.listenInfo.icon} />
-              <span style={styles.banner.container.listenInfo.count}>{count}</span>
+        <div style={styles.wrapper} ref={(ref) => { this.scrollbar = ref; }}>
+          <div style={styles.banner}>
+            <div style={styles.banner.mask} />
+            <div style={styles.banner.container}>
+              <div style={styles.banner.container.listenInfo}>
+                <i style={styles.banner.container.listenInfo.icon} />
+                <span style={styles.banner.container.listenInfo.count}>{count}</span>
+              </div>
+              <img style={styles.banner.container} role="presentation" src={banner} />
             </div>
-            <img style={styles.banner.container} role="presentation" src={banner} />
-          </div>
-          <div style={styles.banner.playlistInfo}>
-            <div style={styles.banner.playlistInfo.title}>{ title }</div>
-            <div style={styles.banner.playlistInfo.author}>
-              <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src={avatar} />
-              <span style={styles.banner.playlistInfo.author.name}>{author}</span>
+            <div style={styles.banner.playlistInfo}>
+              <div style={styles.banner.playlistInfo.title}>{ title }</div>
+              <div style={styles.banner.playlistInfo.author}>
+                <img style={styles.banner.playlistInfo.author.avatar} role="presentation" src={avatar} />
+                <span style={styles.banner.playlistInfo.author.name}>{author}</span>
+              </div>
             </div>
           </div>
-        </div>
-        <div style={styles.listarea}>
-          <div
-            style={styles.listarea.actions}
-            onClick={() => this.props.onPlayAll(playlist)}
-          >
-            <div style={styles.listarea.actions.playall}>
-              <div style={styles.listarea.actions.playall.icon} />
-              <span style={styles.listarea.actions.playall.title}>播放全部</span>
-              <span style={styles.listarea.actions.playall.count}>(共{playlist.length}首)</span>
+          <div style={styles.listarea}>
+            <div
+              style={styles.listarea.actions}
+              onClick={() => this.props.onPlayAll(playlist)}
+            >
+              <div style={styles.listarea.actions.playall}>
+                <div style={styles.listarea.actions.playall.icon} />
+                <span style={styles.listarea.actions.playall.title}>播放全部</span>
+                <span style={styles.listarea.actions.playall.count}>(共{playlist.length}首)</span>
+              </div>
+              <div style={styles.listarea.actions.select} />
             </div>
-            <div style={styles.listarea.actions.select} />
-          </div>
-          <ul style={styles.listarea.list}>
-            {
-              playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
-                <li
-                  key={id}
-                  style={styles.listarea.list.item}
-                  onClick={
-                    () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
-                  }
-                >
-                  <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
-                  <div style={styles.listarea.list.item.info_action}>
-                    <div style={styles.listarea.list.item.info_action.info}>
-                      <div style={styles.listarea.list.item.info_action.info.name}>{ name }</div>
-                      <div style={styles.listarea.list.item.info_action.info.author}>
-                        <span style={styles.listarea.list.item.info_action.info.author.name}>
-                          { sauthor }
-                        </span>
-                        <span style={styles.listarea.list.item.info_action.info.author.separator}>
-                          -
-                        </span>
-                        <span style={styles.listarea.list.item.info_action.info.author.album}>
-                          { album }
-                        </span>
+            <div style={styles.loading}>加载中...</div>
+            <ul style={styles.listarea.list}>
+              {
+                playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
+                  <li
+                    key={id}
+                    style={Object.assign({}, styles.listarea.list.item, sid === id ? { color: 'rgb(206, 61, 62)' } : {})}
+                    onClick={
+                      () => this.props.onPlayOne({ id, name, author: sauthor, album, ...other })
+                    }
+                  >
+                    <div style={styles.listarea.list.item.sequence}>{index + 1}</div>
+                    <div style={styles.listarea.list.item.info_action}>
+                      <div style={styles.listarea.list.item.info_action.info}>
+                        <div style={styles.listarea.list.item.info_action.info.name}>{ name }</div>
+                        <div style={styles.listarea.list.item.info_action.info.author}>
+                          <span style={styles.listarea.list.item.info_action.info.author.name}>
+                            { sauthor }
+                          </span>
+                          <span style={styles.listarea.list.item.info_action.info.author.separator}>
+                            -
+                          </span>
+                          <span style={styles.listarea.list.item.info_action.info.author.album}>
+                            { album }
+                          </span>
+                        </div>
                       </div>
+                      <div style={styles.listarea.list.item.info_action.action} />
                     </div>
-                    <div style={styles.listarea.list.item.info_action.action} />
-                  </div>
-                </li>
-              ))
-            }
-          </ul>
+                  </li>
+                ))
+              }
+            </ul>
+          </div>
         </div>
       </div>
     );

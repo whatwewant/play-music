@@ -3,18 +3,18 @@
 * @Date:   2017-03-07T20:10:18+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T21:59:52+08:00
+* @Last modified time: 2017-04-11T11:14:27+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import request from '../utils/request';
 
-const prefix = 'https://api.imjad.cn';
-const path = '/cloudmusic/';
+// const prefix = 'https://api.imjad.cn';
+// const path = '/cloudmusic/';
 
 export async function fetchList(id = 615180303) {
-  const url = `${prefix}${path}?type=playlist&id=${id}`;
+  const url = `https://netease-music.herokuapp.com/v1/playlist/detail?id=${id}`;
 
   const { data: { playlist } } = await request(url);
 
@@ -35,8 +35,8 @@ export async function fetchList(id = 615180303) {
   };
 }
 
-export async function fetchTypeList({ type = 'topPlayList', cat = '全部', offset = 0, limit = 24 } = {}) {
-  const url = `http://musicapi.duapp.com/api.php?type=${type}&cat=${cat}&offset=${offset}&limit=${limit}`;
+export async function fetchTypeList({ cat = '全部', offset = 0, limit = 24 } = {}) {
+  const url = `https://netease-music.herokuapp.com/v1/top/playlist?type=${cat}&offset=${offset}&limit=${limit}`;
 
   const { data: { total, playlists } } = await request(url);
 

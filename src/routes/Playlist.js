@@ -3,30 +3,60 @@
 * @Date:   2017-03-24T20:12:25+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-24T20:28:46+08:00
+* @Last modified time: 2017-05-07T00:22:03+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 
 import Playlists from '../components/Playlists';
 
-function PlaylistsPage({ dispatch, playlists }) {
-  const handleLoadPlaylist = (data) => {
-    dispatch({ type: 'playlist/sync/one', payload: data.id });
-  };
+class PlaylistsPage extends PureComponent {
 
-  return (
-    <Playlists
-      data={playlists}
-      onLoadPlaylist={handleLoadPlaylist}
-    />
-  );
+  componentDidMount() {
+    // if (this.props.scrollRef) {
+    //   console.log(this.props.scrollRef.scrollTop);
+    //   this.props.scrollRef.scrollTop = this.props.scrollTop;
+    // }
+  }
+
+  componentWillUnmount() {
+    // @TODO 531 - loading height
+    // console.log('unmount');
+    // if (this.props.scrollRef) {
+    //   this.props.handleSaveScrollTop(this.props.scrollRef.scrollTop - 531);
+    //   this.props.scrollRef.scrollTop = 0;
+    // }
+  }
+
+  render() {
+    const { handleLoadPlaylist, pid, loadingPid, loading, playlists } = this.props;
+    return (
+      <Playlists
+        pid={pid}
+        loadingPid={loadingPid}
+        loading={loading}
+        data={playlists}
+        onLoadPlaylist={handleLoadPlaylist}
+      />
+    );
+  }
 }
 
-export default connect((state) => {
+export default connect(({ playlist }) => {
   return {
-    playlists: state.playlist.data,
+    pid: playlist.pid,
+    loadingPid: playlist.loadingPid,
+    loading: playlist.loading,
+    scrollTop: playlist.scrollTop,
+    playlists: playlist.data,
   };
-})(PlaylistsPage);
+}, dispatch => ({
+  handleLoadPlaylist(data) {
+    dispatch({ type: 'playlist/sync/one', payload: data.id });
+  },
+  handleSaveScrollTop(scrollTop) {
+    dispatch({ type: 'playlist/save/scrollTop', payload: scrollTop });
+  },
+}))(PlaylistsPage);

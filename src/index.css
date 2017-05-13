@@ -3,7 +3,7 @@
 * @Date:   2017-01-05T06:16:19+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-03-23T15:40:04+08:00
+* @Last modified time: 2017-03-31T15:29:46+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -15,6 +15,10 @@ html {
 html, body, :global(#root) {
   height: 100%;
   font-family: Roboto,Lato,sans-serif;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 * {

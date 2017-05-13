@@ -1,0 +1,46 @@
+/**
+* @Author: eason
+* @Date:   2017-03-14T09:40:30+08:00
+* @Email:  uniquecolesmith@gmail.com
+* @Last modified by:   eason
+* @Last modified time: 2017-03-26T23:33:14+08:00
+* @License: MIT
+* @Copyright: Eason(uniquecolesmith@gmail.com)
+*/
+
+.nav {
+  color: #666;
+}
+
+.navActive {
+  color: #ce3d3e;
+}
+
+.navBar {
+  /*transform: translate3d(100%, 0, 0);*/
+}
+
+:global {
+  .page-enter {
+      z-index: 1024;
+      opacity: 0.01;
+      transform: translate3d(100%, 0, 0);
+      transition: all .2s ease;
+
+      &.page-enter-active {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+      }
+  }
+
+  .page-leave {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      transition: all .2s ease;
+
+      &.page-leave-active {
+        opacity: 0.01;
+        transform: translate3d(100%, 0, 0);
+      }
+  }
+}
