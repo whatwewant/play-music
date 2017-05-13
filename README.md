@@ -13,11 +13,19 @@
 Simple mobile netease music powered by React + [Dva](https://github.com/dvajs/dva) + [Roadhog](https://github.com/sorrycc/roadhog)
 
 ### Demo
-* [Demo](moeover.com/play-music/)
-* ![]()
+* [Demo](moeover.com/play-music/)![]()
+* ![QR](http://moeover.com/images/music-app/qr.jpg)
 
 ### Overview
-*
+
+<div style="width: 100%; display: flex; flex-wrap: wrap;">
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/1.home.jpg" />
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/2.playlist.jpg" />
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/3.rank.jpg" />
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.1.jpg" />
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.2.jpg" />
+  <img style="width: 375px; margin: 0 8px 8px 0;" src="http://moeover.com/images/music-app/4.playlist.detail.3.jpg" />
+</div>
 
 ### Knowledgemap
 - [Dva](https://github.com/dvajs/dva):
