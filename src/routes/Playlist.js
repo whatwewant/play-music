@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-24T20:12:25+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-07T00:22:03+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-22T01:47:55+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -44,13 +44,14 @@ class PlaylistsPage extends PureComponent {
   }
 }
 
-export default connect(({ playlist }) => {
+export default connect(({ playlist, store }) => {
+  const { playlists } = store;
   return {
     pid: playlist.pid,
     loadingPid: playlist.loadingPid,
     loading: playlist.loading,
     scrollTop: playlist.scrollTop,
-    playlists: playlist.data,
+    playlists: playlist.data.map(pid => playlists.filter(e => e.id === pid).pop()),
   };
 }, dispatch => ({
   handleLoadPlaylist(data) {

@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-07T19:02:35+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-21T22:58:08+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -65,16 +65,17 @@ class App extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ player }) => {
-  const { id, loop, list } = player;
+const mapStateToProps = ({ store, player }) => {
+  const { id, loop, tracks } = player;
+  const { songs } = store;
 
-  const song = list.filter(e => e.id === id).pop() || {};
+  const song = songs.filter(e => e.id === id).pop() || {};
 
   return {
     id,
     song,
     loop,
-    playlist: list,
+    playlist: tracks.map(tid => songs.filter(e => e.id === tid).pop()),
   };
 };
 

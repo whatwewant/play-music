@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-08T10:49:56+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-12T14:11:25+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-21T23:33:52+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -14,52 +14,58 @@ export default {
   state: {
     id: null,
     loop: 0,
-    list: [],
+    tracks: [],
   },
   reducers: {
-    save(state, { payload }) {
-      return { ...state, list: payload };
+    save({ tracks, ...others }, { payload }) {
+      const nTracks = payload.filter(id => tracks.indexOf(id) === -1);
+      return { ...others, tracks: nTracks.length === 0 ? tracks : [...tracks, ...nTracks] };
     },
     'save/one'(state, { payload }) {
-      return { ...state, list: payload };
+      return { ...state, tracks: payload };
     },
     'update/one'(state, { payload }) {
-      return { ...state, list: state.list.map(e => (e.id === payload.id ? payload : e)) };
+      return { ...state, tracks: state.tracks.map(e => (e.id === payload.id ? payload : e)) };
     },
     'remove/one'(state, { payload }) {
       return {
         ...state,
         id: state.id === payload ? null : state.id,
-        list: state.list.filter(({ id }) => id !== payload),
+        tracks: state.tracks.filter(id => id !== payload),
       };
     },
-    'save/id'(state, { payload }) {
-      return { ...state, id: payload };
+    'save/id'({ tracks, ...others }, { payload }) {
+      return {
+        ...others,
+        id: payload,
+        tracks: tracks.indexOf(payload) !== -1 ? tracks : [...tracks, payload],
+      };
     },
     'change/loop'(state, { payload }) {
       return { ...state, loop: payload };
     },
     clear(state) {
-      return { ...state, id: null, list: [] };
+      return { ...state, id: null, tracks: [] };
     },
   },
   effects: {
-    *'sync/list'({ payload: data }, { select, put }) {
-      const list = yield select(state => state.player.list);
-      const ids = list.map(e => e.id);
+    *'sync/list'({ payload }, { select, put }) {
+      const tracks = yield select(state => state.player.tracks);
+      // const ids = tracks.map(e => e.id);
 
-      const mdata = data.filter(e => ids.indexOf(e.id) === -1);
+      const data = payload.filter(e => tracks.indexOf(e.id) === -1);
 
-      if (mdata.length === 0) {
+      if (data.length === 0) {
         return false;
       }
 
       yield put({
         type: 'save',
-        payload: list.concat(mdata),
+        // payload: tracks.concat(mdata),
+        payload: data.map(e => e.id),
       });
 
-      if (list.length === 0) {
+      if (tracks.length === 0) {
         yield put({ type: 'sync/one', payload: data[0] });
       }
     },
@@ -68,49 +74,56 @@ export default {
 
       if (audio) return false;
 
-      const list = yield select(state => state.player.list);
+      const tracks = yield select(state => state.store.songs);
 
-      const one = list.filter(e => e.id === id).pop();
+      const one = tracks.filter(e => e.id === id).pop();
       if (one && one.audio) {
         return false;
       }
 
       if (!one) {
+        // yield put({
+        //   type: 'save/one',
+        //   payload: tracks.concat({ id, name, author, album, banner }),
+        // });
         yield put({
-          type: 'save/one',
-          payload: list.concat({ id, name, author, album, banner }),
+          type: 'store/songs/save',
+          payload: [{ id, name, author, album, banner }],
         });
       }
 
-      const src = yield call(services.fetchOne, id);
+      const nAudio = yield call(services.fetchOne, id);
       yield put({
-        type: 'update/one',
-        payload: { id, name, author, album, banner, audio: src },
+        type: 'store/songs/update/one',
+        payload: { id, name, author, album, banner, audio: nAudio },
       });
     },
     *'sync/nextOne'({ payload }, { select, put }) {
-      const { id, loop, list } = yield select(state => state.player);
-      const index = list.map(e => e.id).indexOf(id);
+      const { id, loop, tracks } = yield select(state => state.player);
+      const index = tracks.indexOf(id);
 
       let nextIndex;
       if (loop === 0) {
-        nextIndex = (index + 1) % list.length;
+        nextIndex = (index + 1) % tracks.length;
       } else if (loop === 1) {
         // @TODO when it is single loop, play next action will follow list loop
         // nextIndex = index;
-        nextIndex = (index + 1) % list.length;
+        nextIndex = (index + 1) % tracks.length;
       } else if (loop === 2) {
-        nextIndex = (parseInt(list.length * Math.random(), 10) + 1) % list.length;
+        nextIndex = (parseInt(tracks.length * Math.random(), 10) + 1) % tracks.length;
       }
 
-      const currentOne = list[nextIndex];
+      const nextId = tracks[nextIndex];
+      const songs = yield select(state => state.store.songs);
+      const currentOne = songs.filter(e => e.id === nextId).pop();
+
       yield put({ type: 'sync/one', payload: currentOne });
     },
     *'sync/expiredOne'({ payload: song }, { call, put }) {
       yield put({ type: 'save/id', payload: song.id });
-      const src = yield call(services.fetchOne, song.id);
+      const nAudio = yield call(services.fetchOne, song.id);
 
-      yield put({ type: 'update/one', payload: { ...song, audio: src } });
+      yield put({ type: 'store/songs/update/one', payload: { ...song, audio: nAudio } });
     },
   },
   subscriptions: {},

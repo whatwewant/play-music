@@ -28,6 +28,8 @@ function createWindow() {
     height: 667,
     resizable: false,
     maximizable: false,
+    // frame: false,
+    // titleBarStyle: 'hidden-inset',
   });
 
   // Remove menu bar completely

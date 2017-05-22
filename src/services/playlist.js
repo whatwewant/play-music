@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-07T20:10:18+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-04-11T11:14:27+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-22T00:28:11+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -21,11 +21,11 @@ export async function fetchList(id = 615180303) {
   return {
     id,
     title: playlist.name,
-    banner: `${playlist.creator.avatarUrl}?param=200y200`,
+    // banner: `${playlist.creator.avatarUrl}?param=200y200`,
     count: playlist.playCount,
     author: playlist.creator.nickname,
     avatar: `${playlist.creator.avatarUrl}?param=200y200`,
-    playlist: playlist.tracks.map(e => ({
+    tracks: playlist.tracks.map(e => ({
       id: e.id,
       name: e.name,
       author: e.ar[0] ? e.ar[0].name : '未知',

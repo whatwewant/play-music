@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-07T11:52:12+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-22T01:49:42+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -31,18 +31,23 @@ class PlaylistContainer extends PureComponent {
   //   avatar: '',
   //   playlist: [],
   // };
-
-  componentDidMount() {
-    // console.log(this.props);
-    // playlistService.fetchList(this.props.params.id).then(
-    //   (data) => {
-    //     this.setState({ ...data });
-    //   },
-    // );
-    if (Object.keys(this.props.album).length === 0) {
-      this.props.dispatch({ type: 'playlist/sync/one', payload: this.props.params.id });
+  componentWillMount() {
+    if (!this.props.album.id && !this.props.album.tracks.length) {
+      this.props.dispatch({ type: 'playlist/sync/one', payload: parseInt(this.props.params.id, 10) });
     }
   }
+
+  // componentDidMount() {
+  //   // console.log(this.props);
+  //   // playlistService.fetchList(this.props.params.id).then(
+  //   //   (data) => {
+  //   //     this.setState({ ...data });
+  //   //   },
+  //   // );
+  //   if (Object.keys(this.props.album).length === 0) {
+  //     this.props.dispatch({ type: 'playlist/sync/one', payload: this.props.params.id });
+  //   }
+  // }
 
   render() {
     return (
@@ -59,7 +64,7 @@ class PlaylistContainer extends PureComponent {
           count={this.props.album.count}
           author={this.props.album.author}
           avatar={this.props.album.avatar}
-          playlist={this.props.album.playlist}
+          playlist={this.props.album.tracks}
           onPlayOne={this.props.handlePlayOne}
           onPlayAll={this.props.handlePlayAll}
         />
@@ -68,15 +73,27 @@ class PlaylistContainer extends PureComponent {
   }
 }
 
-export default connect(({ playlist, player }) => {
-  const { loading, pid, data } = playlist;
-  const { id, list } = player;
+export default connect(({ store, playlist, player }) => {
+  const { playlists, songs } = store;
+  const { loading, pid } = playlist;
+  const { id, tracks: pTracks } = player;
+
+  const album = playlists.filter(e => e.id === pid).pop() || {};
+  if (!album.banner) {
+    album.banner = album.avatar;
+  }
+
+  const tracks = !album.tracks
+    ? [] : album.tracks.map(tid => songs.filter(e => e.id === tid).pop());
 
   return {
     loading,
     sid: id,
-    album: data.filter(e => e.id === pid).pop() || {},
-    enableAudio: list.length > 0,
+    album: {
+      ...album,
+      tracks,
+    },
+    enableAudio: pTracks.length > 0,
   };
 }, dispatch => ({
   dispatch,
