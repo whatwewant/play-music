@@ -3,7 +3,7 @@
 @Date:   2017-05-02T10:11:02+08:00
 @Email:  uniquecolesmith@gmail.com
 @Last modified by:   eason
-@Last modified time: 2017-05-02T17:38:34+08:00
+@Last modified time: 2017-05-14T00:44:28+08:00
 @License: MIT
 @Copyright: Eason(uniquecolesmith@gmail.com)
 -->
@@ -14,10 +14,16 @@ Simple mobile netease music powered by React + [Dva](https://github.com/dvajs/dv
 
 ### Demo
 * [Demo](moeover.com/play-music/)
-* ![]()
+* ![QR](http://moeover.com/images/music-app/qr.jpg)
 
 ### Overview
-*
+
+  <image width="320px" src="http://moeover.com/images/music-app/1.home.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/2.playlist.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/3.rank.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.1.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.2.jpg" />
+  <image width="320px" src="http://moeover.com/images/music-app/4.playlist.detail.3.jpg" />
 
 ### Knowledgemap
 - [Dva](https://github.com/dvajs/dva):

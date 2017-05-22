@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:45:12+08:00
+ * @Last modified time: 2017-05-22T23:19:28+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -12,6 +12,8 @@ import React, { PureComponent, PropTypes } from 'react';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
+
+import debounce from 'lodash.throttle';
 
 import Loading from '../components/Loading';
 
@@ -187,7 +189,7 @@ class HomeApp extends PureComponent {
     setTimeout(() => {
       const self = event.target;
       if (this.props.location.pathname === '/home/playlist' && self.scrollTop + self.clientHeight > self.scrollHeight - 20) {
-        this.props.dispatch({ type: 'playlist/sync/next' });
+        this.props.onSyncNext();
       }
     }, 1000);
   }
@@ -296,5 +298,10 @@ export default connect(
   ({ playlist: { loading, data }, player: { tracks } }) => ({
     loading: loading && data.length === 0,
     enableAudio: tracks.length > 0,
+  }),
+  dispatch => ({
+    onSyncNext: debounce(() => {
+      dispatch({ type: 'playlist/sync/next' });
+    }, 1000),
   }),
 )(HomeApp);
