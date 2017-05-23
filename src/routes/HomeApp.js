@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-23T23:17:09+08:00
+ * @Last modified time: 2017-05-24T00:21:37+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -134,27 +134,6 @@ const getStyles = (props, state) => {
       overflowY: 'auto',
       overflowX: 'hidden',
       backgroundColor: '#fff',
-
-      // header: {
-      //   // fontSize: 14,
-      //   // display: 'flex',
-      //   // justifyContent: 'space-between',
-      //   // alignItems: 'center',
-      //   // paddingRight: 4,
-      //   // paddingBottom: 4,
-      //
-      //   title: {
-      //     // display: 'flex',
-      //     // justifyContent: 'space-between',
-      //     // alignItems: 'center',
-      //
-      //     icon: {
-      //       // marginRight: 4,
-      //     },
-      //   },
-      //
-      //   more: {},
-      // },
     },
   };
 };
@@ -185,7 +164,6 @@ class HomeApp extends PureComponent {
   }
 
   onScroll = (event) => {
-    // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
     // @TODO too many next
     setTimeout(() => {
       const self = event.target;
@@ -210,10 +188,6 @@ class HomeApp extends PureComponent {
       this.setState({ searchOn: true });
     }
   };
-
-  // handleLoadPlaylist = (data) => {
-  //   this.props.dispatch({ type: 'playlist/sync/one', payload: data.id });
-  // };
 
   render() {
     const styles = getStyles(this.props, this.state);
@@ -286,7 +260,6 @@ class HomeApp extends PureComponent {
           >
             { React.cloneElement(this.props.children, {
               key: this.props.location.pathname,
-              // scrollRef: this.scrollContainer,
             }) }
           </CSSTransitionGroup>
         </div>

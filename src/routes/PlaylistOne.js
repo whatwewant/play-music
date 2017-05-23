@@ -3,7 +3,7 @@
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-23T23:54:49+08:00
+ * @Last modified time: 2017-05-24T00:22:26+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -24,31 +24,11 @@ class PlaylistContainer extends PureComponent {
     router: PropTypes.any,
   };
 
-  // state = {
-  //   title: '',
-  //   banner: '',
-  //   count: '',
-  //   author: '',
-  //   avatar: '',
-  //   playlist: [],
-  // };
   componentWillMount() {
     if (!this.props.album.id && !this.props.album.tracks.length) {
       this.props.handleSyncOne(this.props.params.id);
     }
   }
-
-  // componentDidMount() {
-  //   // console.log(this.props);
-  //   // playlistService.fetchList(this.props.params.id).then(
-  //   //   (data) => {
-  //   //     this.setState({ ...data });
-  //   //   },
-  //   // );
-  //   if (Object.keys(this.props.album).length === 0) {
-  //     this.props.dispatch({ type: 'playlist/sync/one', payload: this.props.params.id });
-  //   }
-  // }
 
   render() {
     return (
@@ -87,11 +67,6 @@ const albumSelector = createSelector(
   pidSelector,
   (playlists, songs, pid) => {
     const album = playlists.filter(e => e.id === pid).pop() || {};
-    // if (!album.banner) {
-    //   album.banner = album.avatar;
-    // }
-    // const tracks = !album.tracks
-    //   ? [] : album.tracks.map(tid => songs.filter(e => e.id === tid).pop());
     return {
       ...album,
       banner: album.banner || album.avatar,
