@@ -3,12 +3,13 @@
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:49:42+08:00
+ * @Last modified time: 2017-05-23T23:54:49+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PropTypes, PureComponent } from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import once from 'once';
 
@@ -33,7 +34,7 @@ class PlaylistContainer extends PureComponent {
   // };
   componentWillMount() {
     if (!this.props.album.id && !this.props.album.tracks.length) {
-      this.props.dispatch({ type: 'playlist/sync/one', payload: parseInt(this.props.params.id, 10) });
+      this.props.handleSyncOne(this.props.params.id);
     }
   }
 
@@ -73,30 +74,52 @@ class PlaylistContainer extends PureComponent {
   }
 }
 
-export default connect(({ store, playlist, player }) => {
-  const { playlists, songs } = store;
-  const { loading, pid } = playlist;
-  const { id, tracks: pTracks } = player;
+const playlistsSelector = state => state.store.playlists;
+const songsSelector = state => state.store.songs;
+const pidSelector = state => state.playlist.pid;
+const loadingSelector = state => state.playlist.loading;
+const idSelector = state => state.player.id;
+const enableAudioSelector = state => state.player.tracks.length > 0;
 
-  const album = playlists.filter(e => e.id === pid).pop() || {};
-  if (!album.banner) {
-    album.banner = album.avatar;
-  }
-
-  const tracks = !album.tracks
-    ? [] : album.tracks.map(tid => songs.filter(e => e.id === tid).pop());
-
-  return {
-    loading,
-    sid: id,
-    album: {
+const albumSelector = createSelector(
+  playlistsSelector,
+  songsSelector,
+  pidSelector,
+  (playlists, songs, pid) => {
+    const album = playlists.filter(e => e.id === pid).pop() || {};
+    // if (!album.banner) {
+    //   album.banner = album.avatar;
+    // }
+    // const tracks = !album.tracks
+    //   ? [] : album.tracks.map(tid => songs.filter(e => e.id === tid).pop());
+    return {
       ...album,
-      tracks,
-    },
-    enableAudio: pTracks.length > 0,
-  };
-}, dispatch => ({
-  dispatch,
+      banner: album.banner || album.avatar,
+      tracks: !album.tracks
+        ? [] : album.tracks.map(tid => songs.filter(e => e.id === tid).pop()),
+    };
+  },
+);
+
+const stateSelector = createSelector(
+  loadingSelector,
+  idSelector,
+  albumSelector,
+  enableAudioSelector,
+  (loading, sid, album, enableAudio) => ({
+    loading,
+    sid,
+    album,
+    enableAudio,
+  }),
+);
+
+const mapStateToProps = state => stateSelector(state);
+
+const mapDispatchToProps = dispatch => ({
+  handleSyncOne(id) {
+    dispatch({ type: 'playlist/sync/one', payload: parseInt(id, 10) });
+  },
   handlePlayAll(data) {
     dispatch({ type: 'player/sync/list', payload: data });
     AudioPlayOneIOS();
@@ -105,4 +128,6 @@ export default connect(({ store, playlist, player }) => {
     dispatch({ type: 'player/sync/one', payload: { id, name, author, album, banner, audio } });
     AudioPlayOneIOS();
   },
-}))(PlaylistContainer);
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistContainer);

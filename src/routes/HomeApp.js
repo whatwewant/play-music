@@ -3,12 +3,13 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-22T23:19:28+08:00
+ * @Last modified time: 2017-05-23T23:17:09+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PureComponent, PropTypes } from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -294,11 +295,21 @@ class HomeApp extends PureComponent {
   }
 }
 
+const playlistSelector = state => state.playlist;
+const playerTracksSelector = state => state.player.tracks;
+const audioSelector = createSelector(
+  playlistSelector,
+  playerTracksSelector,
+  ({ loading, data }, tracks) => {
+    return {
+      loading: loading && data.length === 0,
+      enableAudio: tracks.length > 0,
+    };
+  },
+);
+
 export default connect(
-  ({ playlist: { loading, data }, player: { tracks } }) => ({
-    loading: loading && data.length === 0,
-    enableAudio: tracks.length > 0,
-  }),
+  state => audioSelector(state),
   dispatch => ({
     onSyncNext: debounce(() => {
       dispatch({ type: 'playlist/sync/next' });

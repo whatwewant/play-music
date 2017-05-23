@@ -3,12 +3,13 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-21T22:58:08+08:00
+ * @Last modified time: 2017-05-23T23:13:50+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import { Helmet } from 'react-helmet';
 import QRCode from 'qrcode.react';
@@ -65,19 +66,26 @@ class App extends React.PureComponent {
   }
 }
 
-const mapStateToProps = ({ store, player }) => {
-  const { id, loop, tracks } = player;
-  const { songs } = store;
+/* selector */
+const playerSelector = state => state.player;
+const songsSelector = state => state.store.songs;
 
-  const song = songs.filter(e => e.id === id).pop() || {};
+const audioSelector = createSelector(
+  playerSelector,
+  songsSelector,
+  ({ id, loop, tracks }, songs) => {
+    const song = songs.filter(e => e.id === id).pop() || {};
 
-  return {
-    id,
-    song,
-    loop,
-    playlist: tracks.map(tid => songs.filter(e => e.id === tid).pop()),
-  };
-};
+    return {
+      id,
+      song,
+      loop,
+      playlist: tracks.map(tid => songs.filter(e => e.id === tid).pop()),
+    };
+  },
+);
+
+const mapStateToProps = state => audioSelector(state);
 
 const mapDispatchToProps = (dispatch) => {
   return {
