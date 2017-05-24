@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-21T22:58:08+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-23T19:56:56+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -67,7 +67,7 @@ class App extends React.PureComponent {
 
 const mapStateToProps = ({ store, player }) => {
   const { id, loop, tracks } = player;
-  const { songs } = store;
+  const { songs = [] } = store;
 
   const song = songs.filter(e => e.id === id).pop() || {};
 

@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:49:42+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-23T19:57:45+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -74,7 +74,7 @@ class PlaylistContainer extends PureComponent {
 }
 
 export default connect(({ store, playlist, player }) => {
-  const { playlists, songs } = store;
+  const { playlists = [], songs = [] } = store;
   const { loading, pid } = playlist;
   const { id, tracks: pTracks } = player;
 

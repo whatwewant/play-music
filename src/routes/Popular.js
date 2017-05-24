@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-24T20:11:55+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:47:44+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-23T19:57:51+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -27,7 +27,7 @@ function PopularPage({ dispatch, banners, playlists }) {
 }
 
 export default connect(({ app, store }) => {
-  const { playlists } = store;
+  const { playlists = [] } = store;
   return {
     playlists: playlists.slice(0, 6),
     banners: app.banners,

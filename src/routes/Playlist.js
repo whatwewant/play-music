@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-24T20:12:25+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:47:55+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-23T19:57:32+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -45,7 +45,7 @@ class PlaylistsPage extends PureComponent {
 }
 
 export default connect(({ playlist, store }) => {
-  const { playlists } = store;
+  const { playlists = [] } = store;
   return {
     pid: playlist.pid,
     loadingPid: playlist.loadingPid,
