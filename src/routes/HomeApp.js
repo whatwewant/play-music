@@ -2,13 +2,14 @@
 * @Author: eason
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-22T23:19:28+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-24T10:15:06+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PureComponent, PropTypes } from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import { Link } from 'dva/router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
@@ -133,27 +134,6 @@ const getStyles = (props, state) => {
       overflowY: 'auto',
       overflowX: 'hidden',
       backgroundColor: '#fff',
-
-      // header: {
-      //   // fontSize: 14,
-      //   // display: 'flex',
-      //   // justifyContent: 'space-between',
-      //   // alignItems: 'center',
-      //   // paddingRight: 4,
-      //   // paddingBottom: 4,
-      //
-      //   title: {
-      //     // display: 'flex',
-      //     // justifyContent: 'space-between',
-      //     // alignItems: 'center',
-      //
-      //     icon: {
-      //       // marginRight: 4,
-      //     },
-      //   },
-      //
-      //   more: {},
-      // },
     },
   };
 };
@@ -184,7 +164,6 @@ class HomeApp extends PureComponent {
   }
 
   onScroll = (event) => {
-    // console.log('scroll: ', this.scrollTop, this.scrollHeight, this.clientHeight);
     // @TODO too many next
     setTimeout(() => {
       const self = event.target;
@@ -209,10 +188,6 @@ class HomeApp extends PureComponent {
       this.setState({ searchOn: true });
     }
   };
-
-  // handleLoadPlaylist = (data) => {
-  //   this.props.dispatch({ type: 'playlist/sync/one', payload: data.id });
-  // };
 
   render() {
     const styles = getStyles(this.props, this.state);
@@ -285,7 +260,6 @@ class HomeApp extends PureComponent {
           >
             { React.cloneElement(this.props.children, {
               key: this.props.location.pathname,
-              // scrollRef: this.scrollContainer,
             }) }
           </CSSTransitionGroup>
         </div>
@@ -294,11 +268,21 @@ class HomeApp extends PureComponent {
   }
 }
 
+const playlistSelector = state => state.playlist;
+const playerTracksSelector = state => state.player.tracks || [];
+const audioSelector = createSelector(
+  playlistSelector,
+  playerTracksSelector,
+  ({ loading, data }, tracks) => {
+    return {
+      loading: loading && data.length === 0,
+      enableAudio: tracks.length > 0,
+    };
+  },
+);
+
 export default connect(
-  ({ playlist: { loading, data }, player: { tracks } }) => ({
-    loading: loading && data.length === 0,
-    enableAudio: tracks.length > 0,
-  }),
+  state => audioSelector(state),
   dispatch => ({
     onSyncNext: debounce(() => {
       dispatch({ type: 'playlist/sync/next' });

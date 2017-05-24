@@ -3,11 +3,12 @@
 * @Date:   2017-03-24T20:12:25+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-23T19:57:32+08:00
+* @Last modified time: 2017-05-24T09:59:17+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 import React, { PureComponent } from 'react';
+import { createSelector } from 'reselect';
 import { connect } from 'dva';
 
 import Playlists from '../components/Playlists';
@@ -44,20 +45,32 @@ class PlaylistsPage extends PureComponent {
   }
 }
 
-export default connect(({ playlist, store }) => {
-  const { playlists = [] } = store;
-  return {
-    pid: playlist.pid,
-    loadingPid: playlist.loadingPid,
-    loading: playlist.loading,
-    scrollTop: playlist.scrollTop,
-    playlists: playlist.data.map(pid => playlists.filter(e => e.id === pid).pop()),
-  };
-}, dispatch => ({
+// selectors
+const playlistSelector = state => state.playlist;
+const playlistsSelector = state => state.store.playlists;
+
+const stateSelector = createSelector(
+  playlistSelector,
+  playlistsSelector,
+  ({ pid, loadingPid, loading, scrollTop, data }, playlists) => ({
+    pid,
+    loadingPid,
+    loading,
+    scrollTop,
+    playlists: data.map(did => playlists.filter(e => e.id === did).pop()),
+  }),
+);
+
+
+const mapStateToProps = state => stateSelector(state);
+
+const mapDispatchToProps = dispatch => ({
   handleLoadPlaylist(data) {
     dispatch({ type: 'playlist/sync/one', payload: data.id });
   },
   handleSaveScrollTop(scrollTop) {
     dispatch({ type: 'playlist/save/scrollTop', payload: scrollTop });
   },
-}))(PlaylistsPage);
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(PlaylistsPage);

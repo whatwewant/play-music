@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-26T00:56:38+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-22T00:34:26+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-05-24T10:30:36+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -18,9 +18,13 @@ import './index.css';
 
 OfflinePluginRuntime.install();
 
+const initialState = store.get('play-music');
+
 // 1. Initialize
 const app = dva({
-  initialState: store.get('play-music') || {},
+  initialState: { // @TODO for compatible, will remove in next version
+    ...initialState, player: { ...initialState.player, tracks: initialState.player.tracks || [] },
+  },
   onStateChange() {
     store.set('play-music', pick(app._store.getState(), ['store', 'player'])); // eslint-disable-line
   },
