@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-12T14:12:06+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-29T04:51:05+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -411,7 +411,10 @@ export default class Audio extends PureComponent {
   }
 
   onEnd = () => {
-    this.onPlayNext();
+    // @TODO
+    if (this.props.loop !== 1) {
+      this.onPlayNext();
+    }
   }
 
   onError = (event) => {
@@ -500,6 +503,7 @@ export default class Audio extends PureComponent {
           width: '100%',
           height: '100%',
           pointerEvents: 'none',
+          display: this.props.show ? 'block' : 'none',
           ...this.props.style,
         }}
         className={classStyles.normal}
@@ -514,6 +518,7 @@ export default class Audio extends PureComponent {
                 style={styles.info.logo}
                 role="presentation"
                 src={banner}
+                onClick={this.props.goPlayer}
               />
               <div style={styles.info.text}>
                 <div style={styles.info.text.name}>{name}</div>
@@ -531,7 +536,7 @@ export default class Audio extends PureComponent {
             style={{ display: 'none' }}
             ref={ref => (this.audio = ref)}
             src={audio}
-            loop={this.state.loopType === 1/* 单曲循环 */}
+            loop={this.props.loop === 1/* 单曲循环 */}
           />
         </div>
         <div style={styles.playlist}>

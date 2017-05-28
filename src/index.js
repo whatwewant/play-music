@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-26T00:56:38+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:34:26+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-29T04:57:07+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -18,7 +18,7 @@ import './index.css';
 
 OfflinePluginRuntime.install();
 
-const initialState = store.get('play-music');
+const initialState = store.get('play-music') || {};
 
 // 1. Initialize
 const app = dva({

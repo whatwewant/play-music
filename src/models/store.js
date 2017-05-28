@@ -2,12 +2,13 @@
  * @Author: eason
  * @Date:   2017-05-21T18:50:19+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-05-22T01:23:59+08:00
+ * @Last modified time: 2017-05-28T21:34:45+08:00
  */
 export default {
   namespace: 'store',
   state: {
     songs: [],
+    lyrics: [],
     playlists: [],
     artists: [],
     albums: [],
@@ -27,6 +28,16 @@ export default {
       return {
         ...others,
         songs: songs.map(e => (e.id !== payload.id ? e : { ...e, ...payload })),
+      };
+    },
+    'lyric/save'({ lyrics, ...others }, { payload }) {
+      const lids = lyrics.map(e => e.id);
+      return {
+        ...others,
+        lyrics: [
+          ...lyrics,
+          ...(lids.indexOf(payload.id) === -1 ? [payload] : []),
+        ],
       };
     },
     'playlists/save'({ playlists, ...others }, { payload }) {

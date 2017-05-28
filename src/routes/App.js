@@ -2,13 +2,14 @@
 * @Author: eason
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:14:22+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-29T04:29:25+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import { Helmet } from 'react-helmet';
@@ -22,7 +23,17 @@ import ICO from '../assets/music.ico';
 
 class App extends React.PureComponent {
 
+  static contextTypes = {
+    router: PropTypes.any,
+  };
+
+  goPlayer = () => {
+    this.context.router.push('/player');
+  }
+
   render() {
+    // @TODO
+    const show = this.props.playlist.length > 0 && this.props.location.pathname.indexOf('/player') === -1;
     return (
       <div className={styles.normal}>
         <div className={styles.qrcode}>
@@ -34,19 +45,20 @@ class App extends React.PureComponent {
           <title>网易云音乐</title>
           <link rel="shortcut icon" href={ICO} />
         </Helmet>
-        <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 667, overflow: 'hidden' }}>
+        <div className={styles.app}>
           { this.props.children }
           <Audio
             style={{
               transition: 'transform 0.3s ease-in',
               transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
             }}
-            show={this.props.playlist.length > 0}
+            show={show}
             id={this.props.id}
             song={this.props.song}
             banner={this.props.banner}
             loop={this.props.loop}
             playlist={this.props.playlist}
+            goPlayer={this.goPlayer}
             onPlayOne={this.props.onPlayOne}
             onPlayNext={this.props.onPlayNext}
             onPlayExpired={this.props.onPlayExpired}

@@ -3,7 +3,7 @@
 * @Date:   2017-03-08T10:49:56+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-21T23:33:52+08:00
+ * @Last modified time: 2017-05-29T04:46:51+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -42,7 +42,7 @@ export default {
       };
     },
     'change/loop'(state, { payload }) {
-      return { ...state, loop: payload };
+      return { ...state, loop: payload || 0 };
     },
     clear(state) {
       return { ...state, id: null, tracks: [] };
@@ -71,6 +71,9 @@ export default {
     },
     *'sync/one'({ payload: { id, name, author, album, banner, audio } }, { call, select, put }) {
       yield put({ type: 'save/id', payload: id });
+
+      // @TODO will move next line when sync old
+      yield put({ type: 'sync/one/lyric', payload: id });
 
       if (audio) return false;
 
@@ -119,11 +122,43 @@ export default {
 
       yield put({ type: 'sync/one', payload: currentOne });
     },
+    *'sync/prevOne'({ payload }, { select, put }) {
+      const { id, loop, tracks } = yield select(state => state.player);
+      const index = tracks.indexOf(id);
+
+      let nextIndex;
+      if (loop === 0) {
+        nextIndex = ((index - 1) + tracks.length) % tracks.length;
+      } else if (loop === 1) {
+        // @TODO when it is single loop, play next action will follow list loop
+        // nextIndex = index;
+        nextIndex = ((index - 1) + tracks.length) % tracks.length;
+      } else if (loop === 2) {
+        nextIndex = ((parseInt(tracks.length * Math.random(), 10) - 1) + tracks.length) % tracks.length; // eslint-disable-line
+      }
+
+      const nextId = tracks[nextIndex];
+      const songs = yield select(state => state.store.songs);
+      const currentOne = songs.filter(e => e.id === nextId).pop();
+
+      yield put({ type: 'sync/one', payload: currentOne });
+    },
     *'sync/expiredOne'({ payload: song }, { call, put }) {
       yield put({ type: 'save/id', payload: song.id });
       const nAudio = yield call(services.fetchOne, song.id);
 
       yield put({ type: 'store/songs/update/one', payload: { ...song, audio: nAudio } });
+    },
+    *'sync/one/lyric'({ payload: id }, { select, call, put }) {
+      const lyrics = yield select(state => state.store.lyrics);
+
+      if (lyrics.some(e => e.id === id)) {
+        return false;
+      }
+
+      const lyric = yield call(services.fetchOneLyric, id);
+
+      yield put({ type: 'store/lyric/save', payload: { id, lyric } });
     },
   },
   subscriptions: {},

@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2016-12-15T13:47:54+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-04-10T23:56:38+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-05-25T00:54:17+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -102,6 +102,15 @@ function RouterConfig({ history }) {
             require.ensure([], (require) => {
               cb(null, require('./routes/PlaylistOne'));
             }, 'playlistOne');
+          },
+        },
+        {
+          name: 'player',
+          path: 'player',
+          getComponent(nextState, cb) {
+            require.ensure([], (require) => {
+              cb(null, require('./routes/RoundPlayer'));
+            }, 'roundPlayer');
           },
         },
       ],
