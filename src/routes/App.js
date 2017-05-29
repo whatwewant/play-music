@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T04:29:25+08:00
+ * @Last modified time: 2017-05-29T12:04:35+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -85,7 +85,7 @@ const audioSelector = createSelector(
     return {
       id,
       song,
-      loop,
+      loop: loop || 0,
       playlist: tracks.map(tid => songs.filter(e => e.id === tid).pop()),
     };
   },

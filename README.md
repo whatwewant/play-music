@@ -32,6 +32,8 @@ Simple mobile netease music powered by React + [Dva](https://github.com/dvajs/dv
 - [Roadhog](https://github.com/sorrycc/roadhog):
   - a command line tools to use webpack, like [create-react-app](https://github.com/facebookincubator/create-react-app)
 - [React-Router Async](https://segmentfault.com/a/1190000006063554#articleHeader25)
+- [Reselect](https://github.com/reactjs/reselect)
+  - Use reselect to compute derived data efficiently.
 - [PWA: Service Woker vs AppCache --- OfflinePlugin](https://medium.com/@addyosmani/progressive-web-apps-with-react-js-part-3-offline-support-and-network-resilience-c84db889162c)
   - [Service Worker, what are you ?](http://kosamari.com/notes/Service-Worker-what-are-you)
   - PWA: [Chromium Blog: 深度集成渐进式 Web App 到 Android](http://www.zcfy.cc/article/chromium-blog-integrating-progressive-web-apps-deeply-into-android-2467.html)
