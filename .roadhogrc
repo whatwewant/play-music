@@ -1,5 +1,6 @@
 {
   "entry": "src/index.js",
+  "publicPath": "./",
   "extraBabelPlugins": [
     ["import", { "style": "css", "libraryName": "antd-mobile" }]
   ],

@@ -1,0 +1,109 @@
+/**
+* @Author: eason
+* @Date:   2017-04-07T20:27:11+08:00
+* @Email:  uniquecolesmith@gmail.com
+* @Last modified by:   eason
+* @Last modified time: 2017-05-11T20:33:58+08:00
+* @License: MIT
+* @Copyright: Eason(uniquecolesmith@gmail.com)
+*/
+
+.root {
+  text-align: left;
+  font-size: 10px;
+}
+
+.title {
+  font-size: 14px;
+  font-weight: 650;
+  padding-left: 6px;
+  margin-bottom: 8px;
+  border-left: 2px solid #ce3d3e;
+}
+
+.message {
+  color: #fff;
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+}
+
+.offical {
+
+  .officalList {
+    list-style: none;
+
+    .officalListItem {
+      margin-bottom: 3px;
+      width: 100%;
+      // height: 100px;
+      display: flex;
+      flex-direction: flex-start;
+
+      .officalListItemBanner {
+        position: relative;
+        width: calc(33% - 1px);
+        // height: 100px;
+
+        img {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .officalListItemTop3 {
+        width: calc(100% - 33% + 1px);
+        list-style: none;
+        flex: 1;
+        padding: 8px 8px;
+        color: rgba(0, 0, 0, 0.65);
+        border-bottom: 1px rgba(0, 0, 0, 0.05) solid;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        .officalListItemTop3Item {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+}
+
+.global {
+  margin-top: 16px;
+
+  .globalList {
+    list-style: none;
+    // width: calc(100% - 4px);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: flex-start;
+
+    .globalListItem {
+      // flex-grow: 1;
+      // flex-basis: 33%;
+      width: calc(33% - 1px);
+      margin-right: 3px;
+      margin-bottom: 8px;
+
+      .globalListItemBanner {
+        position: relative;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .globalListItemName {
+        font-weight: 300;
+        padding: 6px;
+      }
+    }
+  }
+}

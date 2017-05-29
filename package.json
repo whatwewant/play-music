@@ -1,26 +1,46 @@
 {
   "private": true,
+  "name": "music",
+  "main": "main.js",
+  "version": "0.1.0",
+  "author": "Eason",
+  "productName": "music",
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
+    "electron": "electron ./main.js",
+    "package-copy": "cp ./public/package.json ./dist && cp main.js ./dist",
+    "rebuild": "npm run clean && npm run build && npm run package-copy",
+    "pack": "npm run rebuild && electron-packager ./dist music --icon=./src/assets/music.icns --platform=darwin --arch=x64 --out=app",
+    "dmg": "npm run rebuild && cp -rf build dist && cd dist && cnpm i electron && build",
+    "clean": "rm -rf ./dist && rm -rf ./app",
     "lint": "eslint --ext .js src test",
-    "precommit": "npm run lint"
+    "precommit": "npm run lint",
+    "test": "npm run lint"
   },
   "engines": {
     "install-node": "6.9.2"
   },
   "dependencies": {
+    "antd-mobile": "^1.0.5",
     "babel-runtime": "^6.9.2",
     "dva": "^1.2.1",
+    "lodash.pick": "^4.4.0",
+    "lodash.throttle": "^4.1.1",
+    "offline-plugin": "^4.7.0",
     "react": "^15.4.0",
-    "react-dom": "^15.4.0"
+    "react-dom": "^15.4.0",
+    "reselect": "^3.0.1",
+    "store": "^2.0.4"
   },
   "devDependencies": {
-    "antd-mobile": "^1.0.5",
     "babel-eslint": "^7.1.1",
     "babel-plugin-dva-hmr": "^0.3.2",
     "babel-plugin-import": "^1.1.1",
     "babel-plugin-transform-runtime": "^6.9.0",
+    "electron": "^1.6.2",
+    "electron-builder": "^17.0.1",
+    "electron-packager": "^8.6.0",
     "eslint": "^3.12.2",
     "eslint-config-airbnb": "^13.0.0",
     "eslint-plugin-import": "^2.2.0",
@@ -28,6 +48,10 @@
     "eslint-plugin-react": "^6.8.0",
     "expect": "^1.20.2",
     "husky": "^0.12.0",
+    "once": "^1.4.0",
+    "qrcode.react": "^0.6.1",
+    "react-addons-css-transition-group": "^15.5.2",
+    "react-helmet": "^5.0.2",
     "redbox-react": "^1.3.2",
     "roadhog": "^0.5.2",
     "svg-sprite-loader": "^0.3.0"
