@@ -2,7 +2,7 @@
  * @Author: eason
  * @Date:   2017-05-25T00:20:08+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T11:22:50+08:00
+ * @Last modified time: 2017-05-29T13:16:28+08:00
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -296,7 +296,7 @@ const audioSelector = createSelector(
   playerSelector,
   songsSelector,
   lyricsSelector,
-  ({ id, loop, tracks = [] }, songs, lyrics) => {
+  ({ id, loop, tracks = [] }, songs, lyrics = []) => { // @compacity old version
     const song = songs.filter(e => e.id === id).pop() || {};
     const lyric = lyrics.filter(e => e.id === id).pop() || {};
 

@@ -8,7 +8,7 @@
   "scripts": {
     "start": "roadhog server",
     "build": "roadhog build",
-    "electron": "electron ./main.js",
+    "electron": "npm run build && cp main.js dist && cd dist && electron ./main.js",
     "package-copy": "cp ./public/package.json ./dist && cp main.js ./dist",
     "rebuild": "npm run clean && npm run build && npm run package-copy",
     "pack": "npm run rebuild && electron-packager ./dist music --icon=./src/assets/music.icns --platform=darwin --arch=x64 --out=app",

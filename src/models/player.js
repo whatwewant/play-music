@@ -3,7 +3,7 @@
 * @Date:   2017-03-08T10:49:56+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T04:46:51+08:00
+ * @Last modified time: 2017-05-29T13:20:13+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -150,7 +150,7 @@ export default {
       yield put({ type: 'store/songs/update/one', payload: { ...song, audio: nAudio } });
     },
     *'sync/one/lyric'({ payload: id }, { select, call, put }) {
-      const lyrics = yield select(state => state.store.lyrics);
+      const lyrics = yield select(state => state.store.lyrics || []); // for compatible
 
       if (lyrics.some(e => e.id === id)) {
         return false;
