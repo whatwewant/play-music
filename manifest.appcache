@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:5/29/2017, 12:07:13 PM
+#ver:5/29/2017, 1:29:49 PM
 #plugin:4.7.0
 
 CACHE:
@@ -42,8 +42,8 @@ CACHE:
 ./7.playlistOne.js
 ./8.rage.js
 ./index.css
-./package.json
 ./
+./package.json
 
 NETWORK:
 *
