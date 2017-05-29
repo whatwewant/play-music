@@ -46,7 +46,7 @@ Simple mobile netease music powered by React + [Dva](https://github.com/dvajs/dv
   * [x] One Playlist Detail Page
   * [x] Rank Page
   * [x] Audio Playlist Page
-  * [ ] Audio Play Detail Page
+  * [x] Audio Play Detail Page
   * [ ] Radio Page
 * [ ] Features
   * [x] Async React-Router

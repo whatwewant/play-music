@@ -2,7 +2,7 @@
  * @Author: eason
  * @Date:   2017-05-25T00:20:08+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T04:44:55+08:00
+ * @Last modified time: 2017-05-29T11:12:25+08:00
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -304,6 +304,7 @@ const audioSelector = createSelector(
       id,
       song: {
         ...song,
+        loop: song.loop || 0, // @TODO default null
         lyric: resolveLyric(lyric.lyric),
       },
       loop,
