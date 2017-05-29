@@ -2,7 +2,7 @@
   "private": true,
   "name": "music",
   "main": "main.js",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "Eason",
   "productName": "music",
   "scripts": {
