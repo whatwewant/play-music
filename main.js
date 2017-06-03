@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-04-18T13:29:39+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:05:22+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-06-03T17:47:48+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -25,7 +25,7 @@ function createWindow() {
   // Create the browser window
   mainWindow = new BrowserWindow({
     width: 375,
-    height: 667,
+    height: 667 + 20,
     resizable: false,
     maximizable: false,
     // frame: false,
