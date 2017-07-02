@@ -16,10 +16,10 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import debounce from 'lodash.throttle';
 
-import Loading from '../components/Loading';
+import Loading from 'components/Loading';
 
-import IconLogo from '../assets/logo.png';
-import IconSearch from '../assets/search.svg';
+import IconLogo from 'assets/logo.png';
+import IconSearch from 'assets/search.svg';
 
 import styleClasses from './HomeApp.less';
 

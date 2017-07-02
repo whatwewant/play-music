@@ -15,11 +15,11 @@ import { connect } from 'dva';
 import { Helmet } from 'react-helmet';
 import QRCode from 'qrcode.react';
 
+import Audio from 'components/Audio';
+
+import ICO from 'assets/music.ico';
+
 import styles from './App.css';
-
-import Audio from '../components/Audio';
-
-import ICO from '../assets/music.ico';
 
 class App extends React.PureComponent {
 

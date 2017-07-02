@@ -11,7 +11,7 @@ import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
 
-import Popular from '../components/Popular';
+import Popular from 'components/Popular';
 
 function PopularPage({ banners, playlists, handleLoadPlaylist }) {
   return (
