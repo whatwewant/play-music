@@ -1,10 +1,17 @@
 CACHE MANIFEST
-#ver:5/29/2017, 1:29:49 PM
-#plugin:4.7.0
+#ver:2017-7-2 13:27:52
+#plugin:4.8.1
 
 CACHE:
-./static/goBack.47df0df2.svg
+./static/banner1.97b726d5.jpg
+./static/banner2.dc8b9cc9.jpg
+./static/banner3.43b74087.jpg
+./static/banner4.c9237589.jpg
 ./static/search.dfb87616.svg
+./static/goBack.47df0df2.svg
+./static/clear.385bf914.svg
+./static/yay.44dd3333.jpg
+./static/recommand.f584ed89.svg
 ./static/check-circle-o.832ff1df.svg
 ./static/check-circle.85234955.svg
 ./static/check.4e29f00a.svg
@@ -24,23 +31,16 @@ CACHE:
 ./static/right.3ecfeac8.svg
 ./static/search.93c48a7f.svg
 ./static/up.e987c697.svg
-./static/clear.385bf914.svg
-./static/recommand.f584ed89.svg
-./static/banner1.97b726d5.jpg
-./static/banner2.dc8b9cc9.jpg
-./static/banner3.43b74087.jpg
-./static/banner4.c9237589.jpg
 ./static/player_round_outside.96dafb19.png
-./static/yay.44dd3333.jpg
-./0.app.js
-./1.popular.js
+./app.async.js
+./popular.async.js
+./roundPlayer.async.js
+./radio.async.js
+./home.async.js
+./playlists.async.js
+./playlistOne.async.js
+./rage.async.js
 ./index.js
-./3.roundPlayer.js
-./4.radio.js
-./5.home.js
-./6.playlists.js
-./7.playlistOne.js
-./8.rage.js
 ./index.css
 ./
 ./package.json
