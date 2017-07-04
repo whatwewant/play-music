@@ -11,7 +11,7 @@ import React, { PureComponent } from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
 
-import Playlists from '../components/Playlists';
+import Playlists from 'components/Playlists';
 
 class PlaylistsPage extends PureComponent {
 

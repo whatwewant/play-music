@@ -12,24 +12,24 @@ import classnames from 'classnames';
 
 import { Slider } from 'antd-mobile';
 
-import { resolveLyric, secondsToTime } from '../utils/resolve';
+import { resolveLyric, secondsToTime } from 'utils/resolve';
+
+import IconGoBack from 'assets/goBack.svg';
+
+import IconGoPrev from 'assets/player_play_prev.png';
+import IconGoNext from 'assets/player_play_next.png';
+import IconStart from 'assets/player_play_start.png';
+import IconStop from 'assets/player_play_stop.png';
+import IconMenu from 'assets/player_play_menu.png';
+
+import IconLoopList from 'assets/player_loop_list.png';
+import IconLoopOne from 'assets/player_loop_one.png';
+import IconLoopRandom from 'assets/player_loop_random.png';
+
+// import IconPlayBarStart from 'assets/player_round_bar_start.png';
+import IconPlayRound from 'assets/player_round_outside.png';
 
 import styles from './RoundPlayer.less';
-
-import IconGoBack from '../assets/goBack.svg';
-
-import IconGoPrev from '../assets/player_play_prev.png';
-import IconGoNext from '../assets/player_play_next.png';
-import IconStart from '../assets/player_play_start.png';
-import IconStop from '../assets/player_play_stop.png';
-import IconMenu from '../assets/player_play_menu.png';
-
-import IconLoopList from '../assets/player_loop_list.png';
-import IconLoopOne from '../assets/player_loop_one.png';
-import IconLoopRandom from '../assets/player_loop_random.png';
-
-// import IconPlayBarStart from '../assets/player_round_bar_start.png';
-import IconPlayRound from '../assets/player_round_outside.png';
 
 const LOOP_TYPES = [
   IconLoopList, // '列表循环',

@@ -13,8 +13,8 @@ import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import once from 'once';
 
-// import * as playlistService from '../services/playlist';
-import Playlist from '../components/Playlist';
+// import * as playlistService from 'services/playlist';
+import Playlist from 'components/Playlist';
 
 // @TODO Hack: https://www.douban.com/note/527250492/
 const AudioPlayOneIOS = once(() => document.querySelector('audio').play()); // eslint-disable-line
