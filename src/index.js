@@ -14,6 +14,8 @@ import store from 'store';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
+import request from './utils/request';
+
 import './index.css';
 
 OfflinePluginRuntime.install();
@@ -32,7 +34,22 @@ const app = dva({
     store.set('play-music', pick(app._store.getState(), ['store', 'player'])); // eslint-disable-line
   },
   onError(err) {
-    console.log(err);
+    if (process.env.NODE_ENV === 'production') {
+      request('http://121.42.156.153:59438/api/v1/bugs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          url: window.location.href, // eslint-disable-line
+          title: err.title || 'unnamed',
+          message: err.message,
+          tag: ['music'],
+        }),
+      });
+    } else {
+      console.log(err);
+    }
   },
 });
 
