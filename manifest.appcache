@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:7/4/2017, 1:51:33 PM
+#ver:7/13/2017, 11:24:44 AM
 #plugin:4.8.1
 
 CACHE:
@@ -9,8 +9,8 @@ CACHE:
 ./static/banner4.c9237589.jpg
 ./static/search.dfb87616.svg
 ./static/goBack.47df0df2.svg
-./static/yay.44dd3333.jpg
 ./static/clear.385bf914.svg
+./static/yay.44dd3333.jpg
 ./static/recommand.f584ed89.svg
 ./static/check-circle-o.832ff1df.svg
 ./static/check-circle.85234955.svg
@@ -42,8 +42,8 @@ CACHE:
 ./rage.async.js
 ./index.js
 ./index.css
-./package.json
 ./
+./package.json
 
 NETWORK:
 *
