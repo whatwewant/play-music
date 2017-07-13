@@ -1,4 +1,16 @@
+/**
+* @Author: eason
+* @Date:   2017-05-31T14:56:35+08:00
+* @Email:  uniquecolesmith@gmail.com
+* @Last modified by:   eason
+* @Last modified time: 2017-07-13T11:23:25+08:00
+* @License: MIT
+* @Copyright: Eason(uniquecolesmith@gmail.com)
+*/
+
 import fetch from 'dva/fetch';
+
+import Fingerprint from 'fingerprintjs';
 
 function parseJSON(response) {
   return response.json();
@@ -21,7 +33,13 @@ function checkStatus(response) {
  * @param  {object} [options] The options we want to pass to "fetch"
  * @return {object}           An object containing either "data" or "err"
  */
-export default function request(url, options) {
+export default function request(url, options = {}) {
+  if (!options.headers) {
+    options.headers = {}; // eslint-disable-line
+  }
+
+  options.headers['X-UID'] = new Fingerprint({ canvas: true }).get(); // eslint-disable-line
+
   return fetch(url, options)
     .then(checkStatus)
     .then(parseJSON)

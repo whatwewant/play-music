@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-26T00:56:38+08:00
 * @Email:  uniquecolesmith@gmail.com
- * @Last modified by:   eason
- * @Last modified time: 2017-05-29T04:57:07+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-07-13T11:19:07+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,6 +11,7 @@
 import dva from 'dva';
 import pick from 'lodash.pick';
 import store from 'store';
+import Fingerprint from 'fingerprintjs';
 
 import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
@@ -41,6 +42,7 @@ const app = dva({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          uid: new Fingerprint({ canvas: true }).get(),
           url: window.location.href, // eslint-disable-line
           title: err.title || 'unnamed',
           message: err.message,
@@ -48,7 +50,7 @@ const app = dva({
         }),
       });
     } else {
-      console.log(err);
+      throw err;
     }
   },
 });
