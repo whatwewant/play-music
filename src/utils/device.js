@@ -3,7 +3,7 @@
 * @Date:   2017-07-13T10:23:38+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-07-13T10:29:54+08:00
+* @Last modified time: 2017-07-13T12:47:09+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -31,4 +31,9 @@ export function isiOS() {
 export function isAndroid() {
   const ua = navigator.userAgent; // eslint-disable-line
   return ua.match(/(Android);?[\s/]+([\d.]+)?/);
+}
+
+export function isWeixin() {
+  const ua = navigator.userAgent; // eslint-disable-line
+  return /MicroMessenger/i.test(ua);
 }
