@@ -1,8 +1,8 @@
 /**
  * @Author: eason
  * @Date:   2017-05-25T00:20:08+08:00
- * @Last modified by:   eason
- * @Last modified time: 2017-05-29T13:16:28+08:00
+* @Last modified by:   eason
+* @Last modified time: 2017-07-13T10:33:57+08:00
  */
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ import classnames from 'classnames';
 import { Slider } from 'antd-mobile';
 
 import { resolveLyric, secondsToTime } from 'utils/resolve';
+import { isiOS } from 'utils/device';
 
 import IconGoBack from 'assets/goBack.svg';
 
@@ -237,7 +238,11 @@ class RoundPlayer extends PureComponent {
             <div
               className={classnames(
                 styles.playerRound,
-                this.state.playing ? styles.playerRoundPlaying : styles.playerRoundNotPlaying,
+                this.state.playing
+                  ? styles.playerRoundPlaying
+                  : !isiOS()
+                  ? styles.playerRoundNotPlaying
+                  : styles.playerRoundNotPlayingiOS,
               )}
             >
               <img className={styles.playerBannerOut} role="presentation" src={IconPlayRound} />
