@@ -3,7 +3,7 @@
 * @Date:   2017-03-13T21:19:05+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:15:06+08:00
+* @Last modified time: 2017-07-13T17:04:03+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -157,10 +157,13 @@ class HomeApp extends PureComponent {
         this.setState({ searchOn: false });
       }
     });
+
+    this.scrollContainer.scrollTop = this.getScrollTop();
   }
 
   componentWillUnmount() {
     this.scrollContainer.removeEventListener('scroll', this.onScroll, false);
+    this.setScrollTop(this.scrollContainer.scrollTop);
   }
 
   onScroll = (event) => {
@@ -188,6 +191,12 @@ class HomeApp extends PureComponent {
       this.setState({ searchOn: true });
     }
   };
+
+  setScrollTop = (scrollTop) => {
+    window.localStorage.setItem('pos', scrollTop); // eslint-disable-line
+  }
+
+  getScrollTop = () => window.localStorage.getItem('pos'); // eslint-disable-line
 
   render() {
     const styles = getStyles(this.props, this.state);

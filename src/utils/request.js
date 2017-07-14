@@ -3,7 +3,7 @@
 * @Date:   2017-05-31T14:56:35+08:00
 * @Email:  uniquecolesmith@gmail.com
 * @Last modified by:   eason
-* @Last modified time: 2017-07-13T11:23:25+08:00
+* @Last modified time: 2017-07-14T10:56:24+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -38,7 +38,7 @@ export default function request(url, options = {}) {
     options.headers = {}; // eslint-disable-line
   }
 
-  options.headers['X-UID'] = new Fingerprint({ canvas: true }).get(); // eslint-disable-line
+  options.headers['Authorization'] = new Fingerprint({ canvas: true }).get(); // eslint-disable-line
 
   return fetch(url, options)
     .then(checkStatus)
