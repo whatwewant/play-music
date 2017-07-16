@@ -8,14 +8,37 @@
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 import React from 'react';
+import injectSheet from 'react-jss';
 
-import styles from './Loading.less';
+const styles = {
+  loading: {
+    position: 'absolute',
+    top: 0,
+    left: '50%',
+    width: '6rem',
+    height: '6rem',
+    backgroundColor: '#fff',
+    marginTop: '60%',
+    marginLeft: '-3rem',
+    backgroundImage: `url(${require('../../assets/loading.png')})`, // @TODO
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    animation: 'rotating 5s linear infinite',
+  },
+  '@keyframes rotating': {
+    to: {
+      transform: 'rotate(1turn)',
+    },
+  },
+};
 
-export default function Loading({ show }) {
+function Loading({ classes, show }) {
   return (
-    <div style={{ display: show ? '' : 'none' }} className={styles.loadingWrapper}>
-      <div className={styles.loading} />
-      <div className={styles.loadingMessage} />
+    <div style={{ display: show ? '' : 'none' }} className={classes.loadingWrapper}>
+      <div className={classes.loading} />
+      <div className={classes.loadingMessage} />
     </div>
   );
 }
+
+export default injectSheet(styles)(Loading);
