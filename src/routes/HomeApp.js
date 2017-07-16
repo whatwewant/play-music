@@ -14,6 +14,8 @@ import { connect } from 'dva';
 import { Link } from 'dva/router';
 import CSSTransitionGroup from 'react-addons-css-transition-group';
 
+import injectSheet from 'react-jss';
+
 import debounce from 'lodash.throttle';
 
 import Loading from 'components/Loading';
@@ -21,14 +23,42 @@ import Loading from 'components/Loading';
 import IconLogo from 'assets/logo.png';
 import IconSearch from 'assets/search.svg';
 
-import styleClasses from './HomeApp.less';
-
 const ROUTES = [
   '/home/popular',
   '/home/playlist',
   '/home/radio',
   '/home/rage',
 ];
+
+const jssStyles = {
+  nav: {
+    color: '#666',
+  },
+  navActive: {
+    color: '#ce3d3e',
+  },
+  '@global': {
+    '.page-enter': {
+      zIndex: 1024,
+      opacity: 0.01,
+      transform: 'translate3d(100%, 0, 0)',
+      transition: 'all .2s ease',
+    },
+    '.page-enter.page-enter-active': {
+      opacity: 1,
+      transform: 'translate3d(0, 0, 0)',
+    },
+    '.page-leave': {
+      opacity: 1,
+      transform: 'translate3d(0, 0, 0)',
+      transition: 'all .2s ease',
+    },
+    '.page-leave.page-leave-active': {
+      opacity: 0.01,
+      transform: 'translate3d(100%, 0, 0)',
+    },
+  },
+};
 
 const getStyles = (props, state) => {
   return {
@@ -199,8 +229,9 @@ class HomeApp extends PureComponent {
   getScrollTop = () => window.localStorage.getItem('pos'); // eslint-disable-line
 
   render() {
+    const { classes } = this.props;
     const styles = getStyles(this.props, this.state);
-    // console.log(this.props.location);
+
     return (
       <div style={styles.root}>
         <div style={styles.header}>
@@ -214,8 +245,8 @@ class HomeApp extends PureComponent {
             onClick={() => this.onActive(ROUTES[0])}
             to={ROUTES[0]}
             style={styles.navs.nav}
-            className={styleClasses.nav}
-            activeClassName={styleClasses.navActive}
+            className={classes.nav}
+            activeClassName={classes.navActive}
             onlyActiveOnIndex
           >个性推荐</Link>
           <Link
@@ -223,8 +254,8 @@ class HomeApp extends PureComponent {
             onClick={() => this.onActive(ROUTES[1])}
             to={ROUTES[1]}
             style={styles.navs.nav}
-            className={styleClasses.nav}
-            activeClassName={styleClasses.navActive}
+            className={classes.nav}
+            activeClassName={classes.navActive}
             onlyActiveOnIndex
           >
             歌单
@@ -234,8 +265,8 @@ class HomeApp extends PureComponent {
             onClick={() => this.onActive(ROUTES[2])}
             to={ROUTES[2]}
             style={styles.navs.nav}
-            className={styleClasses.nav}
-            activeClassName={styleClasses.navActive}
+            className={classes.nav}
+            activeClassName={classes.navActive}
             onlyActiveOnIndex
           >
             主播电台
@@ -245,8 +276,8 @@ class HomeApp extends PureComponent {
             onClick={() => this.onActive(ROUTES[3])}
             to={ROUTES[3]}
             style={styles.navs.nav}
-            className={styleClasses.nav}
-            activeClassName={styleClasses.navActive}
+            className={classes.nav}
+            activeClassName={classes.navActive}
             onlyActiveOnIndex
           >
             排行榜
@@ -256,7 +287,7 @@ class HomeApp extends PureComponent {
               ...styles.navs.navBar,
               transform: `translate3d(${100 * ROUTES.indexOf(this.props.location.pathname)}%, 0, 0)`,
             }}
-            className={styleClasses.navBar}
+            className={classes.navBar}
           />
         </ul>
         <div ref={ref => (this.scrollContainer = ref)} style={styles.page}>
@@ -297,4 +328,4 @@ export default connect(
       dispatch({ type: 'playlist/sync/next' });
     }, 1000),
   }),
-)(HomeApp);
+)(injectSheet(jssStyles)(HomeApp));
