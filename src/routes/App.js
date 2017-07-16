@@ -14,12 +14,11 @@ import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import { Helmet } from 'react-helmet';
 import QRCode from 'qrcode.react';
+import injectSheet from 'react-jss';
 
 import Audio from 'components/Audio';
 
 import ICO from 'assets/music.ico';
-
-import styles from './App.css';
 
 class App extends React.PureComponent {
 
@@ -34,18 +33,19 @@ class App extends React.PureComponent {
   render() {
     // @TODO
     const show = this.props.playlist.length > 0 && this.props.location.pathname.indexOf('/player') === -1;
+    const { classes } = this.props;
     return (
-      <div className={styles.normal}>
-        <div className={styles.qrcode}>
+      <div className={classes.root}>
+        <div className={classes.qrcode}>
           <QRCode value="http://moeover.com/play-music" />
-          <div style={{ fontSize: 12, color: 'rgba(0, 0, 0, .38)' }}>扫描二维码，快速预览</div>
+          <div className="label">扫描二维码，快速预览</div>
         </div>
         <Helmet>
           <meta charSet="utf-8" />
           <title>网易云音乐</title>
           <link rel="shortcut icon" href={ICO} />
         </Helmet>
-        <div className={styles.app}>
+        <div className={classes.app}>
           { this.props.children }
           <Audio
             style={{
@@ -71,6 +71,55 @@ class App extends React.PureComponent {
     );
   }
 }
+
+/* style */
+const styles = {
+  root: {
+    fontFamily: 'Roboto, Lato, sans-serif',
+    fontWeight: 400,
+    textAlign: 'center',
+
+    '@media (min-width: 450px)': {
+      position: 'absolute',
+      width: 375,
+      height: 667,
+      margin: 0,
+      boxShadow: '4px 4px 8px rgba(0, 0, 0, .28)',
+
+      '& ::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
+  },
+  app: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    overflow: 'hidden',
+
+    '@media (min-width: 450px)': {
+      height: 667,
+    },
+  },
+  qrcode: {
+    display: 'none',
+
+    '@media (min-width: 450px)': {
+      display: 'block',
+      position: 'relative',
+      left: 300,
+    },
+
+    '& .label': { fontSize: 12, color: 'rgba(0, 0, 0, .38)' },
+  },
+  title: {
+    fontSize: '2.5rem',
+    fontWeight: 'normal',
+    letterSpacing: '-1px',
+  },
+};
 
 /* selector */
 const playerSelector = state => state.player;
@@ -108,4 +157,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default injectSheet(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
