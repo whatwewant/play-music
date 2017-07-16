@@ -10,6 +10,8 @@
 
 import React, { PropTypes, PureComponent } from 'react';
 
+import injectSheet from 'react-jss';
+
 import IconPlayList from '../../assets/player_playlist.png';
 import IconPlay from '../../assets/player_play.png';
 import IconPause from '../../assets/player_pause.png';
@@ -19,13 +21,31 @@ import IconClear from '../../assets/clear.svg';
 
 // import IconTypeSeq from '../../assets/player_type_seq.png';
 
-import classStyles from './Audio.less';
-
 const LOOP_TYPES = [
   '列表循环',
   '单曲循环',
   '随机播放',
 ];
+
+const jssStyles = {
+  normal: {
+    position: 'fixed',
+
+    '@media (min-width: 450px)': {
+      position: 'absolute',
+    },
+  },
+  playlistMask: {
+    transition: 'background-color .45s',
+  },
+  playlist: {
+    height: 0,
+    transition: 'height .45s ease-out',
+  },
+  playlistActive: {
+    height: '55%',
+  },
+};
 
 const getStyles = (state) => {
   return {
@@ -272,6 +292,7 @@ const getStyles = (state) => {
   };
 };
 
+@injectSheet(jssStyles)
 export default class Audio extends PureComponent {
 
   /* eslint-disable */
@@ -489,7 +510,7 @@ export default class Audio extends PureComponent {
 
   render() {
     const styles = getStyles(this.state);
-    const { onCollect } = this.props;
+    const { classes, onCollect } = this.props;
     const {
       banner, name, author, audio,
     } = this.props.song;
@@ -506,7 +527,7 @@ export default class Audio extends PureComponent {
           display: this.props.show ? 'block' : 'none',
           ...this.props.style,
         }}
-        className={classStyles.normal}
+        className={classes.normal}
       >
         <div style={{ ...styles.root, pointerEvents: 'auto' }}>
           <div style={styles.progressBar}>
@@ -543,12 +564,12 @@ export default class Audio extends PureComponent {
           <div style={styles.playlist.realMask} onClick={this.onTogglePlaylist} />
           <div
             style={styles.playlist.mask}
-            className={`${classStyles.playlistMask} ${this.state.showList ? classStyles.playlistMaskActive : ''}`}
+            className={`${classes.playlistMask} ${this.state.showList ? classes.playlistMaskActive : ''}`}
           />
         </div>
         <div
           style={styles.playlist.main}
-          className={`${classStyles.playlist} ${this.state.showList ? classStyles.playlistActive : ''}`}
+          className={`${classes.playlist} ${this.state.showList ? classes.playlistActive : ''}`}
         >
           <div style={styles.playlist.main.header}>
             <div style={styles.playlist.main.header.type}>
