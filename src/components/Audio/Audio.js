@@ -38,6 +38,10 @@ const jssStyles = {
   playlistMask: {
     transition: 'background-color .45s',
   },
+  playlistMaskActive: {
+    display: 'block',
+    backgroundColor: 'rgba(0, 0, 0, .4)',
+  },
   playlist: {
     height: 0,
     transition: 'height .45s ease-out',
