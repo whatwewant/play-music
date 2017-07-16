@@ -8,6 +8,7 @@
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 import React, { PropTypes, PureComponent } from 'react';
+import injectSheet from 'react-jss';
 
 // import Banner from '../../assets/banner.jpg';
 import IconPlay from '../../assets/player_play.png';
@@ -15,7 +16,13 @@ import IconPlay from '../../assets/player_play.png';
 import IconGoback from '../../assets/goBack.svg';
 import IconSearch from '../../assets/search.svg';
 
-import styleClasses from './Playlist.less';
+const jssStyles = {
+  normal: {
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+  },
+};
 
 const getStyles = (props) => {
   return {
@@ -294,6 +301,7 @@ const getStyles = (props) => {
   };
 };
 
+@injectSheet(jssStyles)
 export default class Playlist extends PureComponent {
 
   static contextTypes = {
@@ -335,13 +343,13 @@ export default class Playlist extends PureComponent {
   };
 
   render() {
-    const { sid, title, banner, count, author, avatar, playlist } = this.props;
+    const { classes, sid, title, banner, count, author, avatar, playlist } = this.props;
     const styles = getStyles(this.props);
 
     return (
       <div
         style={styles.root}
-        className={styleClasses.normal}
+        className={classes.normal}
       >
         <div ref={ref => (this.headerBar = ref)} style={styles.header}>
           <div style={styles.header.back} onClick={this.goBack}>
