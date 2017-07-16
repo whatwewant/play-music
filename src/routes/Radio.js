@@ -9,12 +9,35 @@
 */
 import React from 'react';
 import { Icon } from 'antd-mobile';
-import styles from './Radio.less';
+import injectSheet from 'react-jss';
 
-const Radio = () => {
+const styles = {
+  root: {},
+  error: {
+    color: 'black',
+    textAlign: 'center',
+    position: 'absolute',
+    top: '30%',
+    left: '50%',
+    marginTop: -50,
+    marginLeft: -100,
+    width: 200,
+
+    '& h1': {
+      fontSize: 20,
+      fontFamily: 'cursive',
+    },
+  },
+  '@global .anticon': {
+    fontSize: 48,
+    marginBottom: 16,
+  },
+};
+
+const Radio = ({ classes }) => {
   return (
-    <div className={styles.root}>
-      <div className={styles.error}>
+    <div className={classes.root}>
+      <div className={classes.error}>
         <Icon type="frown-o" />
         <h1>🚧施工中...</h1>
       </div>
@@ -22,4 +45,4 @@ const Radio = () => {
   );
 };
 
-export default Radio;
+export default injectSheet(styles)(Radio);

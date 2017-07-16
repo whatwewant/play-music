@@ -12,6 +12,8 @@ import classnames from 'classnames';
 
 import { Slider } from 'antd-mobile';
 
+import injectSheet from 'react-jss';
+
 import { resolveLyric, secondsToTime } from 'utils/resolve';
 import { isiOS } from 'utils/device';
 
@@ -30,7 +32,7 @@ import IconLoopRandom from 'assets/player_loop_random.png';
 // import IconPlayBarStart from 'assets/player_round_bar_start.png';
 import IconPlayRound from 'assets/player_round_outside.png';
 
-import styles from './RoundPlayer.less';
+import styles from './RoundPlayer.style.js';
 
 const LOOP_TYPES = [
   IconLoopList, // '列表循环',
@@ -180,38 +182,39 @@ class RoundPlayer extends PureComponent {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className={styles.normal}>
-        <div className={styles.mask} style={{ backgroundImage: `url(${this.props.song.banner})` }} />
-        <header className={styles.header}>
+      <div className={classes.normal}>
+        <div className="mask" style={{ backgroundImage: `url(${this.props.song.banner})` }} />
+        <header className="header">
           <img
-            className={styles.goBack}
+            className="goBack"
             role="presentation"
             src={IconGoBack}
             onClick={this.goBack}
           />
-          <div className={styles.titleWrapper}>
-            <div className={styles.title} title={this.props.song.name}>{this.props.song.name}</div>
-            <div className={styles.subTitle}>{this.props.song.author}</div>
+          <div className="titleWrapper">
+            <div className="title" title={this.props.song.name}>{this.props.song.name}</div>
+            <div className="subTitle">{this.props.song.author}</div>
           </div>
         </header>
-        <main className={styles.main}>
+        <main className="main">
           <div
             ref={ref => (this.lyricScroll = ref)}
             className={classnames(
-              styles.lyric, this.state.lyric ? styles.on : styles.off,
+              'lyric', this.state.lyric ? 'on' : 'off',
             )}
             onClick={this.onChangeLyricOrNot}
           >
-            <ul className={styles.lyricScroll}>
+            <ul className="lyricScroll">
               {this.props.song.lyric.map(({ timestamps, lrc }, index) => (
                 <li
                   key={`${index}#${timestamps}`}
                   className={classnames(
                     this.state.lyricIndex === index
-                      ? styles.lyricScrollActive
-                      : styles.lyricScrollDeactive,
-                    styles.lyricScrollLine,
+                      ? 'lyricScrollActive'
+                      : 'lyricScrollDeactive',
+                    'lyricScrollLine',
                   )}
                 >
                   {lrc}
@@ -221,71 +224,71 @@ class RoundPlayer extends PureComponent {
           </div>
           <div
             className={classnames(
-              styles.player, this.state.lyric ? styles.off : styles.on,
+              'player', this.state.lyric ? 'off' : 'on',
             )}
             onClick={this.onChangeLyricOrNot}
           >
-            <div className={styles.playerBarWrapper}>
+            <div className="playerBarWrapper">
               <div
                 className={
                   classnames(
-                    styles.playerBar,
-                    this.state.playing ? styles.playerBarPlaying : styles.playerBarNotPlaying,
+                    'playerBar',
+                    this.state.playing ? 'playerBarPlaying' : 'playerBarNotPlaying',
                   )
                 }
               />
             </div>
             <div
               className={classnames(
-                styles.playerRound,
+                'playerRound',
                 this.state.playing
-                  ? styles.playerRoundPlaying
+                  ? 'playerRoundPlaying'
                   : !isiOS()
-                  ? styles.playerRoundNotPlaying
-                  : styles.playerRoundNotPlayingiOS,
+                  ? 'playerRoundNotPlaying'
+                  : 'playerRoundNotPlayingiOS',
               )}
             >
-              <img className={styles.playerBannerOut} role="presentation" src={IconPlayRound} />
-              <img className={styles.playerBanner} role="presentation" src={this.props.song.banner} />
+              <img className="playerBannerOut" role="presentation" src={IconPlayRound} />
+              <img className="playerBanner" role="presentation" src={this.props.song.banner} />
             </div>
           </div>
-          <div className={styles.progress}>
-            <div className={styles.currentTime}>{secondsToTime(this.state.currentTime)}</div>
+          <div className="progress">
+            <div className="currentTime">{secondsToTime(this.state.currentTime)}</div>
             <Slider
-              className={styles.slider}
+              className="slider"
               min={0}
               max={this.state.totalTime}
               value={this.state.currentTime}
               onChange={this.onChangeProgress}
             />
-            <div className={styles.totalTime}>{secondsToTime(this.state.totalTime)}</div>
+            <div className="totalTime">{secondsToTime(this.state.totalTime)}</div>
           </div>
         </main>
-        <footer className={styles.footer}>
+        <footer className="footer">
           <img
-            className={styles.mode}
+            className="mode"
             role="presentation"
             src={LOOP_TYPES[this.props.loop]}
             onClick={this.onChangeLoop}
           />
           <img
-            className={styles.goPrev}
+            className="goPrev"
             role="presentation"
             src={IconGoPrev}
             onClick={this.props.onPlayPrev}
           />
           <img
-            className={styles.playOrPause}
+            className="playOrPause"
             role="presentation" src={this.state.playing ? IconStop : IconStart}
             onClick={this.onPlayOrPause}
           />
           <img
-            className={styles.goNext}
+            className="goNext"
             role="presentation"
             src={IconGoNext}
             onClick={this.props.onPlayNext}
           />
-          <img className={styles.menu} role="presentation" src={IconMenu} />
+          <img className="menu" role="presentation" src={IconMenu} />
         </footer>
       </div>
     );
@@ -335,4 +338,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(RoundPlayer);
+export default connect(mapStateToProps, mapDispatchToProps)(
+  injectSheet(styles)(RoundPlayer),
+);
