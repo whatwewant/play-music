@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:7/14/2017, 11:01:06 AM
+#ver:2017-7-17 01:31:34
 #plugin:4.8.1
 
 CACHE:
@@ -10,7 +10,6 @@ CACHE:
 ./static/search.dfb87616.svg
 ./static/goBack.47df0df2.svg
 ./static/clear.385bf914.svg
-./static/yay.44dd3333.jpg
 ./static/recommand.f584ed89.svg
 ./static/check-circle-o.832ff1df.svg
 ./static/check-circle.85234955.svg
@@ -37,9 +36,9 @@ CACHE:
 ./roundPlayer.async.js
 ./radio.async.js
 ./home.async.js
-./playlists.async.js
 ./playlistOne.async.js
 ./rage.async.js
+./playlists.async.js
 ./index.js
 ./index.css
 ./package.json
