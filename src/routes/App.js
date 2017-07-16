@@ -48,10 +48,7 @@ class App extends React.PureComponent {
         <div className={classes.app}>
           { this.props.children }
           <Audio
-            style={{
-              transition: 'transform 0.3s ease-in',
-              transform: this.props.playlist.length > 0 ? '' : 'translateY(56px)',
-            }}
+            className={classes.audio}
             show={show}
             id={this.props.id}
             song={this.props.song}
@@ -119,6 +116,10 @@ const styles = {
     fontWeight: 'normal',
     letterSpacing: '-1px',
   },
+  audio: {
+    transition: 'transform .3s ease-in',
+    transform: props => (props.playlist.length > 0 ? '' : 'translateY(56px)'),
+  },
 };
 
 /* selector */
@@ -157,4 +158,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default injectSheet(styles)(connect(mapStateToProps, mapDispatchToProps)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(App));
