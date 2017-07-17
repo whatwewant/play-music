@@ -1,6 +1,6 @@
 CACHE MANIFEST
-#ver:2017-7-17 01:31:34
-#plugin:4.8.1
+#ver:2017-7-18 02:11:31
+#plugin:4.8.3
 
 CACHE:
 ./static/banner1.97b726d5.jpg
@@ -36,13 +36,13 @@ CACHE:
 ./roundPlayer.async.js
 ./radio.async.js
 ./home.async.js
+./playlists.async.js
 ./playlistOne.async.js
 ./rage.async.js
-./playlists.async.js
 ./index.js
 ./index.css
-./package.json
 ./
+./package.json
 
 NETWORK:
 *
