@@ -10,15 +10,18 @@
 
 import React, { PureComponent } from 'react';
 import { Link } from 'dva/router';
+import injectSheet from 'react-jss';
 
 import { Carousel } from 'antd-mobile';
 
 import LazyImage from '../LazyImage';
 
-import styles from './Popular.less';
+import styles from './Popular.style';
 
 import IconRecommand from '../../assets/recommand.svg';
 
+
+@injectSheet(styles)
 export default class Popular extends PureComponent {
 
   static defaultProps = {
@@ -26,8 +29,9 @@ export default class Popular extends PureComponent {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className={styles.normal} style={this.props.style}>
+      <div className={classes.normal} style={this.props.style}>
         <Carousel
           autoplay
           infinite
@@ -39,21 +43,21 @@ export default class Popular extends PureComponent {
             </a>
           ))}
         </Carousel>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            <img className={styles.icon} role="presentation" src={IconRecommand} />
+        <div className={classes.header}>
+          <div className="title">
+            <img className="icon" role="presentation" src={IconRecommand} />
             <span>推荐歌单</span>
           </div>
           <Link style={{ color: '#000', textDecoration: 'none' }} to="/home/playlist">更多</Link>
         </div>
-        <ul className={styles.list}>
+        <ul className={classes.list}>
           {
             this.props.data.map(e => (
-              <li key={e.id} className={styles.item}>
+              <li key={e.id} className="item">
                 <Link style={{ color: '#000', textDecoration: 'none' }} to={`/playlist/${e.id}`} onClick={() => this.props.onLoadPlaylist(e)}>
                   <LazyImage role="presentation" src={e.banner} />
-                  <div className={styles.listens}>{e.count}</div>
-                  <div className={styles.desc}>{e.title}</div>
+                  <div className="listens">{e.count}</div>
+                  <div className="desc">{e.title}</div>
                 </Link>
               </li>
             ))

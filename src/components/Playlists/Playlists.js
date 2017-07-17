@@ -10,11 +10,13 @@
 
 import React, { PureComponent } from 'react';
 import { Link } from 'dva/router';
+import injectSheet from 'react-jss';
 
 import LazyImage from '../LazyImage';
 
-import styles from './Playlists.less';
+import styles from './Playlists.style.js';
 
+@injectSheet(styles)
 export default class Popular extends PureComponent {
 
   static defaultProps = {
@@ -22,28 +24,29 @@ export default class Popular extends PureComponent {
   };
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className={styles.normal}>
-        <div className={styles.header}>
+      <div className={classes.normal}>
+        <div className={classes.header}>
           <Link style={{ color: 'rgba(0, 0, 0, 0.78)', textDecoration: 'none' }} to="/home/playlist">流行</Link>
         </div>
-        <ul className={styles.list}>
+        <ul className={classes.list}>
           {
             this.props.data.map(e => (
-              <li key={e.id} className={styles.item}>
+              <li key={e.id} className="item">
                 <Link style={{ color: '#000', textDecoration: 'none' }} to={`/playlist/${e.id}`} onClick={() => this.props.onLoadPlaylist(e)}>
                   <LazyImage role="presentation" src={e.banner} />
-                  <div className={styles.listens}>{e.count}</div>
-                  <div className={styles.desc}>{e.title}</div>
+                  <div className="listens">{e.count}</div>
+                  <div className="desc">{e.title}</div>
                 </Link>
               </li>
             ))
           }
         </ul>
         { this.props.loading ? (
-          <div className={styles.loading}>
-            {/* <span className={styles.loadingAnimate} /> */}
-            <span className={styles.loadingMessage}>加载中...</span>
+          <div className={classes.loading}>
+            {/* <span className="loadingAnimate" /> */}
+            <span className="loadingMessage">加载中...</span>
           </div>
         ) : null }
       </div>
