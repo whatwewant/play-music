@@ -10,8 +10,13 @@
 import React, { PureComponent } from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
+import Loadable from 'react-loadable';
 
-import Playlists from 'components/Playlists';
+// import Playlists from 'components/Playlists';
+const Playlists = Loadable({
+  loader: () => import('components/Playlists'),
+  loading: () => (<div>loading...</div>),
+});
 
 class PlaylistsPage extends PureComponent {
 

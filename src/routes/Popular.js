@@ -10,12 +10,18 @@
 import React from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
+import Loadable from 'react-loadable';
 
-import Popular from 'components/Popular';
+// import Popular from 'components/Popular';
+
+const LoadableComponent = Loadable({
+  loader: () => import('components/Popular'),
+  loading: () => (<div>loading</div>),
+});
 
 function PopularPage({ banners, playlists, handleLoadPlaylist }) {
   return (
-    <Popular
+    <LoadableComponent
       data={playlists}
       banners={banners}
       onLoadPlaylist={handleLoadPlaylist}

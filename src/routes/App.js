@@ -16,9 +16,16 @@ import { Helmet } from 'react-helmet';
 import QRCode from 'qrcode.react';
 import injectSheet from 'react-jss';
 
-import Audio from 'components/Audio';
+import Loadable from 'react-loadable';
+
+// import Audio from 'components/Audio';
 
 import ICO from 'assets/music.ico';
+
+const Audio = Loadable({
+  loader: () => import('components/Audio'),
+  loading: () => (<div>loading...</div>),
+});
 
 class App extends React.PureComponent {
 
@@ -33,7 +40,7 @@ class App extends React.PureComponent {
   render() {
     // @TODO
     const show = this.props.playlist.length > 0 && this.props.location.pathname.indexOf('/player') === -1;
-    const { classes } = this.props;
+    const { isAudioOn, classes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.qrcode}>
@@ -47,22 +54,25 @@ class App extends React.PureComponent {
         </Helmet>
         <div className={classes.app}>
           { this.props.children }
-          <Audio
-            className={classes.audio}
-            show={show}
-            id={this.props.id}
-            song={this.props.song}
-            banner={this.props.banner}
-            loop={this.props.loop}
-            playlist={this.props.playlist}
-            goPlayer={this.goPlayer}
-            onPlayOne={this.props.onPlayOne}
-            onPlayNext={this.props.onPlayNext}
-            onPlayExpired={this.props.onPlayExpired}
-            onRemoveOne={this.props.onRemoveOne}
-            onClear={this.props.handleClear}
-            onChangeLoop={this.props.onChangeLoop}
-          />
+          { isAudioOn
+              ? (
+                <Audio
+                  className={classes.audio}
+                  show={show}
+                  id={this.props.id}
+                  song={this.props.song}
+                  banner={this.props.banner}
+                  loop={this.props.loop}
+                  playlist={this.props.playlist}
+                  goPlayer={this.goPlayer}
+                  onPlayOne={this.props.onPlayOne}
+                  onPlayNext={this.props.onPlayNext}
+                  onPlayExpired={this.props.onPlayExpired}
+                  onRemoveOne={this.props.onRemoveOne}
+                  onClear={this.props.handleClear}
+                  onChangeLoop={this.props.onChangeLoop}
+                />
+              ) : null }
         </div>
       </div>
     );
@@ -131,12 +141,14 @@ const audioSelector = createSelector(
   songsSelector,
   ({ id, loop, tracks = [] }, songs) => {
     const song = songs.filter(e => e.id === id).pop() || {};
+    const playlist = tracks.map(tid => songs.filter(e => e.id === tid).pop());
 
     return {
+      isAudioOn: playlist.length !== 0,
       id,
       song,
       loop: loop || 0,
-      playlist: tracks.map(tid => songs.filter(e => e.id === tid).pop()),
+      playlist,
     };
   },
 );

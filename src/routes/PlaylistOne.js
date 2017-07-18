@@ -12,9 +12,14 @@ import React, { PropTypes, PureComponent } from 'react';
 import { createSelector } from 'reselect';
 import { connect } from 'dva';
 import once from 'once';
+import Loadable from 'react-loadable';
 
 // import * as playlistService from 'services/playlist';
-import Playlist from 'components/Playlist';
+// import Playlist from 'components/Playlist';
+const Playlist = Loadable({
+  loader: () => import('components/Playlist'),
+  loading: () => (<div>loading playlist...</div>),
+});
 
 // @TODO Hack: https://www.douban.com/note/527250492/
 const AudioPlayOneIOS = once(() => document.querySelector('audio').play()); // eslint-disable-line

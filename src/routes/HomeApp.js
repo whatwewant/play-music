@@ -16,12 +16,19 @@ import CSSTransitionGroup from 'react-addons-css-transition-group';
 
 import injectSheet from 'react-jss';
 
+import Loadable from 'react-loadable';
+
 import debounce from 'lodash.throttle';
 
-import Loading from 'components/Loading';
+// import Loading from 'components/Loading';
 
 import IconLogo from 'assets/logo.png';
 import IconSearch from 'assets/search.svg';
+
+const Loading = Loadable({
+  loader: () => import('components/Loading'),
+  loading: () => (<div>loading ...</div>),
+});
 
 const ROUTES = [
   '/home/popular',
