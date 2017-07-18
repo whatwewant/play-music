@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:2017-7-18 02:11:31
+#ver:2017-7-18 23:20:15
 #plugin:4.8.3
 
 CACHE:
@@ -36,13 +36,18 @@ CACHE:
 ./roundPlayer.async.js
 ./radio.async.js
 ./home.async.js
-./playlists.async.js
-./playlistOne.async.js
 ./rage.async.js
+./playlistOne.async.js
+./playlists.async.js
+./8.async.js
+./9.async.js
+./10.async.js
+./11.async.js
+./12.async.js
 ./index.js
 ./index.css
-./
 ./package.json
+./
 
 NETWORK:
 *
