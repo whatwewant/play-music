@@ -1,6 +1,26 @@
 language: node_js
+
 node_js:
   - "7.7"
+
 branches:
   only:
     - develop
+
+cache:
+  directories:
+    - node_modules
+
+install:
+  - npm install
+
+before_script:
+  - git config --global user.name 'whatwewant'
+  - git config --global user.email 'tobewhatwewant@gmail.com'
+
+script:
+  - npm test
+
+after_success:
+  - npm run build
+  - npm run deploy
