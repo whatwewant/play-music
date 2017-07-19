@@ -24,3 +24,7 @@ script:
 after_success:
   - npm run build
   - npm run deploy
+
+env:
+  global:
+    - GH_REF: github.com/whatwewant/play-music.git
