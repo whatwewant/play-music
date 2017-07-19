@@ -17,7 +17,7 @@
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint",
     "test": "npm run lint",
-    "deploy": "gh-pages -m 'Automatically update from travis-ci by gh-pages' -d dist"
+    "deploy": "gh-pages -m 'update by gh-pages' -d dist"
   },
   "engines": {
     "install-node": "6.9.2"

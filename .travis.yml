@@ -17,13 +17,18 @@ install:
 before_script:
   - git config --global user.name 'whatwewant'
   - git config --global user.email 'tobewhatwewant@gmail.com'
+  - git clone --branch gh-pages https://${GH_REF} gh-pages
 
 script:
   - npm test
 
 after_success:
   - npm run build
-  - npm run deploy
+  - cp -rf dist/* gh-pages
+  - cd gh-pages
+  - git add --all .
+  - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci'
+  - git push --quiet --force "https://${GH_TOKEN}@${GH_REF}" gh-pages:gh-pages
 
 env:
   global:
