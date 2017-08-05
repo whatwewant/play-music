@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-08-06T00:41:47+08:00
+ * @Last modified time: 2017-08-06T01:27:25+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -27,7 +27,7 @@ const Audio = Loadable({
   loading: () => null,
 });
 
-class App extends React.PureComponent {
+class Main extends React.PureComponent {
 
   static contextTypes = {
     router: PropTypes.any,
@@ -170,4 +170,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(App));
+export default connect(mapStateToProps, mapDispatchToProps)(injectSheet(styles)(Main));
