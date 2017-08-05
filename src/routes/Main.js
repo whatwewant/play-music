@@ -3,7 +3,7 @@
 * @Date:   2016-12-15T13:48:42+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T12:04:35+08:00
+ * @Last modified time: 2017-08-06T00:41:47+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -24,7 +24,7 @@ import ICO from 'assets/music.ico';
 
 const Audio = Loadable({
   loader: () => import('components/Audio'),
-  loading: () => (<div>loading...</div>),
+  loading: () => null,
 });
 
 class App extends React.PureComponent {

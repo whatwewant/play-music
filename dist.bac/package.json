@@ -1,0 +1,8 @@
+{
+  "name": "music",
+  "main": "main.js",
+  "version": "0.0.1",
+  "author": "Eason",
+  "productName": "Music",
+  "description": "Electron Mobile Netease Music"
+}

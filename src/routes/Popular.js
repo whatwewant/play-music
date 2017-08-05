@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-24T20:11:55+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:08:33+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-08-06T00:42:15+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -16,7 +16,7 @@ import Loadable from 'react-loadable';
 
 const LoadableComponent = Loadable({
   loader: () => import('components/Popular'),
-  loading: () => (<div>loading</div>),
+  loading: () => null,
 });
 
 function PopularPage({ banners, playlists, handleLoadPlaylist }) {

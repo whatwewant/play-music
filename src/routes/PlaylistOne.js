@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-07T20:57:20+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-24T10:18:07+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-08-06T00:42:06+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -18,7 +18,7 @@ import Loadable from 'react-loadable';
 // import Playlist from 'components/Playlist';
 const Playlist = Loadable({
   loader: () => import('components/Playlist'),
-  loading: () => (<div>loading playlist...</div>),
+  loading: () => null,
 });
 
 // @TODO Hack: https://www.douban.com/note/527250492/
