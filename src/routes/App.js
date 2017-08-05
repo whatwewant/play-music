@@ -2,7 +2,7 @@
  * @Author: eason
  * @Date:   2017-08-04T20:29:33+08:00
  * @Last modified by:   eason
- * @Last modified time: 2017-08-06T00:44:01+08:00
+ * @Last modified time: 2017-08-06T00:55:14+08:00
  */
 import React from 'react';
 import Loadable from 'react-loadable';
@@ -14,8 +14,8 @@ import injectSheet from 'react-jss';
     fontWeight: 400,
     textAlign: 'center',
     backgroundImage: 'url(http://statics.uberqd.com/image-saving/2017/8/4/d7b4fffa2df7d54025849fefcf32f57b.jpg)',
-    backgroundPosition: 'center',
-    backgroundSize: 'contain',
+    backgroundPosition: 'center bottom',
+    backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
     width: '100vw',
     height: '100vh',
