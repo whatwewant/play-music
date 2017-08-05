@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:7/19/2017, 5:46:57 AM
+#ver:8/5/2017, 4:29:05 PM
 #plugin:4.8.3
 
 CACHE:
@@ -44,6 +44,7 @@ CACHE:
 ./10.async.js
 ./11.async.js
 ./12.async.js
+./13.async.js
 ./index.js
 ./index.css
 ./
