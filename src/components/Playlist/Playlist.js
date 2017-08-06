@@ -3,12 +3,14 @@
 * @Date:   2017-03-06T01:08:31+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-22T00:51:43+08:00
+ * @Last modified time: 2017-08-06T12:52:32+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 import React, { PropTypes, PureComponent } from 'react';
 import injectSheet from 'react-jss';
+
+import FlipMove from 'react-flip-move';
 
 // import Banner from '../../assets/banner.jpg';
 import IconPlay from '../../assets/player_play.png';
@@ -391,7 +393,13 @@ export default class Playlist extends PureComponent {
               <div style={styles.listarea.actions.select} />
             </div>
             <div style={styles.loading}>加载中...</div>
-            <ul style={styles.listarea.list}>
+            <FlipMove
+              style={styles.listarea.list}
+              staggerDelayBy={150}
+              appearAnimation="accordionVertical"
+              enterAnimation="accordionVertical"
+              leaveAnimation="accordionVertical"
+            >
               {
                 playlist.map(({ id, name, author: sauthor, album, ...other }, index) => (
                   <li
@@ -422,7 +430,7 @@ export default class Playlist extends PureComponent {
                   </li>
                 ))
               }
-            </ul>
+            </FlipMove>
           </div>
         </div>
       </div>

@@ -2,8 +2,8 @@
 * @Author: eason
 * @Date:   2017-03-23T14:43:48+08:00
 * @Email:  uniquecolesmith@gmail.com
-* @Last modified by:   eason
-* @Last modified time: 2017-05-11T20:37:16+08:00
+ * @Last modified by:   eason
+ * @Last modified time: 2017-08-06T13:00:27+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
@@ -11,6 +11,8 @@
 import React, { PureComponent } from 'react';
 import { Link } from 'dva/router';
 import injectSheet from 'react-jss';
+
+import FlipMove from 'react-flip-move';
 
 import LazyImage from '../LazyImage';
 
@@ -30,7 +32,13 @@ export default class Popular extends PureComponent {
         <div className={classes.header}>
           <Link style={{ color: 'rgba(0, 0, 0, 0.78)', textDecoration: 'none' }} to="/home/playlist">流行</Link>
         </div>
-        <ul className={classes.list}>
+        <FlipMove
+          className={classes.list}
+          staggerDelayBy={150}
+          appearAnimation={'elevator'}
+          enterAnimation={'elevator'}
+          leaveAnimation={'elevator'}
+        >
           {
             this.props.data.map(e => (
               <li key={e.id} className="item">
@@ -42,7 +50,7 @@ export default class Popular extends PureComponent {
               </li>
             ))
           }
-        </ul>
+        </FlipMove>
         { this.props.loading ? (
           <div className={classes.loading}>
             {/* <span className="loadingAnimate" /> */}

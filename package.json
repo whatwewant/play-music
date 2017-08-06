@@ -32,6 +32,7 @@
     "offline-plugin": "^4.7.0",
     "react": "^15.4.0",
     "react-dom": "^15.4.0",
+    "react-flip-move": "^2.9.14",
     "react-jss": "^7.0.1",
     "react-loadable": "^4.0.3",
     "reselect": "^3.0.1",

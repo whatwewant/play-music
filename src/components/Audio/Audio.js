@@ -3,13 +3,14 @@
 * @Date:   2017-03-05T12:42:51+08:00
 * @Email:  uniquecolesmith@gmail.com
  * @Last modified by:   eason
- * @Last modified time: 2017-05-29T04:51:05+08:00
+ * @Last modified time: 2017-08-06T12:55:07+08:00
 * @License: MIT
 * @Copyright: Eason(uniquecolesmith@gmail.com)
 */
 
 import React, { PropTypes, PureComponent } from 'react';
 
+import FlipMove from 'react-flip-move';
 import injectSheet from 'react-jss';
 
 import IconPlayList from '../../assets/player_playlist.png';
@@ -604,7 +605,13 @@ export default class Audio extends PureComponent {
               </div>
             </div>
           </div>
-          <ul style={styles.playlist.main.list}>
+          <FlipMove
+            style={styles.playlist.main.list}
+            staggerDelayBy={0}
+            appearAnimation={'accordionVertical'}
+            enterAnimation={'accordionVertical'}
+            leaveAnimation={'accordionVertical'}
+          >
             {
               this.props.playlist.map(e => (
                 <li
@@ -634,7 +641,7 @@ export default class Audio extends PureComponent {
                 </li>
               ))
             }
-          </ul>
+          </FlipMove>
         </div>
       </div>
     );
