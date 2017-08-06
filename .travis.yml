@@ -1,3 +1,7 @@
+# @Author: eason
+# @Date:   2017-07-24T21:44:29+08:00
+# @Last modified by:   eason
+# @Last modified time: 2017-08-06T12:01:58+08:00
 language: node_js
 
 node_js:
@@ -25,6 +29,7 @@ script:
 after_success:
   - npm run build
   - cp -rf dist/* gh-pages
+  - cp CNAME gh-pages
   - cd gh-pages
   - git add --all .
   - git commit -a -m ':sparkles:(TravisCI) automatically update from travis_ci'

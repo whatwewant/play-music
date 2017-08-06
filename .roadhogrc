@@ -1,5 +1,20 @@
 {
-  "entry": "src/index.js",
+  "entry": {
+    "index": "./src/index.js",
+    "vendor": [
+      "react",
+      "react-dom",
+      "react-jss",
+      "react-loadable",
+      "reselect",
+      "store",
+      "qrcode.react",
+      "dva",
+      "antd-mobile",
+      "fingerprintjs"
+    ]
+  },
+  "multipage": true,
   "publicPath": "./",
   "extraBabelPlugins": [
     "transform-decorators-legacy",
