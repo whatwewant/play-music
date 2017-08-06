@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:8/5/2017, 6:04:55 PM
+#ver:8/6/2017, 4:09:39 AM
 #plugin:4.8.3
 
 CACHE:
@@ -39,13 +39,14 @@ CACHE:
 ./rage.async.js
 ./playlistOne.async.js
 ./playlists.async.js
-./8.async.js
+./index.js
 ./9.async.js
 ./10.async.js
 ./11.async.js
 ./12.async.js
 ./13.async.js
-./index.js
+./14.async.js
+./vendor.js
 ./index.css
 ./
 ./package.json
