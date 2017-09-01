@@ -488,8 +488,13 @@ export default class Audio extends PureComponent {
   };
 
   onPause = (cb = () => {}) => {
-    this.audio.pause();
-    this.setState({ playing: false }, cb);
+    try {
+      this.audio.pause();
+    } catch (e) {
+      console.trace('Audio.pause: ', e);
+    } finally {
+      this.setState({ playing: false }, cb);
+    }
   };
 
   onPlayOne = (song) => {
