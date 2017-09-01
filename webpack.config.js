@@ -39,6 +39,7 @@ import OfflinePlugin from 'offline-plugin';
 export default (webpackConfig, env) => {
   if (env === 'production') {
     webpackConfig.plugins.push(new OfflinePlugin({
+      autoUpdate: 1000 * 60 * 60 * 1,
       ServiceWorker: {
         minify: true,
       },
