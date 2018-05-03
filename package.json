@@ -7,7 +7,7 @@
   "productName": "music",
   "scripts": {
     "start": "roadhog server",
-    "build": "roadhog build",
+    "build": "roadhog build && npm run logo",
     "electron": "npm run build && cp main.js dist && cd dist && electron ./main.js",
     "package-copy": "cp ./public/package.json ./dist && cp main.js ./dist",
     "rebuild": "npm run clean && npm run build && npm run package-copy",
@@ -17,6 +17,7 @@
     "lint": "eslint --ext .js src test",
     "precommit": "npm run lint",
     "test": "npm run lint",
+    "logo": "cp src/assets/appIcon.png ./dist",
     "deploy": "npm run build && cp CNAME dist && gh-pages -m 'update by gh-pages' -d dist"
   },
   "engines": {
